@@ -45,12 +45,6 @@ target_compile_features(RodosPlayground_exe PRIVATE cxx_std_20)
 
 target_link_libraries(RodosPlayground_exe PRIVATE RodosPlayground_lib)
 
-# ---- Install rules ----
-
-if(NOT CMAKE_SKIP_INSTALL_RULES)
-  include(cmake/install-rules.cmake)
-endif()
-
 # ---- Developer mode ----
 
 if(NOT RodosPlayground_DEVELOPER_MODE)
