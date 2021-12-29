@@ -15,35 +15,20 @@ docs_early_return()
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
-# ---- Declare library ----
+# ---- Declare library and executable ----
 
-add_library(
-    RodosPlayground_lib OBJECT
-    source/lib.cpp
-)
-
-target_include_directories(
-    RodosPlayground_lib ${warning_guard}
-    PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
-)
-
+add_library(RodosPlayground_lib OBJECT)
 target_compile_features(RodosPlayground_lib PUBLIC cxx_std_20)
 
-# ---- Declare executable ----
-
-add_executable(RodosPlayground_exe source/main.cpp)
-add_executable(RodosPlayground::exe ALIAS RodosPlayground_exe)
-
+add_executable(RodosPlayground_exe)
+target_compile_features(RodosPlayground_exe PRIVATE cxx_std_20)
 set_target_properties(
     RodosPlayground_exe PROPERTIES
     OUTPUT_NAME RodosPlayground
     EXPORT_NAME exe
 )
 
-target_compile_features(RodosPlayground_exe PRIVATE cxx_std_20)
-
-target_link_libraries(RodosPlayground_exe PRIVATE RodosPlayground_lib)
+add_subdirectory(source)
 
 # ---- Developer mode ----
 
