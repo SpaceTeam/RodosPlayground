@@ -5,7 +5,7 @@
 # requiring dependencies. This cuts down on the time it takes to generate
 # documentation in CI.
 macro(docs_early_return)
-  return()
+    return()
 endmacro()
 
 # ---- Dependencies ----
@@ -32,7 +32,7 @@ set(
 set(working_dir "${PROJECT_BINARY_DIR}/docs")
 
 foreach(file IN ITEMS Doxyfile conf.py)
-  configure_file("docs/${file}.in" "${working_dir}/${file}" @ONLY)
+    configure_file("docs/${file}.in" "${working_dir}/${file}" @ONLY)
 endforeach()
 
 set(mcss_script "${mcss_SOURCE_DIR}/documentation/doxygen.py")

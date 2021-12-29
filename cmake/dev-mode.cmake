@@ -2,7 +2,7 @@ include(cmake/folders.cmake)
 
 include(CTest)
 if(BUILD_TESTING)
-  add_subdirectory(Test)
+    add_subdirectory(Test)
 endif()
 
 add_custom_target(
@@ -14,12 +14,12 @@ add_dependencies(run-exe RodosPlayground_exe)
 
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_MCSS_DOCS)
-  include(cmake/docs.cmake)
+    include(cmake/docs.cmake)
 endif()
 
 option(ENABLE_COVERAGE "Enable coverage support separate from CTest's" OFF)
 if(ENABLE_COVERAGE)
-  include(cmake/coverage.cmake)
+    include(cmake/coverage.cmake)
 endif()
 
 include(cmake/lint-targets.cmake)

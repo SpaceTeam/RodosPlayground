@@ -33,12 +33,12 @@ add_subdirectory(Source)
 # ---- Developer mode ----
 
 if(NOT RodosPlayground_DEVELOPER_MODE)
-  return()
+    return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
-  message(
-      AUTHOR_WARNING
-      "Developer mode is intended for developers of RodosPlayground"
-  )
+    message(
+        AUTHOR_WARNING
+        "Developer mode is intended for developers of RodosPlayground"
+    )
 endif()
 
 include(cmake/dev-mode.cmake)
