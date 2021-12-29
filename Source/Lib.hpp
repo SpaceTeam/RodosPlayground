@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 /**
  * @brief The core implementation of the executable
@@ -17,5 +17,5 @@ struct library
    */
   library();
 
-  std::string name;
+  std::string_view name;
 };

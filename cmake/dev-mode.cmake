@@ -6,11 +6,11 @@ if(BUILD_TESTING)
 endif()
 
 add_custom_target(
-    run-exe
-    COMMAND RodosPlayground_exe
+    run-hello-world
+    COMMAND RodosPlayground_HelloWorld
     VERBATIM
 )
-add_dependencies(run-exe RodosPlayground_exe)
+add_dependencies(run-hello-world RodosPlayground_HelloWorld)
 
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_MCSS_DOCS)

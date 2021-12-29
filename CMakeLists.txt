@@ -18,14 +18,11 @@ include(cmake/variables.cmake)
 # ---- Declare library and executable ----
 
 add_library(RodosPlayground_lib OBJECT)
-target_compile_features(RodosPlayground_lib PUBLIC cxx_std_20)
 
-add_executable(RodosPlayground_exe)
-target_compile_features(RodosPlayground_exe PRIVATE cxx_std_20)
+add_executable(RodosPlayground_HelloWorld)
 set_target_properties(
-    RodosPlayground_exe PROPERTIES
-    OUTPUT_NAME RodosPlayground
-    EXPORT_NAME exe
+    RodosPlayground_HelloWorld PROPERTIES
+    OUTPUT_NAME HelloWorld
 )
 
 add_subdirectory(Source)

@@ -5,5 +5,12 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Source>"
 )
 
-target_sources(RodosPlayground_exe PRIVATE Main.cpp)
-target_link_libraries(RodosPlayground_exe PRIVATE RodosPlayground_lib)
+find_package(${RODOS_PACKAGE_NAME} REQUIRED 0.0.1)
+
+target_sources(RodosPlayground_HelloWorld PRIVATE HelloWorld.cpp)
+target_link_libraries(
+    RodosPlayground_HelloWorld
+    PRIVATE
+    rodos::rodos
+    RodosPlayground_lib
+)
