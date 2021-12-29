@@ -2,7 +2,7 @@ include(cmake/folders.cmake)
 
 include(CTest)
 if(BUILD_TESTING)
-  add_subdirectory(test)
+  add_subdirectory(Test)
 endif()
 
 add_custom_target(

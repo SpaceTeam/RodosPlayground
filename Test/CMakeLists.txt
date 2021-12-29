@@ -4,7 +4,7 @@
 
 project(RodosPlaygroundTests LANGUAGES CXX)
 
-add_executable(RodosPlayground_test source/RodosPlayground_test.cpp)
+add_executable(RodosPlayground_test Source/RodosPlayground_Test.cpp)
 target_link_libraries(RodosPlayground_test PRIVATE RodosPlayground_lib)
 target_compile_features(RodosPlayground_test PRIVATE cxx_std_20)
 

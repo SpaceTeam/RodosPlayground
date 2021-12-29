@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "lib.hpp"
+#include "Lib.hpp"
 
 auto main() -> int
 {

@@ -28,7 +28,7 @@ set_target_properties(
     EXPORT_NAME exe
 )
 
-add_subdirectory(source)
+add_subdirectory(Source)
 
 # ---- Developer mode ----
 
