@@ -1,13 +1,16 @@
+include(cmake/folders.cmake)
+
 include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
 
 add_custom_target(
-    run_exe
-    COMMAND "$<TARGET_FILE:rodos_playground_rodos_playground>"
+    run-exe
+    COMMAND RodosPlayground_exe
     VERBATIM
 )
+add_dependencies(run-exe RodosPlayground_exe)
 
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_MCSS_DOCS)
@@ -19,9 +22,11 @@ if(ENABLE_COVERAGE)
   include(cmake/coverage.cmake)
 endif()
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
   include(cmake/open-cpp-coverage.cmake OPTIONAL)
 endif()
 
 include(cmake/lint-targets.cmake)
 include(cmake/spell-targets.cmake)
+
+add_folders(Project)

@@ -1,1 +1,1 @@
-include("${CMAKE_CURRENT_LIST_DIR}/rodos_playgroundTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/RodosPlaygroundTargets.cmake")

@@ -9,7 +9,7 @@ guide.
 ## Developer mode
 
 Build system targets that are only useful for developers of this project are
-hidden if the `rodos_playground_DEVELOPER_MODE` option is disabled. Enabling this
+hidden if the `RodosPlayground_DEVELOPER_MODE` option is disabled. Enabling this
 option makes tests and other developer targets and options available. Not
 enabling this option means that you are a consumer of this project and thus you
 have no need for these targets and options.
@@ -23,7 +23,7 @@ the project. As a developer, you are recommended to always have the [latest
 CMake version][2] installed to make use of the latest Quality-of-Life
 additions.
 
-You have a few options to pass `rodos_playground_DEVELOPER_MODE` to the configure
+You have a few options to pass `RodosPlayground_DEVELOPER_MODE` to the configure
 command, but this project prefers to use presets.
 
 As a developer, you should create a `CMakeUserPresets.json` file at the root of
@@ -31,7 +31,7 @@ the project:
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 14,
@@ -41,7 +41,27 @@ the project:
     {
       "name": "dev",
       "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["dev-mode", "ci-<os>"]
+      "inherits": ["dev-mode", "ci-<os>"],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "configuration": "Debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ]
 }
@@ -59,21 +79,18 @@ in the terminal.
 
 If you followed the above instructions, then you can configure, build and test
 the project respectively with the following commands from the project root on
-Windows:
+any operating system with any build system:
 
 ```sh
 cmake --preset=dev
-cmake --build build/dev --config Release
-cd build/dev && ctest -C Release
+cmake --build --preset=dev
+ctest --preset=dev
 ```
 
-And here is the same on a Unix based system (Linux, macOS):
-
-```sh
-cmake --preset=dev
-cmake --build build/dev
-cd build/dev && ctest
-```
+Please note that both the build and test command accepts a `-j` flag to specify
+the number of jobs to use, which should ideally be specified to the number of
+threads your CPU has. You may also want to add that to your preset using the
+`jobs` property, see the [presets documentation][1] for more details.
 
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
 [2]: https://cmake.org/download/

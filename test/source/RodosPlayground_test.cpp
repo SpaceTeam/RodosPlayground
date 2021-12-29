@@ -4,5 +4,5 @@ auto main() -> int
 {
   library lib;
 
-  return lib.name == "rodos_playground" ? 0 : 1;
+  return lib.name == "RodosPlayground" ? 0 : 1;
 }

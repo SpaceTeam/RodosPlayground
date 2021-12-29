@@ -1,17 +1,17 @@
 if(PROJECT_IS_TOP_LEVEL)
-  set(CMAKE_INSTALL_INCLUDEDIR include/rodos_playground CACHE PATH "")
+  set(CMAKE_INSTALL_INCLUDEDIR include/RodosPlayground CACHE PATH "")
 endif()
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 # find_package(<package>) call for consumers to find this project
-set(package rodos_playground)
+set(package RodosPlayground)
 
 install(
-    TARGETS rodos_playground_rodos_playground
-    EXPORT rodos_playgroundTargets
-    RUNTIME COMPONENT rodos_playground_Runtime
+    TARGETS RodosPlayground_exe
+    EXPORT RodosPlaygroundTargets
+    RUNTIME COMPONENT RodosPlayground_Runtime
 )
 
 write_basic_package_version_file(
@@ -21,29 +21,29 @@ write_basic_package_version_file(
 
 # Allow package maintainers to freely override the path for the configs
 set(
-    rodos_playground_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
+    RodosPlayground_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
     CACHE PATH "CMake package config location relative to the install prefix"
 )
-mark_as_advanced(rodos_playground_INSTALL_CMAKEDIR)
+mark_as_advanced(RodosPlayground_INSTALL_CMAKEDIR)
 
 install(
     FILES cmake/install-config.cmake
-    DESTINATION "${rodos_playground_INSTALL_CMAKEDIR}"
+    DESTINATION "${RodosPlayground_INSTALL_CMAKEDIR}"
     RENAME "${package}Config.cmake"
-    COMPONENT rodos_playground_Development
+    COMPONENT RodosPlayground_Development
 )
 
 install(
     FILES "${PROJECT_BINARY_DIR}/${package}ConfigVersion.cmake"
-    DESTINATION "${rodos_playground_INSTALL_CMAKEDIR}"
-    COMPONENT rodos_playground_Development
+    DESTINATION "${RodosPlayground_INSTALL_CMAKEDIR}"
+    COMPONENT RodosPlayground_Development
 )
 
 install(
-    EXPORT rodos_playgroundTargets
-    NAMESPACE rodos_playground::
-    DESTINATION "${rodos_playground_INSTALL_CMAKEDIR}"
-    COMPONENT rodos_playground_Development
+    EXPORT RodosPlaygroundTargets
+    NAMESPACE RodosPlayground::
+    DESTINATION "${RodosPlayground_INSTALL_CMAKEDIR}"
+    COMPONENT RodosPlayground_Development
 )
 
 if(PROJECT_IS_TOP_LEVEL)

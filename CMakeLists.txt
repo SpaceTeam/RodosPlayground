@@ -1,14 +1,16 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.14)
 
-include(cmake/in-source-guard.cmake)
+include(cmake/prelude.cmake)
 
 project(
-    rodos_playground
+    RodosPlayground
     VERSION 0.1.0
     DESCRIPTION "A project to play around with RODOS and all other tools and things we want to use for the COBC firmware."
-    HOMEPAGE_URL " "
+    HOMEPAGE_URL ""
     LANGUAGES CXX
 )
+
+docs_early_return()
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
@@ -16,32 +18,32 @@ include(cmake/variables.cmake)
 # ---- Declare library ----
 
 add_library(
-    rodos_playground_lib OBJECT
+    RodosPlayground_lib OBJECT
     source/lib.cpp
 )
 
 target_include_directories(
-    rodos_playground_lib
+    RodosPlayground_lib ${warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
-target_compile_features(rodos_playground_lib PUBLIC cxx_std_20)
+target_compile_features(RodosPlayground_lib PUBLIC cxx_std_20)
 
 # ---- Declare executable ----
 
-add_executable(rodos_playground_rodos_playground source/main.cpp)
-add_executable(rodos_playground::rodos_playground ALIAS rodos_playground_rodos_playground)
+add_executable(RodosPlayground_exe source/main.cpp)
+add_executable(RodosPlayground::exe ALIAS RodosPlayground_exe)
 
 set_target_properties(
-    rodos_playground_rodos_playground PROPERTIES
-    OUTPUT_NAME rodos_playground
-    EXPORT_NAME rodos_playground
+    RodosPlayground_exe PROPERTIES
+    OUTPUT_NAME RodosPlayground
+    EXPORT_NAME exe
 )
 
-target_compile_features(rodos_playground_rodos_playground PRIVATE cxx_std_20)
+target_compile_features(RodosPlayground_exe PRIVATE cxx_std_20)
 
-target_link_libraries(rodos_playground_rodos_playground PRIVATE rodos_playground_lib)
+target_link_libraries(RodosPlayground_exe PRIVATE RodosPlayground_lib)
 
 # ---- Install rules ----
 
@@ -51,12 +53,12 @@ endif()
 
 # ---- Developer mode ----
 
-if(NOT rodos_playground_DEVELOPER_MODE)
+if(NOT RodosPlayground_DEVELOPER_MODE)
   return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
   message(
       AUTHOR_WARNING
-      "Developer mode is intended for developers of rodos_playground"
+      "Developer mode is intended for developers of RodosPlayground"
   )
 endif()
 

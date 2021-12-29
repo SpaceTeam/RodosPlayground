@@ -1,6 +1,6 @@
-# rodos_playground
+# RodosPlayground
 
-This is the rodos_playground project.
+This is the RodosPlayground project.
 
 # Building and installing
 
