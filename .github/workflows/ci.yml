@@ -95,21 +95,16 @@ jobs:
   test:
     needs: [lint]
 
-    strategy:
-      matrix:
-        os: [macos, ubuntu, windows]
-
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu'
       run: sudo apt-get install clang-tidy cppcheck -y -q
 
     - name: Configure
-      run: cmake --preset=ci-${{ matrix.os }}
+      run: cmake --preset=ci-ubuntu
 
     - name: Build
       run: cmake --build build --config Release -j 2

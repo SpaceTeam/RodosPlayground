@@ -39,12 +39,25 @@ the project:
   },
   "configurePresets": [
     {
+      "name": "dev-common",
+      "hidden": true,
+      "inherits": ["dev-mode", "clang-tidy", "cppcheck"],
+      "cacheVariables": {
+        "BUILD_MCSS_DOCS": "ON"
+      }
+    },
+    {
       "name": "dev",
       "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["dev-mode", "ci-<os>"],
+      "inherits": ["dev-common", "ci-unix"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
+    },
+    {
+      "name": "dev-coverage",
+      "binaryDir": "${sourceDir}/build/coverage",
+      "inherits": ["dev-mode", "coverage-unix"]
     }
   ],
   "buildPresets": [
@@ -67,10 +80,6 @@ the project:
 }
 ```
 
-You should replace `<os>` in your newly created presets file with the name of
-the operating system you have, which may be `win64` or `unix`. You can see what
-these correspond to in the [`CMakePresets.json`](CMakePresets.json) file.
-
 `CMakeUserPresets.json` is also the perfect place in which you can put all
 sorts of things that you would otherwise want to pass to the configure command
 in the terminal.
@@ -78,8 +87,7 @@ in the terminal.
 ### Configure, build and test
 
 If you followed the above instructions, then you can configure, build and test
-the project respectively with the following commands from the project root on
-any operating system with any build system:
+the project respectively with the following commands from the project root:
 
 ```sh
 cmake --preset=dev
