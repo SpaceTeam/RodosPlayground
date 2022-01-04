@@ -1,7 +1,7 @@
 # Hacking
 
 Here is some wisdom to help you build and test this project as a developer and
-potential contributor.
+potential contributor. It is assumed, that you are developing on Linux.
 
 If you plan to contribute, please read the [CONTRIBUTING](CONTRIBUTING.md)
 guide.
@@ -14,7 +14,7 @@ option makes tests and other developer targets and options available. Not
 enabling this option means that you are a consumer of this project and thus you
 have no need for these targets and options.
 
-Developer mode is always set to on in CI workflows.
+Developer mode is always set to "ON" in CI workflows.
 
 ### Presets
 
@@ -27,62 +27,80 @@ You have a few options to pass `RodosPlayground_DEVELOPER_MODE` to the configure
 command, but this project prefers to use presets.
 
 As a developer, you should create a `CMakeUserPresets.json` file at the root of
-the project:
+the project that looks something like the following:
 
 ```json
 {
-  "version": 2,
+  "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 14,
+    "minor": 22,
     "patch": 0
   },
   "configurePresets": [
     {
       "name": "dev-common",
       "hidden": true,
-      "inherits": ["dev-mode", "clang-tidy", "cppcheck"],
+      "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"],
       "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "BUILD_MCSS_DOCS": "ON"
       }
     },
     {
-      "name": "dev",
-      "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["dev-common", "ci-unix"],
+      "name": "dev-linux-x86",
+      "binaryDir": "${sourceDir}/build/linux-x86",
+      "inherits": "dev-common",
+      "toolchainFile": "/usr/local/src/rodos/cmake/port/linux-x86.cmake"
+    },
+    {
+      "name": "dev-discovery_f429",
+      "binaryDir": "${sourceDir}/build/discovery_f429",
+      "inherits": "dev-common",
+      "toolchainFile": "/usr/local/stm32f4/src/rodos/cmake/port/discovery_f429.cmake",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f4"
       }
     },
     {
       "name": "dev-coverage",
-      "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": ["dev-mode", "coverage-unix"]
+      "inherits": ["dev-mode", "coverage-unix"],
+      "toolchainFile": "/usr/local/src/rodos/cmake/port/linux-x86.cmake"
     }
   ],
   "buildPresets": [
     {
-      "name": "dev",
-      "configurePreset": "dev",
-      "configuration": "Debug"
+      "name": "dev-linux-x86",
+      "configurePreset": "dev-linux-x86",
+      "configuration": "Debug",
+      "jobs": 8
     }
   ],
   "testPresets": [
     {
-      "name": "dev",
-      "configurePreset": "dev",
+      "name": "dev-linux-x86",
+      "configurePreset": "dev-linux-x86",
       "configuration": "Debug",
       "output": {
         "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 8
       }
     }
   ]
 }
 ```
 
-`CMakeUserPresets.json` is also the perfect place in which you can put all
-sorts of things that you would otherwise want to pass to the configure command
-in the terminal.
+The exact paths of the toolchain files and the `CMAKE_FIND_ROOT_PATH` variable
+depend on the install location of Rodos on your machine. The number of jobs
+given in the build and test presets must be adapted by you as well and should
+ideally be set to the number of threads available on your CPU.
+
+In general, `CMakeUserPresets.json` is the perfect place in which you can put
+all sorts of things that you would otherwise want to pass to the configure
+command in the terminal.
 
 ### Configure, build and test
 
@@ -90,15 +108,10 @@ If you followed the above instructions, then you can configure, build and test
 the project respectively with the following commands from the project root:
 
 ```sh
-cmake --preset=dev
-cmake --build --preset=dev
-ctest --preset=dev
+cmake --preset=dev-linux-x86
+cmake --build --preset=dev-linux-x86
+ctest --preset=dev-linux-x86
 ```
-
-Please note that both the build and test command accepts a `-j` flag to specify
-the number of jobs to use, which should ideally be specified to the number of
-threads your CPU has. You may also want to add that to your preset using the
-`jobs` property, see the [presets documentation][1] for more details.
 
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
 [2]: https://cmake.org/download/

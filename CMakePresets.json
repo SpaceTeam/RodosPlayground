@@ -44,7 +44,7 @@
       }
     },
     {
-      "name": "ci-std",
+      "name": "cpp-std",
       "description": "This preset makes sure the project actually builds with at least the specified standard",
       "hidden": true,
       "cacheVariables": {
@@ -61,10 +61,10 @@
       }
     },
     {
-      "name": "ci-unix",
+      "name": "unix-common",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": ["flags-unix", "ci-std"],
+      "inherits": ["flags-unix", "cpp-std"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -72,7 +72,7 @@
     {
       "name": "coverage-unix",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": "ci-unix",
+      "inherits": "unix-common",
       "hidden": true,
       "cacheVariables": {
         "ENABLE_COVERAGE": "ON",
@@ -84,7 +84,7 @@
     },
     {
       "name": "ci-coverage",
-      "inherits": ["coverage-unix", "dev-mode"],
+      "inherits": ["dev-mode", "coverage-unix"],
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
       }
@@ -92,7 +92,7 @@
     {
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
-      "inherits": ["ci-unix", "dev-mode"],
+      "inherits": ["dev-mode", "unix-common"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
         "CMAKE_CXX_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
@@ -101,11 +101,7 @@
     {
       "name": "ci-build",
       "binaryDir": "${sourceDir}/build",
-      "hidden": true
-    },
-    {
-      "name": "ci-ubuntu",
-      "inherits": ["ci-build", "ci-unix", "clang-tidy", "cppcheck", "dev-mode"]
+      "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"]
     }
   ]
 }
