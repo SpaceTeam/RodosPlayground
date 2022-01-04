@@ -2,13 +2,14 @@
 
 This is the RodosPlayground project.
 
-# Building
+## Code of Conduct
 
-See the [BUILDING](BUILDING.md) document.
+Please see the [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) document.
 
-# Contributing
+## Getting started
 
-See the [CONTRIBUTING](CONTRIBUTING.md) document.
+Helpful notes for developers can be found in the [`HACKING.md`](HACKING.md)
+document.
 
 # Licensing
 

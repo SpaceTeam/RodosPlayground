@@ -113,5 +113,11 @@ cmake --build --preset=dev-linux-x86
 ctest --preset=dev-linux-x86
 ```
 
+## To-dos
+
+- Add something about `objcopy`
+- Maybe add something about how to flash
+
+
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
 [2]: https://cmake.org/download/
