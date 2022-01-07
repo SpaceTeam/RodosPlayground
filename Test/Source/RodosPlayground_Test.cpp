@@ -2,7 +2,7 @@
 
 auto main() -> int
 {
-  library lib;
+  Library lib;
 
   return lib.name == "RodosPlayground" ? 0 : 1;
 }
