@@ -2,7 +2,6 @@
 
 using namespace std::literals;
 
-library::library()
-    : name("RodosPlayground"sv)
+library::library() : name("RodosPlayground"sv)
 {
 }

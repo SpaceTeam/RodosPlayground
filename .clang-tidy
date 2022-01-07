@@ -52,6 +52,8 @@ CheckOptions:
     value: 'true'
   - key: 'readability-else-after-return.WarnOnConditionVariables'
     value: 'true'
+  - key: 'readability-identifier-naming.IgnoreMainLikeFunctions'
+    value: 'true'
   - key: 'readability-inconsistent-declaration-parameter-name.Strict'
     value: 'true'
   - key: 'readability-qualified-auto.AddConstToQualified'

@@ -3,97 +3,104 @@ Language: Cpp
 # BasedOnStyle: Chromium
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
-AlignConsecutiveMacros: false
 AlignConsecutiveAssignments: false
-AlignConsecutiveBitFields: false
+AlignConsecutiveBitFields: Consecutive
 AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: false
 AlignEscapedNewlines: DontAlign
-AlignOperands: DontAlign
-AlignTrailingComments: false
+AlignOperands: AlignAfterOperator
+AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: true
-AllowAllConstructorInitializersOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortEnumsOnASingleLine: false
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Inline
-AllowShortLambdasOnASingleLine: All
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: Yes
-AttributeMacros:
-  - __capability
+AttributeMacros: ['']
 BinPackArguments: false
 BinPackParameters: false
+BitFieldColonSpacing: Both
 BraceWrapping:
-  AfterCaseLabel: false
+  AfterCaseLabel: true
   AfterClass: true
-  AfterControlStatement: MultiLine
+  AfterControlStatement: Always
   AfterEnum: true
   AfterFunction: true
   AfterNamespace: true
-  AfterObjCDeclaration: false
+  AfterObjCDeclaration: true
   AfterStruct: true
   AfterUnion: true
   AfterExternBlock: true
-  BeforeCatch: false
-  BeforeElse: false
+  BeforeCatch: true
+  BeforeElse: true
   BeforeLambdaBody: true
   BeforeWhile: false
   IndentBraces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
-BreakBeforeBinaryOperators: NonAssignment
-BreakBeforeConceptDeclarations: true
-BreakBeforeBraces: Custom
-# BreakBeforeInheritanceComma: true
-BreakInheritanceList: BeforeComma
-BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: true
-BreakConstructorInitializers: BeforeComma
 BreakAfterJavaFieldAnnotations: true
+BreakBeforeBinaryOperators: NonAssignment
+# Choosing Allman would probably give the same result, but I am not sure
+BreakBeforeBraces: Custom
+BreakBeforeConceptDeclarations: true
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
 BreakStringLiterals: true
-ColumnLimit: 80
+ColumnLimit: 100
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 4
+ContinuationIndentWidth: 2
 Cpp11BracedListStyle: true
 DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
 EmptyLineBeforeAccessModifier: LogicalBlock
 ExperimentalAutoDetectBinPacking: false
-FixNamespaceComments: true
+FixNamespaceComments: false
 ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
-StatementAttributeLikeMacros:
-  - Q_EMIT
 IncludeBlocks: Regroup
 IncludeCategories:
-  # Standard library headers come before anything else
-  - Regex: '^<[a-z_]+>'
-    Priority: -1
-  - Regex: '^<.+\.h(pp)?>'
+  # The main header for a source file is automatically assigned priority 0
+  # Next are local header files, i.e., those from this project
+  - Regex: '^"[a-z]+\.hpp"'
     Priority: 1
-  - Regex: '^<.*'
+  # Next are all other C++ header files not from the standard library
+  - Regex: '^".+\.h(h|(pp)|(\+\+))"'
     Priority: 2
-  - Regex: '.*'
+  # Even though rodos has a higher priority, it must be added here to not match the general C header regex
+  - Regex: '^"rodos.h"'
+    Priority: 4
+  # Next are all C header files not from the standard library
+  - Regex: '^".+\.h"'
     Priority: 3
-IncludeIsMainRegex: ''
+  # Next are the C++ standard library headers
+  - Regex: '^<[a-z_]+>'
+    Priority: 5
+  # Finally there are the C standard library headers
+  - Regex: '^<[a-z_]+\.h>'
+    Priority: 6
+IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''
-IndentCaseLabels: true
 IndentCaseBlocks: false
-IndentGotoLabels: true
-IndentPPDirectives: AfterHash
+IndentCaseLabels: true
 IndentExternBlock: NoIndent
+IndentGotoLabels: true
+IndentPPDirectives: BeforeHash
 IndentRequires:  false
 IndentWidth: 2
 IndentWrappedFunctionNames: false
@@ -103,9 +110,9 @@ JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 MacroBlockBegin: ''
 MacroBlockEnd: ''
-MaxEmptyLinesToKeep: 1
+MaxEmptyLinesToKeep: 2
 NamespaceIndentation: None
-ObjCBinPackProtocolList: Never
+ObjCBinPackProtocolList: Auto
 ObjCBlockIndentWidth: 2
 ObjCBreakBeforeNestedBlockParam: true
 ObjCSpaceAfterProperty: false
@@ -117,9 +124,9 @@ PenaltyBreakFirstLessLess: 120
 PenaltyBreakString: 1000
 PenaltyBreakTemplateDeclaration: 10
 PenaltyExcessCharacter: 1000000
-PenaltyReturnTypeOnItsOwnLine: 200
 PenaltyIndentedWhitespace: 0
-PointerAlignment: Left
+PenaltyReturnTypeOnItsOwnLine: 1000
+PointerAlignment: Middle
 RawStringFormats:
   - Language: Cpp
     Delimiters:
@@ -131,7 +138,7 @@ RawStringFormats:
       - 'c++'
       - 'C++'
     CanonicalDelimiter: ''
-    BasedOnStyle: google
+    BasedOnStyle: microsoft
   - Language: TextProto
     Delimiters:
       - pb
@@ -152,34 +159,37 @@ RawStringFormats:
     BasedOnStyle: google
 ReflowComments: true
 SortIncludes: true
+SortJavaStaticImport: Before
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
+# Maybe Both?
+SpaceAroundPointerQualifiers: Default
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCaseColon: false
-SpaceBeforeCpp11BracedList: true
+SpaceBeforeCpp11BracedList: false
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
-SpaceBeforeParens: ControlStatementsExceptForEachMacros
-SpaceAroundPointerQualifiers: Default
+SpaceBeforeParens: Never
 SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
 SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
 SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
-SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-SpaceBeforeSquareBrackets: false
-BitFieldColonSpacing: Both
 Standard: Auto
+StatementAttributeLikeMacros:
+  - Q_EMIT
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
-TabWidth: 8
+TabWidth: 2
 UseCRLF: false
 UseTab: Never
 WhitespaceSensitiveMacros:
