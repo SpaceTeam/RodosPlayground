@@ -54,10 +54,25 @@
       }
     },
     {
+      "name": "warnings-unix",
+      "description": "To prevent super long strings the warnings are broken up into multiple env variables",
+      "hidden": true,
+      "environment": {
+        "W_BASIC": "-Wall -Wextra -Wpedantic",
+        "W_CONVERSION": "-Wconversion -Wsign-conversion -Wdouble-promotion",
+        "W_CAST": "-Wcast-qual -Wold-style-cast -Wuseless-cast",
+        "W_NULL": "-Wnull-dereference -Wzero-as-null-pointer-constant -Wstrict-null-sentinel",
+        "W_EFF_CPP": "-Weffc++ -Wimplicit-fallthrough=5 -Wsuggest-override",
+        "W_COND": "-Wduplicated-branches -Wduplicated-cond",
+        "W_REST": "-Wshadow -Woverloaded-virtual -Wlogical-op -Wformat=2 -Wundef -Wno-long-long"
+      }
+    },
+    {
       "name": "flags-unix",
       "hidden": true,
+      "inherits": "warnings-unix",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic"
+        "CMAKE_CXX_FLAGS": "$env{W_BASIC} $env{W_CONVERSION} $env{W_CAST} $env{W_NULL} $env{W_EFF_CPP} $env{W_COND} $env{W_REST}"
       }
     },
     {
