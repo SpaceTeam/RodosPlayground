@@ -1,6 +1,6 @@
 #include "Lib.hpp"
 
-#include "rodos.h"
+#include <rodos.h>
 
 class HelloWorld : public StaticThread<>
 {

@@ -75,25 +75,27 @@ ForEachMacros:
   - BOOST_FOREACH
 IncludeBlocks: Regroup
 IncludeCategories:
-  # The main header for a source file is automatically assigned priority 0
-  # Next are local header files, i.e., those from this project
-  - Regex: '^"[a-z]+\.hpp"'
-    Priority: 1
-  # Next are all other C++ header files not from the standard library
-  - Regex: '^".+\.h(h|(pp)|(\+\+))"'
-    Priority: 2
-  # Even though rodos has a higher priority, it must be added here to not match the general C header regex
-  - Regex: '^"rodos.h"'
+  # Parsing is done in the order defined here, so this is not ordered by priority but specificity of
+  # the regex.
+  # The main header for a source file is automatically assigned priority 0.
+  # C stdandard library
+  - Regex: '^<(assert|complex|ctype|ctype|fenv|float|inttypes|iso646|limits|locale|math|setjmp|signal|stdalign|stdarg|stdatomic|stdatomic|stddef|stdint|stdio|stdlib|stdnoreturn|string|tgmath|threads|time|uchar|wchar|wctype)\.h>'
+    Priority: 6
+  # Rodos
+  - Regex: '^<rodos.h>'
     Priority: 4
-  # Next are all C header files not from the standard library
-  - Regex: '^".+\.h"'
-    Priority: 3
-  # Next are the C++ standard library headers
+  # C++ stdandard library: <*> without a dot
   - Regex: '^<[a-z_]+>'
     Priority: 5
-  # Finally there are the C standard library headers
-  - Regex: '^<[a-z_]+\.h>'
-    Priority: 6
+  # C headers from external libraries: <*.h>
+  - Regex: '^<[A-Za-z_]+\.h>'
+    Priority: 3
+  # C++ headers from external libraries: <*.hh> or <*.hpp> or <*.h++>
+  - Regex: '^<[A-Za-z_]+\.h(h|pp|\+\+)>'
+    Priority: 2
+  # Local header files, i.e., those from this project: "*.hpp" without underscores
+  - Regex: '^"[A-Za-z]+\.hpp"'
+    Priority: 1
 IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''
 IndentCaseBlocks: false
