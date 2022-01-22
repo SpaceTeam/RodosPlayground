@@ -25,6 +25,19 @@ set_target_properties(RodosPlayground_HelloWorld PROPERTIES OUTPUT_NAME HelloWor
 
 add_subdirectory(Source)
 
+# Automatically call objcopy on the executable targets after the build
+
+if(CMAKE_SYSTEM_NAME STREQUAL Generic)
+    add_custom_command(
+        TARGET RodosPlayground_HelloWorld
+        POST_BUILD
+        COMMAND "${CMAKE_OBJCOPY}" -O binary HelloWorld HelloWorld.bin
+        BYPRODUCTS HelloWorld.bin
+        COMMENT "Calling objcopy to generate flashable .bin file."
+        VERBATIM
+    )
+endif()
+
 # ---- Developer mode ----
 
 if(NOT RodosPlayground_DEVELOPER_MODE)
