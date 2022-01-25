@@ -8,6 +8,7 @@ Checks: "*,\
   -altera-id-dependent-backward-branch,\
   -altera-kernel-name-restriction,\
   -altera-single-work-item-barrier,\
+  -altera-struct-pack-align,\
   -altera-unroll-loops,\
   -android-*,\
   -darwin-*,\
@@ -15,6 +16,7 @@ Checks: "*,\
   fuchsia-multiple-inheritance,\
   -google-objc-*,\
   -google-readability-todo,\
+  -google-readability-namespace-comments,\
   -linuxkernel-must-use-errs,\
   -llvm-header-guard,\
   -llvm-namespace-comment,\

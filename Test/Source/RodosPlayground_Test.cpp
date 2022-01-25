@@ -2,7 +2,7 @@
 
 auto main() -> int
 {
-  Library lib;
+  rpg::Library lib;
 
   return lib.name == "RodosPlayground" ? 0 : 1;
 }

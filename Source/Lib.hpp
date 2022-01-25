@@ -2,6 +2,9 @@
 
 #include <string_view>
 
+
+namespace rpg
+{
 /**
  * @brief The core implementation of the executable
  *
@@ -19,3 +22,4 @@ struct Library
 
   std::string_view name;
 };
+}

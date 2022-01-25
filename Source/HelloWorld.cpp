@@ -2,6 +2,9 @@
 
 #include <rodos.h>
 
+
+namespace rpg
+{
 class HelloWorld : public StaticThread<>
 {
   void run() override
@@ -20,3 +23,4 @@ class HelloWorld : public StaticThread<>
 };
 
 auto const helloWorld = HelloWorld();
+}
