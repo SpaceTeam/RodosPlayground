@@ -1,8 +1,14 @@
+find_package(etl REQUIRED)
+get_target_property(etl_include_dirs etl INTERFACE_INCLUDE_DIRECTORIES)
+message("Found ETL include dirs: ${etl_include_dirs}")
+
 target_sources(RodosPlayground_lib PRIVATE Lib.cpp)
 target_include_directories(
     RodosPlayground_lib ${warning_guard} PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Source>"
 )
 target_compile_features(RodosPlayground_lib PUBLIC cxx_std_17)
+target_link_libraries(RodosPlayground_lib PUBLIC etl)
+
 
 set(RODOS_PACKAGE_NAME
     "rodos"

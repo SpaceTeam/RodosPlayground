@@ -80,13 +80,16 @@ IncludeCategories:
   # The main header for a source file is automatically assigned priority 0.
   # C stdandard library
   - Regex: '^<(assert|complex|ctype|ctype|fenv|float|inttypes|iso646|limits|locale|math|setjmp|signal|stdalign|stdarg|stdatomic|stdatomic|stddef|stdint|stdio|stdlib|stdnoreturn|string|tgmath|threads|time|uchar|wchar|wctype)\.h>'
-    Priority: 6
+    Priority: 7
   # Rodos
   - Regex: '^<rodos.h>'
     Priority: 4
+  # ETL
+  - Regex: '^<etl/[a-z_]+\.h>'
+    Priority: 5
   # C++ stdandard library: <*> without a dot
   - Regex: '^<[a-z_]+>'
-    Priority: 5
+    Priority: 6
   # C headers from external libraries: <*.h>
   - Regex: '^<[A-Za-z_]+\.h>'
     Priority: 3
