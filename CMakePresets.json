@@ -64,7 +64,8 @@
         "W_NULL": "-Wnull-dereference -Wzero-as-null-pointer-constant -Wstrict-null-sentinel",
         "W_EFF_CPP": "-Weffc++ -Wimplicit-fallthrough=5 -Wsuggest-override",
         "W_COND": "-Wduplicated-branches -Wduplicated-cond",
-        "W_REST": "-Wshadow -Woverloaded-virtual -Wlogical-op -Wformat=2 -Wundef -Wno-long-long"
+        "W_REST": "-Wshadow -Woverloaded-virtual -Wlogical-op -Wformat=2 -Wundef -Wno-long-long",
+        "WARNINGS": "$env{W_BASIC} $env{W_CONVERSION} $env{W_CAST} $env{W_NULL} $env{W_EFF_CPP} $env{W_COND} $env{W_REST}"
       }
     },
     {
@@ -72,7 +73,8 @@
       "hidden": true,
       "inherits": "warnings-unix",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "$env{W_BASIC} $env{W_CONVERSION} $env{W_CAST} $env{W_NULL} $env{W_EFF_CPP} $env{W_COND} $env{W_REST}"
+        "CMAKE_CXX_FLAGS": "$env{WARNINGS}",
+        "CMAKE_CXX_FLAGS_DEBUG": "-Og"
       }
     },
     {
