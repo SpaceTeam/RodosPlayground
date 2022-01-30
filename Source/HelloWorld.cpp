@@ -9,15 +9,20 @@ class HelloWorld : public StaticThread<>
 {
   void run() override
   {
-    auto const lib = Library();
-    TIME_LOOP(0, 1 * RODOS::SECONDS)
-    if(lib.name.length() > 0)
+    auto const library = Library();
+    auto toggle = true;
+
+    TIME_LOOP(0, 500 * MILLISECONDS)
     {
-      PRINTF("Hello World from %s!\n", lib.name.data());
-    }
-    else
-    {
-      PRINTF("Nothing to print!\n");
+      if(toggle)
+      {
+        PRINTF("Hello World from %s!\n", library.name.data());
+      }
+      else
+      {
+        PRINTF("Hello World from %s!\n", library.shortName.c_str());
+      }
+      toggle = not toggle;
     }
   }
 };
