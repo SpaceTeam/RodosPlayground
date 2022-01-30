@@ -52,12 +52,24 @@ looks something like the following:
       "toolchainFile": "/usr/local/src/rodos/cmake/port/linux-x86.cmake"
     },
     {
-      "name": "dev-discovery_f411",
-      "binaryDir": "${sourceDir}/build/discovery_f411",
+      "name": "dev-nucleo",
+      "binaryDir": "${sourceDir}/build/nucleo",
       "inherits": "dev-common",
-      "toolchainFile": "/usr/local/stm32f411/src/rodos/cmake/port/discovery_f411.cmake",
+      "toolchainFile": "cmake/Stm32f411.cmake",
       "cacheVariables": {
-        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411"
+        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411",
+        "RODOS_PACKAGE_NAME": "rodos_discovery_f411",
+        "HSE_VALUE": "8000000"
+      }
+    },
+    {
+      "name": "dev-cobc",
+      "binaryDir": "${sourceDir}/build/cobc",
+      "inherits": "dev-common",
+      "toolchainFile": "/usr/local/stm32f411/src/rodos/cmake/port/cobc.cmake",
+      "cacheVariables": {
+        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411",
+        "HSE_VALUE": "8000000"
       }
     },
     {
@@ -74,8 +86,14 @@ looks something like the following:
       "jobs": 8
     },
     {
-      "name": "dev-discovery_f411",
-      "configurePreset": "dev-discovery_f411",
+      "name": "dev-nucleo",
+      "configurePreset": "dev-nucleo",
+      "configuration": "Debug",
+      "jobs": 8
+    },
+    {
+      "name": "dev-cobc",
+      "configurePreset": "dev-cobc",
       "configuration": "Debug",
       "jobs": 8
     }
@@ -94,7 +112,6 @@ looks something like the following:
     }
   ]
 }
-
 ```
 
 The exact paths of the toolchain files and the `CMAKE_FIND_ROOT_PATH` variable depend on the install

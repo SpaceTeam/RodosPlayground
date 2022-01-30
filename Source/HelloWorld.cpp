@@ -12,7 +12,7 @@ class HelloWorld : public StaticThread<>
     auto const library = Library();
     auto toggle = true;
 
-    TIME_LOOP(0, 1 * SECONDS)
+    TIME_LOOP(0, 500 * MILLISECONDS)
     {
       if(toggle)
       {
