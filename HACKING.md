@@ -57,7 +57,6 @@ looks something like the following:
       "inherits": "dev-common",
       "toolchainFile": "cmake/Stm32f411.cmake",
       "cacheVariables": {
-        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411",
         "RODOS_PACKAGE_NAME": "rodos_discovery_f411",
         "HSE_VALUE": "8000000"
       }
@@ -66,10 +65,9 @@ looks something like the following:
       "name": "dev-cobc",
       "binaryDir": "${sourceDir}/build/cobc",
       "inherits": "dev-common",
-      "toolchainFile": "/usr/local/stm32f411/src/rodos/cmake/port/cobc.cmake",
+      "toolchainFile": "cmake/Stm32f411.cmake",
       "cacheVariables": {
-        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411",
-        "HSE_VALUE": "8000000"
+        "HSE_VALUE": "12000000"
       }
     },
     {
@@ -83,19 +81,19 @@ looks something like the following:
       "name": "dev-linux-x86",
       "configurePreset": "dev-linux-x86",
       "configuration": "Debug",
-      "jobs": 8
+      "jobs": 4
     },
     {
       "name": "dev-nucleo",
       "configurePreset": "dev-nucleo",
       "configuration": "Debug",
-      "jobs": 8
+      "jobs": 4
     },
     {
       "name": "dev-cobc",
       "configurePreset": "dev-cobc",
       "configuration": "Debug",
-      "jobs": 8
+      "jobs": 4
     }
   ],
   "testPresets": [
@@ -107,7 +105,7 @@ looks something like the following:
         "outputOnFailure": true
       },
       "execution": {
-        "jobs": 8
+        "jobs": 4
       }
     }
   ]

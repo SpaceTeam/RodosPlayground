@@ -63,7 +63,7 @@ set(linker_script "${stm32f411_root}/src/rodos/src/bare-metal/stm32f4/scripts/st
 message("Linker script used: ${linker_script}")
 
 # TODO: Find out why if(NOT DEFINED HSE_VALUE) does not work as expected and fails the second time
-# the toolchain file is run 
+# the toolchain file is run
 message("HSE value used: ${HSE_VALUE}")
 add_compile_definitions(HSE_VALUE=${HSE_VALUE} HSE_STARTUP_TIMEOUT=10000000)
 add_compile_definitions(USE_STDPERIPH_DRIVER STM32F411xE)
