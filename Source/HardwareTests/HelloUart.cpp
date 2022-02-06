@@ -33,7 +33,7 @@ class HelloWorld : public StaticThread<>
                 }
                 else
                 {
-                        PRINTF("Hello World ! Toggle true \n");
+                        PRINTF("Hello World ! Toggle false \n");
 
                         uint8_t myText[19] = "Hello from uart6\r\n";
                         huart6.write(myText, sizeof(myText));
