@@ -21,3 +21,5 @@ message("Found rodos: ${rodos_location}")
 
 target_sources(RodosPlayground_HelloWorld PRIVATE HelloWorld.cpp)
 target_link_libraries(RodosPlayground_HelloWorld PRIVATE rodos::rodos RodosPlayground_lib)
+
+add_subdirectory(HardwareTests)

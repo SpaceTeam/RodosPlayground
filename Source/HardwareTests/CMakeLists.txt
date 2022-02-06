@@ -1,0 +1,3 @@
+add_executable(RodosPlayground_HelloUart)
+target_sources(RodosPlayground_HelloUart PRIVATE HelloUart.cpp)
+target_link_libraries(RodosPlayground_HelloUart PRIVATE rodos::rodos)
