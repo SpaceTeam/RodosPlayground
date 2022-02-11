@@ -23,6 +23,13 @@ add_library(RodosPlayground_lib OBJECT)
 add_executable(RodosPlayground_HelloWorld)
 set_target_properties(RodosPlayground_HelloWorld PROPERTIES OUTPUT_NAME HelloWorld)
 
+add_executable(RodosPlayground_HelloUart)
+set_target_properties(RodosPlayground_HelloUart PROPERTIES OUTPUT_NAME HelloUart)
+
+
+add_executable(RodosPlayground_GPIO_test)
+set_target_properties(RodosPlayground_GPIO_test PROPERTIES OUTPUT_NAME GPIO_test)
+
 add_subdirectory(Source)
 
 # Automatically call objcopy on the executable targets after the build
