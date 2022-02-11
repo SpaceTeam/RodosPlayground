@@ -1,10 +1,6 @@
 #include <rodos.h>
 
 
-auto const baudrate = 115200;
-const GPIO_PIN green  = GPIO_005;
-//HAL_GPIO greenLed(green);
-
 /*
         GPIO_PIN        RODOS enum
         PA1             GPIO_001
@@ -101,8 +97,8 @@ namespace rpg
 class HelloWorld : public StaticThread<>
 {
         void init() override {
-                for (int i =0; i< nbPinsToTest; ++i) {
-                        pinsToTest[0].init(/*isOutput=*/true, 1, 0);
+                for (auto & i : pinsToTest) {
+                        i.init(/*isOutput=*/true, 1, 0);
                 }
         }
 
@@ -112,8 +108,8 @@ class HelloWorld : public StaticThread<>
 
         TIME_LOOP(0, 500 * MILLISECONDS)
         {
-                for (int i =0; i< nbPinsToTest; ++i) {
-                        pinsToTest[0].setPins(static_cast<uint32_t>(toggle));
+                for (auto & i : pinsToTest) {
+                        i.setPins(static_cast<uint32_t>(toggle));
                 }
 
                 toggle = not toggle;
