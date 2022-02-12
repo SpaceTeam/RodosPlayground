@@ -1,107 +1,71 @@
 #include <rodos.h>
 
-
-/*
-        GPIO_PIN        RODOS enum
-        PA1             GPIO_001
-        PA2             GPIO_002
-        PA3             GPIO_003
-        PA5             GPIO_005
-        PA6             GPIO_006
-        PA7             GPIO_007
-        PA8             GPIO_008
-        PA9             GPIO_009
-        PA10            GPIO_010
-        PA11            GPIO_011
-        PA12            GPIO_012
-        PA13            GPIO_013
-        PA14            GPIO_014
-        PA15            GPIO_015
-        PB0             GPIO_016
-        PB1             GPIO_017
-        PB3             GPIO_019
-        PB4             GPIO_020
-        PB5             GPIO_021
-        PB6             GPIO_022
-        PB7             GPIO_023
-        PB8             GPIO_024
-        PB9             GPIO_025
-        PB12            GPIO_028
-        PB13            GPIO_029
-        PB14            GPIO_030
-        PB15            GPIO_031
-        PC0             GPIO_032
-        PC1             GPIO_033
-        PC2             GPIO_034
-        PC3             GPIO_035
-        PC4             GPIO_036
-        PC5             GPIO_037
-        PC7             GPIO_039
-        PC10            GPIO_042
-        PC11            GPIO_043
-        PC12            GPIO_044
-        PC13            GPIO_045
-        PC9             GPIO_041
-        PD2             GPIO_050
-        */
-
-HAL_GPIO PA3(GPIO_003);
-HAL_GPIO PA5(GPIO_005);
-HAL_GPIO PA6(GPIO_006);
-HAL_GPIO PA7(GPIO_007);
-HAL_GPIO PC4(GPIO_036);
-HAL_GPIO PC5(GPIO_037);
-HAL_GPIO PB0(GPIO_016);
-HAL_GPIO PB1(GPIO_017);
-HAL_GPIO PB12(GPIO_028);
-HAL_GPIO PB13(GPIO_029);
-HAL_GPIO PB14(GPIO_030);
-HAL_GPIO PB15(GPIO_031);
-HAL_GPIO PC7(GPIO_039);
-HAL_GPIO PC9(GPIO_041);
-HAL_GPIO PA8(GPIO_008);
-HAL_GPIO PA9(GPIO_009);
-HAL_GPIO PA10(GPIO_010);
-HAL_GPIO PA11(GPIO_011);
-HAL_GPIO PA12(GPIO_012);
-HAL_GPIO PA13(GPIO_013);
-HAL_GPIO PA14(GPIO_014);
-HAL_GPIO PA15(GPIO_015);
-HAL_GPIO PC10(GPIO_042);
-HAL_GPIO PC11(GPIO_043);
-HAL_GPIO PC12(GPIO_044);
-HAL_GPIO PD2(GPIO_050);
-HAL_GPIO PB3(GPIO_019);
-HAL_GPIO PB4(GPIO_020);
-HAL_GPIO PB5(GPIO_021);
-HAL_GPIO PB6(GPIO_022);
-HAL_GPIO PB7(GPIO_023);
-HAL_GPIO PB8(GPIO_024);
-HAL_GPIO PB9(GPIO_025);
-HAL_GPIO PC13(GPIO_045);
-HAL_GPIO PC0(GPIO_032);
-HAL_GPIO PC1(GPIO_033);
-HAL_GPIO PC2(GPIO_034);
-HAL_GPIO PC3(GPIO_035);
-HAL_GPIO PA1(GPIO_001);
-HAL_GPIO PA2(GPIO_002);
-
-const int nbPinsToTest = 40;
-HAL_GPIO pinsToTest[nbPinsToTest] = {PA3,  PA5,  PA6,  PA7,  PC4,  PC5, PB0,  PB1,  PB12, PB13,
-                                     PB14, PB15, PC7,  PC9,  PA8,  PA9, PA10, PA11, PA12, PA13,
-                                     PA14, PA15, PC10, PC11, PC12, PD2, PB3,  PB4,  PB5,  PB6,
-                                     PB7,  PB8,  PB9,  PC13, PC0,  PC1, PC2,  PC3,  PA1,  PA2};
+#include <array>
 
 
 namespace rpg
 {
-class HelloWorld : public StaticThread<>
+// TODO: Put this in a separat file like PinNames.hpp, PinDeclarations.hpp, Pins.hpp or something
+constexpr auto PA3 = GPIO_003;   // NOLINT(readability-identifier-naming)
+constexpr auto PA5 = GPIO_005;   // NOLINT(readability-identifier-naming)
+constexpr auto PA6 = GPIO_006;   // NOLINT(readability-identifier-naming)
+constexpr auto PA7 = GPIO_007;   // NOLINT(readability-identifier-naming)
+constexpr auto PC4 = GPIO_036;   // NOLINT(readability-identifier-naming)
+constexpr auto PC5 = GPIO_037;   // NOLINT(readability-identifier-naming)
+constexpr auto PB0 = GPIO_016;   // NOLINT(readability-identifier-naming)
+constexpr auto PB1 = GPIO_017;   // NOLINT(readability-identifier-naming)
+constexpr auto PB12 = GPIO_028;  // NOLINT(readability-identifier-naming)
+constexpr auto PB13 = GPIO_029;  // NOLINT(readability-identifier-naming)
+constexpr auto PB14 = GPIO_030;  // NOLINT(readability-identifier-naming)
+constexpr auto PB15 = GPIO_031;  // NOLINT(readability-identifier-naming)
+constexpr auto PC7 = GPIO_039;   // NOLINT(readability-identifier-naming)
+constexpr auto PC9 = GPIO_041;   // NOLINT(readability-identifier-naming)
+constexpr auto PA8 = GPIO_008;   // NOLINT(readability-identifier-naming)
+constexpr auto PA9 = GPIO_009;   // NOLINT(readability-identifier-naming)
+constexpr auto PA10 = GPIO_010;  // NOLINT(readability-identifier-naming)
+constexpr auto PA11 = GPIO_011;  // NOLINT(readability-identifier-naming)
+constexpr auto PA12 = GPIO_012;  // NOLINT(readability-identifier-naming)
+constexpr auto PA13 = GPIO_013;  // NOLINT(readability-identifier-naming)
+constexpr auto PA14 = GPIO_014;  // NOLINT(readability-identifier-naming)
+constexpr auto PA15 = GPIO_015;  // NOLINT(readability-identifier-naming)
+constexpr auto PC10 = GPIO_042;  // NOLINT(readability-identifier-naming)
+constexpr auto PC11 = GPIO_043;  // NOLINT(readability-identifier-naming)
+constexpr auto PC12 = GPIO_044;  // NOLINT(readability-identifier-naming)
+constexpr auto PD2 = GPIO_050;   // NOLINT(readability-identifier-naming)
+constexpr auto PB3 = GPIO_019;   // NOLINT(readability-identifier-naming)
+constexpr auto PB4 = GPIO_020;   // NOLINT(readability-identifier-naming)
+constexpr auto PB5 = GPIO_021;   // NOLINT(readability-identifier-naming)
+constexpr auto PB6 = GPIO_022;   // NOLINT(readability-identifier-naming)
+constexpr auto PB7 = GPIO_023;   // NOLINT(readability-identifier-naming)
+constexpr auto PB8 = GPIO_024;   // NOLINT(readability-identifier-naming)
+constexpr auto PB9 = GPIO_025;   // NOLINT(readability-identifier-naming)
+constexpr auto PC13 = GPIO_045;  // NOLINT(readability-identifier-naming)
+constexpr auto PC0 = GPIO_032;   // NOLINT(readability-identifier-naming)
+constexpr auto PC1 = GPIO_033;   // NOLINT(readability-identifier-naming)
+constexpr auto PC2 = GPIO_034;   // NOLINT(readability-identifier-naming)
+constexpr auto PC3 = GPIO_035;   // NOLINT(readability-identifier-naming)
+constexpr auto PA1 = GPIO_001;   // NOLINT(readability-identifier-naming)
+constexpr auto PA2 = GPIO_002;   // NOLINT(readability-identifier-naming)
+
+
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+auto pinsToTest = std::array{
+  HAL_GPIO(PA3),  HAL_GPIO(PA5),  HAL_GPIO(PA6),  HAL_GPIO(PA7),  HAL_GPIO(PC4),  HAL_GPIO(PC5),
+  HAL_GPIO(PB0),  HAL_GPIO(PB1),  HAL_GPIO(PB12), HAL_GPIO(PB13), HAL_GPIO(PB14), HAL_GPIO(PB15),
+  HAL_GPIO(PC7),  HAL_GPIO(PC9),  HAL_GPIO(PA8),  HAL_GPIO(PA9),  HAL_GPIO(PA10), HAL_GPIO(PA11),
+  HAL_GPIO(PA12), HAL_GPIO(PA13), HAL_GPIO(PA14), HAL_GPIO(PA15), HAL_GPIO(PC10), HAL_GPIO(PC11),
+  HAL_GPIO(PC12), HAL_GPIO(PD2),  HAL_GPIO(PB3),  HAL_GPIO(PB4),  HAL_GPIO(PB5),  HAL_GPIO(PB6),
+  HAL_GPIO(PB7),  HAL_GPIO(PB8),  HAL_GPIO(PB9),  HAL_GPIO(PC13), HAL_GPIO(PC0),  HAL_GPIO(PC1),
+  HAL_GPIO(PC2),  HAL_GPIO(PC3),  HAL_GPIO(PA1),  HAL_GPIO(PA2)};
+
+
+class HelloGpio : public StaticThread<>
 {
   void init() override
   {
-    for(auto & i : pinsToTest)
+    for(auto & pin : pinsToTest)
     {
-      i.init(/*isOutput=*/true, 1, 0);
+      pin.init(/*isOutput=*/true, 1, 0);
     }
   }
 
@@ -115,11 +79,11 @@ class HelloWorld : public StaticThread<>
       {
         i.setPins(static_cast<uint32_t>(toggle));
       }
-
       toggle = not toggle;
     }
   }
 };
 
-auto const helloWorld = HelloWorld();
+
+auto const helloGpio = HelloGpio();
 }
