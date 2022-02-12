@@ -5,4 +5,4 @@ target_sources(RodosPlayground_HelloGpio PRIVATE HelloGpio.cpp)
 target_link_libraries(RodosPlayground_HelloGpio PRIVATE rodos::rodos)
 
 target_sources(RodosPlayground_HelloSpi PRIVATE HelloSpi.cpp)
-target_link_libraries(RodosPlayground_HelloSpi PRIVATE rodos::rodos)
+target_link_libraries(RodosPlayground_HelloSpi PRIVATE rodos::rodos etl)

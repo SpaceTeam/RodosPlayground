@@ -1,32 +1,58 @@
 #include <rodos.h>
 
-constexpr RODOS::GPIO_PIN SPI1_MISO = GPIO_006;
-constexpr RODOS::GPIO_PIN SPI1_MOSI = GPIO_007;
-constexpr RODOS::GPIO_PIN SPI1_SCK = GPIO_005;
+#include <etl/string.h>
 
-// constexpr RODOS::GPIO_PIN USER_LED_NUCLEO = GPIO_005;
-RODOS::HAL_SPI SPI1(SPI_IDX1, SPI1_SCK, SPI1_MISO, SPI1_MOSI);
+#include <string_view>
+
 
 namespace rpg
 {
-class HelloWorld : public StaticThread<>
+constexpr auto spi1Miso = GPIO_006;
+constexpr auto spi1Mosi = GPIO_007;
+constexpr auto spi1Sck = GPIO_005;
+
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+auto spi1 = HAL_SPI(SPI_IDX1, spi1Sck, spi1Miso, spi1Mosi);
+
+
+class HelloSpi : public StaticThread<>
 {
+  void init() override
+  {
+    spi1.init();
+  }
+
   void run() override
   {
-    SPI1.init();
+    using std::operator""sv;
 
     TIME_LOOP(0, 2000 * MILLISECONDS)
     {
-      char buf[20];
       // Short SPI1 MISO and MOSI Pins (PA6, PA7) and connect UART 2 to PC
       // Serial Terminal should constantly print (test -> STOP -> test -> STOP)
-      // Check whether thats the correct SPI for the COBC HW
-      SPI1.writeRead("test\n", 6, buf, 6);
-      PRINTF(buf);
-      PRINTF("STOP\r\n");
+      // TODO: Check whether thats the correct SPI for the COBC HW
+      constexpr auto message = "Hello from SPI1!\n"sv;
+      auto answer = etl::string<message.size()>();
+      answer.initialize_free_space();
+      auto nReceivedBytes =
+        spi1.writeRead(message.data(), message.size(), answer.data(), answer.capacity());
+      if(nReceivedBytes < 0)
+      {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
+        PRINTF("Error during spi1.readWrite()! Return value is %i\n",
+               static_cast<int>(nReceivedBytes));
+      }
+      else
+      {
+        answer.trim_to_terminator();
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
+        PRINTF("%s", answer.c_str());
+      }
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
+      PRINTF("Next attempt\n");
     }
   }
 };
 
-auto const helloWorld = HelloWorld();
+auto const helloSpi = HelloSpi();
 }
