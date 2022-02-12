@@ -37,13 +37,11 @@ class HelloWorld : public StaticThread<>
         {
                 greenLed.setPins(static_cast<uint32_t>(toggle));
                 if(toggle) {
-                        PRINTF("Hello World ! Toggle true \n");
+                        PRINTF("Hello from uart2\n");
                 }
                 else
                 {
-                        PRINTF("Hello World ! Toggle false \n");
-
-                        uint8_t myText[19] = "Hello from uart6\r\n";
+                        uint8_t myText[19] = "Hello from uart1\r\n";
                         huart1.write(myText, sizeof(myText));
 
                 }
