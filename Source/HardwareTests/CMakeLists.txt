@@ -1,9 +1,8 @@
 target_sources(RodosPlayground_HelloUart PRIVATE HelloUart.cpp)
 target_link_libraries(RodosPlayground_HelloUart PRIVATE rodos::rodos)
 
-target_sources(RodosPlayground_GPIO_test PRIVATE GPIO_test.cpp)
-target_link_libraries(RodosPlayground_GPIO_test PRIVATE rodos::rodos)
+target_sources(RodosPlayground_HelloGpio PRIVATE HelloGpio.cpp)
+target_link_libraries(RodosPlayground_HelloGpio PRIVATE rodos::rodos)
 
-add_executable(RodosPlayground_Hello_SPI_UART)
-target_sources(RodosPlayground_Hello_SPI_UART PRIVATE Hello_SPI_UART.cpp)
-target_link_libraries(RodosPlayground_Hello_SPI_UART PRIVATE rodos::rodos)
+target_sources(RodosPlayground_HelloSpi PRIVATE HelloSpi.cpp)
+target_link_libraries(RodosPlayground_HelloSpi PRIVATE rodos::rodos)

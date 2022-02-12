@@ -16,7 +16,7 @@ docs_early_return()
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
-# ---- Declare library and executable ----
+# --- Declare targets ---
 
 add_library(RodosPlayground_lib OBJECT)
 
@@ -26,14 +26,16 @@ set_target_properties(RodosPlayground_HelloWorld PROPERTIES OUTPUT_NAME HelloWor
 add_executable(RodosPlayground_HelloUart)
 set_target_properties(RodosPlayground_HelloUart PROPERTIES OUTPUT_NAME HelloUart)
 
+add_executable(RodosPlayground_HelloGpio)
+set_target_properties(RodosPlayground_HelloGpio PROPERTIES OUTPUT_NAME HelloGpio)
 
-add_executable(RodosPlayground_GPIO_test)
-set_target_properties(RodosPlayground_GPIO_test PROPERTIES OUTPUT_NAME GPIO_test)
+add_executable(RodosPlayground_HelloSpi)
+set_target_properties(RodosPlayground_HelloSpi PROPERTIES OUTPUT_NAME HelloSpi)
 
 add_subdirectory(Source)
 
 # Automatically call objcopy on the executable targets after the build
-
+# TODO: Add this custom command to every executable
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     add_custom_command(
         TARGET RodosPlayground_HelloWorld
@@ -45,7 +47,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     )
 endif()
 
-# ---- Developer mode ----
+# --- Developer mode ---
 
 if(NOT RodosPlayground_DEVELOPER_MODE)
     return()
