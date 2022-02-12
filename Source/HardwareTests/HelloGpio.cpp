@@ -87,35 +87,38 @@ HAL_GPIO PA1(GPIO_001);
 HAL_GPIO PA2(GPIO_002);
 
 const int nbPinsToTest = 40;
-HAL_GPIO  pinsToTest[nbPinsToTest] = {PA3,PA5,PA6,PA7,PC4,PC5,PB0,PB1,PB12,PB13,PB14,PB15,PC7,PC9,PA8,PA9,PA10,PA11,PA12,PA13,PA14,PA15,PC10,PC11,PC12,PD2,PB3,PB4,PB5,PB6,PB7,PB8,PB9,PC13,PC0,PC1,PC2,PC3,PA1,PA2};
-
+HAL_GPIO pinsToTest[nbPinsToTest] = {PA3,  PA5,  PA6,  PA7,  PC4,  PC5, PB0,  PB1,  PB12, PB13,
+                                     PB14, PB15, PC7,  PC9,  PA8,  PA9, PA10, PA11, PA12, PA13,
+                                     PA14, PA15, PC10, PC11, PC12, PD2, PB3,  PB4,  PB5,  PB6,
+                                     PB7,  PB8,  PB9,  PC13, PC0,  PC1, PC2,  PC3,  PA1,  PA2};
 
 
 namespace rpg
 {
-
 class HelloWorld : public StaticThread<>
 {
-        void init() override {
-                for (auto & i : pinsToTest) {
-                        i.init(/*isOutput=*/true, 1, 0);
-                }
-        }
+  void init() override
+  {
+    for(auto & i : pinsToTest)
+    {
+      i.init(/*isOutput=*/true, 1, 0);
+    }
+  }
 
-        void run() override
-        {
-        auto toggle = true;
+  void run() override
+  {
+    auto toggle = true;
 
-        TIME_LOOP(0, 500 * MILLISECONDS)
-        {
-                for (auto & i : pinsToTest) {
-                        i.setPins(static_cast<uint32_t>(toggle));
-                }
+    TIME_LOOP(0, 500 * MILLISECONDS)
+    {
+      for(auto & i : pinsToTest)
+      {
+        i.setPins(static_cast<uint32_t>(toggle));
+      }
 
-                toggle = not toggle;
-
-                }
-        }
+      toggle = not toggle;
+    }
+  }
 };
 
 auto const helloWorld = HelloWorld();

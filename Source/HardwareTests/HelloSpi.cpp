@@ -13,7 +13,7 @@ class HelloWorld : public StaticThread<>
 {
   void run() override
   {
-    SPI1.init(); 
+    SPI1.init();
 
     TIME_LOOP(0, 2000 * MILLISECONDS)
     {
