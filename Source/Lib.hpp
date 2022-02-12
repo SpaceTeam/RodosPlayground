@@ -7,7 +7,6 @@
 
 namespace rpg
 {
-
 /**
  * @brief The core implementation of the executable
  *

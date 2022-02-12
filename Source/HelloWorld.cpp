@@ -16,10 +16,12 @@ class HelloWorld : public StaticThread<>
     {
       if(toggle)
       {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("Hello World from %s!\n", library.name.data());
       }
       else
       {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("Hello World from %s!\n", library.shortName.c_str());
       }
       toggle = not toggle;

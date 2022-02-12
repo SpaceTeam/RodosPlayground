@@ -20,7 +20,7 @@ Quick installation instructions for those can be found [here](https://wiki.tust.
 
 ### Toolchain files
 
-Generally toolchain files are specific to the target platforms as well as your environment and setup
+Generally, toolchain files are specific to the target platforms as well as your environment and setup
 but not to your project. Therefore they are not supplied with this repo and should be kept at some "global" directory (I, e.g., use `~/programming/cmake/`). A toolchain file for an STM32F411 can look something like the following:
 
 ```cmake
@@ -31,25 +31,16 @@ but not to your project. Therefore they are not supplied with this repo and shou
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR ARM)
 
-if(MINGW
-   OR CYGWIN
-   OR WIN32
-)
-    set(UTIL_SEARCH_CMD where)
-elseif(UNIX OR APPLE)
-    set(UTIL_SEARCH_CMD which)
-endif()
-
 set(TOOLCHAIN_PREFIX arm-none-eabi-)
 
 # Find path to the cross compiler toolchain
 execute_process(
-    COMMAND ${UTIL_SEARCH_CMD} ${TOOLCHAIN_PREFIX}gcc
+    COMMAND which ${TOOLCHAIN_PREFIX}gcc
     OUTPUT_VARIABLE BINUTILS_PATH
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Without that flag CMake is not able to pass test compilation check
+# Use newlib nano because it is smaller
 set(CMAKE_EXE_LINKER_FLAGS_INIT "--specs=nano.specs")
 
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
@@ -79,13 +70,13 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 # ##################################################################################################
 
 # Root folder containing platform specific stuff like libraries
-set(stm32f411_root "/usr/local/stm32f411")
-list(APPEND CMAKE_FIND_ROOT_PATH "${stm32f411_root}")
+set(platform_root "/usr/local/stm32f411")
+list(APPEND CMAKE_FIND_ROOT_PATH "${platform_root}")
 # For some reason the toolchain file always runs twice, so REMOVE_DUPLICATES is used to get rid of
-# the 2. BINUTILS_PATH
+# the 2. platform_root that gets appended
 list(REMOVE_DUPLICATES CMAKE_FIND_ROOT_PATH)
 
-set(linker_script "${stm32f411_root}/src/rodos/src/bare-metal/stm32f4/scripts/stm32f411xe_flash.ld")
+set(linker_script "${platform_root}/src/rodos/src/bare-metal/stm32f4/scripts/stm32f411xe_flash.ld")
 message("Linker script used: ${linker_script}")
 
 # TODO: Find out why if(NOT DEFINED HSE_VALUE) does not work as expected and fails the second time
@@ -106,7 +97,7 @@ add_link_options(
 )
 ```
 
-You must at least change the `stm32f411_root` variable to point to the directory in which you install all your cross-compiled libraries for the STM32F411.
+You must at least change the `platform_root` variable to point to the directory in which you install all your cross-compiled libraries for the target platform (=STM32F411).
 
 ### Presets
 
@@ -219,13 +210,13 @@ cmake --build --preset=dev-linux-x86
 ctest --preset=dev-linux-x86
 ```
 
-To run the HelloWorld example run
+To run the HelloWorld example execute
 
 ```sh
 ./build/linux-x86/HelloWorld
 ```
 
-### Configure, build and flash for/onto Nucleo-F411RE board
+### Configure and build for as well as flash onto Nucleo-F411RE board
 
 If you followed the above instructions, then you can configure and build the project for the
 Nucleo-F411RE board respectively with the following commands from the project root:
@@ -236,7 +227,7 @@ cmake --build --preset=dev-nucleo
 ```
 
 To flash the example binary `HelloWorld.bin` onto the Nucleo board, copy it from
-`build/discovery_f411` to the the storage device the board registers as when connected to a PC.
+`build/nucleo` to the the storage device the board registers as when connected to a PC.
 
 # Licensing
 
