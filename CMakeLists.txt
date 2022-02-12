@@ -35,16 +35,13 @@ set_target_properties(RodosPlayground_HelloSpi PROPERTIES OUTPUT_NAME HelloSpi)
 add_subdirectory(Source)
 
 # Automatically call objcopy on the executable targets after the build
-# TODO: Add this custom command to every executable
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
-    add_custom_command(
-        TARGET RodosPlayground_HelloWorld
-        POST_BUILD
-        COMMAND "${CMAKE_OBJCOPY}" -O binary HelloWorld HelloWorld.bin
-        BYPRODUCTS HelloWorld.bin
-        COMMENT "Calling objcopy to generate flashable .bin file."
-        VERBATIM
-    )
+    include(cmake/custom-commands.cmake)
+
+    objcopy_target(RodosPlayground_HelloWorld)
+    objcopy_target(RodosPlayground_HelloUart)
+    objcopy_target(RodosPlayground_HelloGpio)
+    objcopy_target(RodosPlayground_HelloSpi)
 endif()
 
 # --- Developer mode ---
