@@ -16,29 +16,35 @@ docs_early_return()
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
-# ---- Declare library and executable ----
+# --- Declare targets ---
 
 add_library(RodosPlayground_lib OBJECT)
 
 add_executable(RodosPlayground_HelloWorld)
 set_target_properties(RodosPlayground_HelloWorld PROPERTIES OUTPUT_NAME HelloWorld)
 
+add_executable(RodosPlayground_HelloUart)
+set_target_properties(RodosPlayground_HelloUart PROPERTIES OUTPUT_NAME HelloUart)
+
+add_executable(RodosPlayground_HelloGpio)
+set_target_properties(RodosPlayground_HelloGpio PROPERTIES OUTPUT_NAME HelloGpio)
+
+add_executable(RodosPlayground_HelloSpi)
+set_target_properties(RodosPlayground_HelloSpi PROPERTIES OUTPUT_NAME HelloSpi)
+
 add_subdirectory(Source)
 
 # Automatically call objcopy on the executable targets after the build
-
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
-    add_custom_command(
-        TARGET RodosPlayground_HelloWorld
-        POST_BUILD
-        COMMAND "${CMAKE_OBJCOPY}" -O binary HelloWorld HelloWorld.bin
-        BYPRODUCTS HelloWorld.bin
-        COMMENT "Calling objcopy to generate flashable .bin file."
-        VERBATIM
-    )
+    include(cmake/custom-commands.cmake)
+
+    objcopy_target(RodosPlayground_HelloWorld)
+    objcopy_target(RodosPlayground_HelloUart)
+    objcopy_target(RodosPlayground_HelloGpio)
+    objcopy_target(RodosPlayground_HelloSpi)
 endif()
 
-# ---- Developer mode ----
+# --- Developer mode ---
 
 if(NOT RodosPlayground_DEVELOPER_MODE)
     return()
