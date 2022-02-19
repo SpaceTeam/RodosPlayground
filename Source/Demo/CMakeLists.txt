@@ -9,3 +9,6 @@ target_link_libraries(RodosPlayground_EduHeartbeat PRIVATE rodos::rodos)
 
 target_sources(RodosPlayground_HelloHeartbeat PRIVATE HelloHeartbeat.cpp)
 target_link_libraries(RodosPlayground_HelloHeartbeat PRIVATE rodos::rodos)
+
+target_sources(RodosPlayground_EduHeartbeatInterrupt PRIVATE EduHeartbeatInterrupt.cpp)
+target_link_libraries(RodosPlayground_EduHeartbeatInterrupt PRIVATE rodos::rodos)

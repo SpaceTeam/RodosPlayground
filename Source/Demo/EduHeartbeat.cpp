@@ -3,11 +3,11 @@
 auto const green = GPIO_005;
 auto const eduHearbeatPin = GPIO_037;  // PC5
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO greenLed(green);
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 HAL_GPIO eduHeartbeat(eduHearbeatPin);
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+HAL_GPIO greenLed(green);
 
 namespace rpg
 {
@@ -15,44 +15,49 @@ class HelloWorld : public StaticThread<>
 {
   void init() override
   {
-    greenLed.init(/*isOutput=*/true, 1, 0);
     eduHeartbeat.init(/*isOutput=*/false, 1, 0);
+    greenLed.init(/*isOutput=*/true, 1, 0);
   }
 
   void run() override
   {
-    auto toggle = true;
-    auto hearbeatChanges = 0;
-    auto const treshold = 3;
+    auto heartBeatIsConstant = true;
+    auto const treshold = 4;
+    auto samplingCount = 0;
     auto eduHeartbeatPrevValue = eduHeartbeat.readPins();
 
-    TIME_LOOP(0, 1500 * MILLISECONDS)
+    TIME_LOOP(0, 50 * MILLISECONDS)
     {
-      greenLed.setPins(static_cast<uint32_t>(toggle));
       auto eduHeartbeatvalue = eduHeartbeat.readPins();
+      ++samplingCount;
 
       // NOLINTNEXTLINE
       PRINTF("EDU hearbeat value is : %lu \n", eduHeartbeatvalue);
 
-      // Get hearbeat every x seconds.
-      // If hearbeat is different from previous, increment a counter.
-      // When counter is superior to manually defined treshold, print
-      // that edu is alive to the standart output.
 
-      if(eduHeartbeatvalue != eduHeartbeatPrevValue)
-      {
-        ++hearbeatChanges;
-      }
-
-      if(hearbeatChanges > treshold)
+      if(heartBeatIsConstant and (eduHeartbeatvalue != eduHeartbeatPrevValue))
       {
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("EDU is alive !\n");
+        heartBeatIsConstant = false;
+        greenLed.setPins(1);
       }
 
       eduHeartbeatPrevValue = eduHeartbeatvalue;
 
-      toggle = not toggle;
+      // Heartbeat is constant over the last 4* Sampling Period
+      if(samplingCount == treshold)
+      {
+        if(heartBeatIsConstant)
+        {
+          // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
+          PRINTF("EDU is dead !\n");
+          greenLed.setPins(0);
+        }
+        heartBeatIsConstant = true;
+        // reset timeout counter
+        samplingCount = 0;
+      }
     }
   }
 };

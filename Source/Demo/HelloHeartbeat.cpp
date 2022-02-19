@@ -22,7 +22,7 @@ class HelloWorld : public StaticThread<>
   {
     auto toggle = true;
 
-    TIME_LOOP(0, 1500 * MILLISECONDS)
+    TIME_LOOP(0, 100 * MILLISECONDS)
     {
       greenLed.setPins(static_cast<uint32_t>(toggle));
       auto eduHeartbeatvalue = eduHeartbeat.readPins();

@@ -21,7 +21,7 @@ include(cmake/variables.cmake)
 add_library(RodosPlayground_lib OBJECT)
 
 set(TargetsList
-    "HelloWorld;HelloUart;HelloGpio;HelloSpi;ResetCounter;HelloHeartbeat;Beacon;EduHeartbeat"
+        "HelloWorld;HelloUart;HelloGpio;HelloSpi;ResetCounter;HelloHeartbeat;Beacon;EduHeartbeat;EduHeartbeatInterrupt"
 )
 
 function(add_exec_output name)
