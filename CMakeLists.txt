@@ -20,30 +20,18 @@ include(cmake/variables.cmake)
 
 add_library(RodosPlayground_lib OBJECT)
 
-add_executable(RodosPlayground_HelloWorld)
-set_target_properties(RodosPlayground_HelloWorld PROPERTIES OUTPUT_NAME HelloWorld)
+set(TargetsList
+    "HelloWorld;HelloUart;HelloGpio;HelloSpi;ResetCounter;HelloHeartbeat;Beacon;EduHeartbeat"
+)
 
-add_executable(RodosPlayground_HelloUart)
-set_target_properties(RodosPlayground_HelloUart PROPERTIES OUTPUT_NAME HelloUart)
+function(add_exec_output name)
+    add_executable("RodosPlayground_${name}")
+    set_target_properties("RodosPlayground_${name}" PROPERTIES OUTPUT_NAME "${name}")
+endfunction()
 
-add_executable(RodosPlayground_HelloGpio)
-set_target_properties(RodosPlayground_HelloGpio PROPERTIES OUTPUT_NAME HelloGpio)
-
-add_executable(RodosPlayground_HelloSpi)
-set_target_properties(RodosPlayground_HelloSpi PROPERTIES OUTPUT_NAME HelloSpi)
-
-add_executable(RodosPlayground_ResetCounter)
-set_target_properties(RodosPlayground_ResetCounter PROPERTIES OUTPUT_NAME ResetCounter)
-
-add_executable(RodosPlayground_HelloHeartbeat)
-set_target_properties(RodosPlayground_HelloHeartbeat PROPERTIES OUTPUT_NAME HelloHearbeat)
-
-add_executable(RodosPlayground_Beacon)
-set_target_properties(RodosPlayground_Beacon PROPERTIES OUTPUT_NAME Beacon)
-
-add_executable(RodosPlayground_EduHeartbeat)
-set_target_properties(RodosPlayground_EduHeartbeat PROPERTIES OUTPUT_NAME EduHeartbeat)
-
+foreach(TargetName ${TargetsList})
+    add_exec_output(${TargetName})
+endforeach()
 
 add_subdirectory(Source)
 
@@ -51,14 +39,10 @@ add_subdirectory(Source)
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     include(cmake/custom-commands.cmake)
 
-    objcopy_target(RodosPlayground_HelloWorld)
-    objcopy_target(RodosPlayground_HelloUart)
-    objcopy_target(RodosPlayground_HelloGpio)
-    objcopy_target(RodosPlayground_HelloSpi)
-    objcopy_target(RodosPlayground_ResetCounter)
-    objcopy_target(RodosPlayground_Beacon)
-    objcopy_target(RodosPlayground_HelloHeartbeat)
-    objcopy_target(RodosPlayground_EduHeartbeat)
+    foreach(TargetName ${TargetsList})
+        objcopy_target(RodosPlayground_${TargetName})
+    endforeach()
+
 endif()
 
 # --- Developer mode ---
