@@ -35,6 +35,15 @@ set_target_properties(RodosPlayground_HelloSpi PROPERTIES OUTPUT_NAME HelloSpi)
 add_executable(RodosPlayground_ResetCounter)
 set_target_properties(RodosPlayground_ResetCounter PROPERTIES OUTPUT_NAME ResetCounter)
 
+add_executable(RodosPlayground_HelloHeartbeat)
+set_target_properties(RodosPlayground_HelloHeartbeat PROPERTIES OUTPUT_NAME HelloHearbeat)
+
+add_executable(RodosPlayground_Beacon)
+set_target_properties(RodosPlayground_Beacon PROPERTIES OUTPUT_NAME Beacon)
+
+add_executable(RodosPlayground_EduHeartbeat)
+set_target_properties(RodosPlayground_EduHeartbeat PROPERTIES OUTPUT_NAME EduHeartbeat)
+
 
 add_subdirectory(Source)
 
@@ -46,6 +55,10 @@ if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     objcopy_target(RodosPlayground_HelloUart)
     objcopy_target(RodosPlayground_HelloGpio)
     objcopy_target(RodosPlayground_HelloSpi)
+    objcopy_target(RodosPlayground_ResetCounter)
+    objcopy_target(RodosPlayground_Beacon)
+    objcopy_target(RodosPlayground_HelloHeartbeat)
+    objcopy_target(RodosPlayground_EduHeartbeat)
 endif()
 
 # --- Developer mode ---

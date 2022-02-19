@@ -1,7 +1,7 @@
 #include <rodos.h>
 
-#include <rodos/src/bare-metal/stm32f4/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_pwr.h>
-#include <rodos/src/bare-metal/stm32f4/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_rtc.h>
+#include <stm32f4xx_pwr.h>
+#include <stm32f4xx_rtc.h>
 
 namespace rpg
 {
@@ -14,8 +14,6 @@ class HelloWorld : public StaticThread<>
 
     // 2: Enable access to RTC domain using the PWR_BackupAccessCmd() function.
     PWR_BackupAccessCmd(ENABLE);
-
-
   }
 
   void run() override
@@ -23,12 +21,15 @@ class HelloWorld : public StaticThread<>
     auto backupRegisterValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
     ++backupRegisterValue;
     RTC_WriteBackupRegister(RTC_BKP_DR0, backupRegisterValue);
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
     PRINTF("Incremented reset counter\n");
 
     TIME_LOOP(0, 1500 * MILLISECONDS)
     {
       auto regValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Successfully read from rtc_bkp_dr0\n");
+      // NOLINTNEXTLINE
       PRINTF("Value is %lu\n", regValue);
     }
   }
