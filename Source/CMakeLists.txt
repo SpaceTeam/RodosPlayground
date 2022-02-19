@@ -25,3 +25,4 @@ target_sources(RodosPlayground_HelloWorld PRIVATE HelloWorld.cpp)
 target_link_libraries(RodosPlayground_HelloWorld PRIVATE rodos::rodos RodosPlayground_lib)
 
 add_subdirectory(HardwareTests)
+add_subdirectory(Demo)

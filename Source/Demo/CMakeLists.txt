@@ -1,0 +1,2 @@
+target_sources(RodosPlayground_ResetCounter PRIVATE ResetCounter.cpp)
+target_link_libraries(RodosPlayground_ResetCounter PRIVATE rodos::rodos)

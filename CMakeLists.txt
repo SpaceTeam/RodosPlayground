@@ -32,6 +32,10 @@ set_target_properties(RodosPlayground_HelloGpio PROPERTIES OUTPUT_NAME HelloGpio
 add_executable(RodosPlayground_HelloSpi)
 set_target_properties(RodosPlayground_HelloSpi PROPERTIES OUTPUT_NAME HelloSpi)
 
+add_executable(RodosPlayground_ResetCounter)
+set_target_properties(RodosPlayground_ResetCounter PROPERTIES OUTPUT_NAME ResetCounter)
+
+
 add_subdirectory(Source)
 
 # Automatically call objcopy on the executable targets after the build
