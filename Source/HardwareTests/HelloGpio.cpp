@@ -69,7 +69,7 @@ class HelloGpio : public StaticThread<>
   {
     auto toggle = true;
 
-    TIME_LOOP(0, 500 * MILLISECONDS)
+    TIME_LOOP(0, 100 * MILLISECONDS)
     {
       for(auto & i : pinsToTest)
       {
