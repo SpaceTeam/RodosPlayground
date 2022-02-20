@@ -47,17 +47,11 @@ constexpr auto PC3 = GPIO_035;   // NOLINT(readability-identifier-naming)
 constexpr auto PA1 = GPIO_001;   // NOLINT(readability-identifier-naming)
 constexpr auto PA2 = GPIO_002;   // NOLINT(readability-identifier-naming)
 
-
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-auto pinsToTest = std::array{
-  HAL_GPIO(PA3),  HAL_GPIO(PA5),  HAL_GPIO(PA6),  HAL_GPIO(PA7),  HAL_GPIO(PC4),  HAL_GPIO(PC5),
-  HAL_GPIO(PB0),  HAL_GPIO(PB1),  HAL_GPIO(PB12), HAL_GPIO(PB13), HAL_GPIO(PB14), HAL_GPIO(PB15),
-  HAL_GPIO(PC7),  HAL_GPIO(PC9),  HAL_GPIO(PA8),  HAL_GPIO(PA9),  HAL_GPIO(PA10), HAL_GPIO(PA11),
-  HAL_GPIO(PA12), HAL_GPIO(PA13), HAL_GPIO(PA14), HAL_GPIO(PA15), HAL_GPIO(PC10), HAL_GPIO(PC11),
-  HAL_GPIO(PC12), HAL_GPIO(PD2),  HAL_GPIO(PB3),  HAL_GPIO(PB4),  HAL_GPIO(PB5),  HAL_GPIO(PB6),
-  HAL_GPIO(PB7),  HAL_GPIO(PB8),  HAL_GPIO(PB9),  HAL_GPIO(PC13), HAL_GPIO(PC0),  HAL_GPIO(PC1),
-  HAL_GPIO(PC2),  HAL_GPIO(PC3),  HAL_GPIO(PA1),  HAL_GPIO(PA2)};
-
+auto pinsToTest = std::to_array<HAL_GPIO>(
+  {PA3, PA5, PA6,  PA7,  PC4,  PC5,  PB0,  PB1,  PB12, PB13, PB14, PB15, PC7, PC9,
+   PA8, PA9, PA10, PA11, PA12, PA13, PA14, PA15, PC10, PC11, PC12, PD2,  PB3, PB4,
+   PB5, PB6, PB7,  PB8,  PB9,  PC13, PC0,  PC1,  PC2,  PC3,  PA1,  PA2});
 
 class HelloGpio : public StaticThread<>
 {
