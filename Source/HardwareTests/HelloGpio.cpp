@@ -1,3 +1,10 @@
+//! @file
+//! @brief  A program for testing most GPIO pins of the COBC.
+//!
+//! If you flash `HelloGpio.bin` onto the COBC, all 40 rpg::pinsToTest will be toggeled with a
+//! frequency of 5 Hz.
+
+
 #include <rodos.h>
 
 #include <array>
