@@ -1,7 +1,7 @@
 //! @file
 //! @brief  A program for testing the four SPIs of the COBC.
 //!
-//! Prerequisits:
+//! Prerequisites:
 //!   - requires UART2 = COBC UCI UART to work
 //!
 //! Preparation:

@@ -12,7 +12,7 @@
 
 namespace rpg
 {
-// TODO: Put this in a separat file like PinNames.hpp, PinDeclarations.hpp, Pins.hpp or something
+// TODO: Put this in a separate file like PinNames.hpp, PinDeclarations.hpp, Pins.hpp or something
 constexpr auto pa1 = GPIO_001;
 constexpr auto pa2 = GPIO_002;
 constexpr auto pa3 = GPIO_003;
