@@ -1,3 +1,10 @@
+//! @file
+//! @brief  A program for testing most GPIO pins of the COBC.
+//!
+//! If you flash `HelloGpio.bin` onto the COBC, all 40 rpg::pinsToTest will be toggeled with a
+//! frequency of 5 Hz.
+
+
 #include <rodos.h>
 
 #include <array>
@@ -6,57 +13,53 @@
 namespace rpg
 {
 // TODO: Put this in a separat file like PinNames.hpp, PinDeclarations.hpp, Pins.hpp or something
-constexpr auto PA3 = GPIO_003;   // NOLINT(readability-identifier-naming)
-constexpr auto PA5 = GPIO_005;   // NOLINT(readability-identifier-naming)
-constexpr auto PA6 = GPIO_006;   // NOLINT(readability-identifier-naming)
-constexpr auto PA7 = GPIO_007;   // NOLINT(readability-identifier-naming)
-constexpr auto PC4 = GPIO_036;   // NOLINT(readability-identifier-naming)
-constexpr auto PC5 = GPIO_037;   // NOLINT(readability-identifier-naming)
-constexpr auto PB0 = GPIO_016;   // NOLINT(readability-identifier-naming)
-constexpr auto PB1 = GPIO_017;   // NOLINT(readability-identifier-naming)
-constexpr auto PB12 = GPIO_028;  // NOLINT(readability-identifier-naming)
-constexpr auto PB13 = GPIO_029;  // NOLINT(readability-identifier-naming)
-constexpr auto PB14 = GPIO_030;  // NOLINT(readability-identifier-naming)
-constexpr auto PB15 = GPIO_031;  // NOLINT(readability-identifier-naming)
-constexpr auto PC7 = GPIO_039;   // NOLINT(readability-identifier-naming)
-constexpr auto PC9 = GPIO_041;   // NOLINT(readability-identifier-naming)
-constexpr auto PA8 = GPIO_008;   // NOLINT(readability-identifier-naming)
-constexpr auto PA9 = GPIO_009;   // NOLINT(readability-identifier-naming)
-constexpr auto PA10 = GPIO_010;  // NOLINT(readability-identifier-naming)
-constexpr auto PA11 = GPIO_011;  // NOLINT(readability-identifier-naming)
-constexpr auto PA12 = GPIO_012;  // NOLINT(readability-identifier-naming)
-constexpr auto PA13 = GPIO_013;  // NOLINT(readability-identifier-naming)
-constexpr auto PA14 = GPIO_014;  // NOLINT(readability-identifier-naming)
-constexpr auto PA15 = GPIO_015;  // NOLINT(readability-identifier-naming)
-constexpr auto PC10 = GPIO_042;  // NOLINT(readability-identifier-naming)
-constexpr auto PC11 = GPIO_043;  // NOLINT(readability-identifier-naming)
-constexpr auto PC12 = GPIO_044;  // NOLINT(readability-identifier-naming)
-constexpr auto PD2 = GPIO_050;   // NOLINT(readability-identifier-naming)
-constexpr auto PB3 = GPIO_019;   // NOLINT(readability-identifier-naming)
-constexpr auto PB4 = GPIO_020;   // NOLINT(readability-identifier-naming)
-constexpr auto PB5 = GPIO_021;   // NOLINT(readability-identifier-naming)
-constexpr auto PB6 = GPIO_022;   // NOLINT(readability-identifier-naming)
-constexpr auto PB7 = GPIO_023;   // NOLINT(readability-identifier-naming)
-constexpr auto PB8 = GPIO_024;   // NOLINT(readability-identifier-naming)
-constexpr auto PB9 = GPIO_025;   // NOLINT(readability-identifier-naming)
-constexpr auto PC13 = GPIO_045;  // NOLINT(readability-identifier-naming)
-constexpr auto PC0 = GPIO_032;   // NOLINT(readability-identifier-naming)
-constexpr auto PC1 = GPIO_033;   // NOLINT(readability-identifier-naming)
-constexpr auto PC2 = GPIO_034;   // NOLINT(readability-identifier-naming)
-constexpr auto PC3 = GPIO_035;   // NOLINT(readability-identifier-naming)
-constexpr auto PA1 = GPIO_001;   // NOLINT(readability-identifier-naming)
-constexpr auto PA2 = GPIO_002;   // NOLINT(readability-identifier-naming)
+constexpr auto pa1 = GPIO_001;
+constexpr auto pa2 = GPIO_002;
+constexpr auto pa3 = GPIO_003;
+constexpr auto pa5 = GPIO_005;
+constexpr auto pa6 = GPIO_006;
+constexpr auto pa7 = GPIO_007;
+constexpr auto pa8 = GPIO_008;
+constexpr auto pa9 = GPIO_009;
+constexpr auto pa10 = GPIO_010;
+constexpr auto pa11 = GPIO_011;
+constexpr auto pa12 = GPIO_012;
+constexpr auto pa13 = GPIO_013;
+constexpr auto pa14 = GPIO_014;
+constexpr auto pa15 = GPIO_015;
+constexpr auto pb0 = GPIO_016;
+constexpr auto pb1 = GPIO_017;
+constexpr auto pb3 = GPIO_019;
+constexpr auto pb4 = GPIO_020;
+constexpr auto pb5 = GPIO_021;
+constexpr auto pb6 = GPIO_022;
+constexpr auto pb7 = GPIO_023;
+constexpr auto pb8 = GPIO_024;
+constexpr auto pb9 = GPIO_025;
+constexpr auto pb12 = GPIO_028;
+constexpr auto pb13 = GPIO_029;
+constexpr auto pb14 = GPIO_030;
+constexpr auto pb15 = GPIO_031;
+constexpr auto pc0 = GPIO_032;
+constexpr auto pc1 = GPIO_033;
+constexpr auto pc2 = GPIO_034;
+constexpr auto pc3 = GPIO_035;
+constexpr auto pc4 = GPIO_036;
+constexpr auto pc5 = GPIO_037;
+constexpr auto pc7 = GPIO_039;
+constexpr auto pc9 = GPIO_041;
+constexpr auto pc10 = GPIO_042;
+constexpr auto pc11 = GPIO_043;
+constexpr auto pc12 = GPIO_044;
+constexpr auto pc13 = GPIO_045;
+constexpr auto pd2 = GPIO_050;
 
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-auto pinsToTest = std::array{
-  HAL_GPIO(PA3),  HAL_GPIO(PA5),  HAL_GPIO(PA6),  HAL_GPIO(PA7),  HAL_GPIO(PC4),  HAL_GPIO(PC5),
-  HAL_GPIO(PB0),  HAL_GPIO(PB1),  HAL_GPIO(PB12), HAL_GPIO(PB13), HAL_GPIO(PB14), HAL_GPIO(PB15),
-  HAL_GPIO(PC7),  HAL_GPIO(PC9),  HAL_GPIO(PA8),  HAL_GPIO(PA9),  HAL_GPIO(PA10), HAL_GPIO(PA11),
-  HAL_GPIO(PA12), HAL_GPIO(PA13), HAL_GPIO(PA14), HAL_GPIO(PA15), HAL_GPIO(PC10), HAL_GPIO(PC11),
-  HAL_GPIO(PC12), HAL_GPIO(PD2),  HAL_GPIO(PB3),  HAL_GPIO(PB4),  HAL_GPIO(PB5),  HAL_GPIO(PB6),
-  HAL_GPIO(PB7),  HAL_GPIO(PB8),  HAL_GPIO(PB9),  HAL_GPIO(PC13), HAL_GPIO(PC0),  HAL_GPIO(PC1),
-  HAL_GPIO(PC2),  HAL_GPIO(PC3),  HAL_GPIO(PA1),  HAL_GPIO(PA2)};
+auto pinsToTest = std::to_array<HAL_GPIO>(
+  {pa1, pa2, pa3, pa5, pa6, pa7, pa8, pa9,  pa10, pa11, pa12, pa13, pa14, pa15,
+   pb0, pb1, pb3, pb4, pb5, pb6, pb7, pb8,  pb9,  pb12, pb13, pb14, pb15, pc0,
+   pc1, pc2, pc3, pc4, pc5, pc7, pc9, pc10, pc11, pc12, pc13, pd2});
 
 
 class HelloGpio : public StaticThread<>
@@ -73,7 +76,7 @@ class HelloGpio : public StaticThread<>
   {
     auto toggle = true;
 
-    TIME_LOOP(0, 500 * MILLISECONDS)
+    TIME_LOOP(0, 100 * MILLISECONDS)
     {
       for(auto & i : pinsToTest)
       {
