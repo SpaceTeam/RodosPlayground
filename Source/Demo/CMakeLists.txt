@@ -1,8 +1,8 @@
 target_sources(RodosPlayground_ResetCounter PRIVATE ResetCounter.cpp)
 target_link_libraries(RodosPlayground_ResetCounter PRIVATE rodos::rodos)
 
-target_sources(RodosPlayground_Beacon PRIVATE Beacon.cpp)
-target_link_libraries(RodosPlayground_Beacon PRIVATE rodos::rodos)
+target_sources(RodosPlayground_Beacon PRIVATE Beacon.cpp topics.cpp EduHeartbeat.cpp)
+target_link_libraries(RodosPlayground_Beacon PRIVATE rodos::rodos etl)
 
 target_sources(RodosPlayground_EduHeartbeat PRIVATE EduHeartbeat.cpp)
 target_link_libraries(RodosPlayground_EduHeartbeat PRIVATE rodos::rodos)
