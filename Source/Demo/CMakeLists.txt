@@ -12,3 +12,6 @@ target_link_libraries(RodosPlayground_HelloHeartbeat PRIVATE rodos::rodos)
 
 target_sources(RodosPlayground_EduHeartbeatInterrupt PRIVATE EduHeartbeatInterrupt.cpp)
 target_link_libraries(RodosPlayground_EduHeartbeatInterrupt PRIVATE rodos::rodos)
+
+target_sources(RodosPlayground_CommandParser PRIVATE CommandParser.cpp CobcCommands.cpp CobcCommands.hpp)
+target_link_libraries(RodosPlayground_CommandParser PRIVATE rodos::rodos etl)
