@@ -10,15 +10,15 @@
 #include <cstring>
 #include <string_view>
 
-#include "topics.h"
-// Beacon Structure
+#include "Topics.h"
+#include <stm32f4xx_pwr.h>
+#include <stm32f4xx_rtc.h>
+
+// Beacon Structure : see https://wiki.tust.at/books/sts1/page/uart-commands-for-pcb-v1
 // 1.   Timestamp
 // 2.   Reset Counter
 // 3.   Edu Heartbeat
 // 4.   GPIO bit field
-
-#include <stm32f4xx_pwr.h>
-#include <stm32f4xx_rtc.h>
 
 namespace RODOS
 {
@@ -28,25 +28,25 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-auto const epsChargingPin = GPIO_046;     // PC14
-auto const epsBatteryGoodPin = GPIO_047;  // P15
-auto const eduEnabledPin = GPIO_016;      // PB0
-auto const eduUpdatePin = GPIO_017;       // PB1
+constexpr auto epsChargingPin = GPIO_046;     // PC14
+constexpr auto epsBatteryGoodPin = GPIO_047;  // P15
+constexpr auto eduEnabledPin = GPIO_016;      // PB0
+constexpr auto eduUpdatePin = GPIO_017;       // PB1
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO epsCharging(epsChargingPin);
+auto epsCharging = HAL_GPIO(epsChargingPin);
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO epsBatteryGood(epsBatteryGoodPin);
+auto epsBatteryGood = HAL_GPIO(epsBatteryGoodPin);
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO eduEnabled(eduEnabledPin);
+auto eduEnabled = HAL_GPIO(eduEnabledPin);
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO eduUpdate(eduUpdatePin);
+auto eduUpdate = HAL_GPIO(eduUpdatePin);
 
-// NOLINTNEXTLINE
-static CommBuffer<int32_t> buf;
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+static auto buf = CommBuffer<int32_t>();
 
-// NOLINTNEXTLINE
-static Subscriber receiverBuf(eduHeartbeatTopic, buf, "receiverBuf");
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables,cppcoreguidelines-interfaces-global-init)
+static auto receiverBuf = Subscriber(eduHeartbeatTopic, buf, "beaconReceiverBuf");
 
 class Beacon : public StaticThread<>
 {
@@ -63,18 +63,17 @@ class Beacon : public StaticThread<>
     eduUpdate.init(/*isOutput=*/false, 1, 0);
   }
 
-
-  static auto ConstructGpioBitfield(bool epsChargingValue,
-                                    bool epsBatteryGoodValue,
-                                    bool eduEnabledValue,
-                                    bool eduUpdateValue)
+  static auto ConstructGpioBitfield(bool isEpsCharging,
+                                    bool isEpsBatteryGood,
+                                    bool isEduEnabled,
+                                    bool isEduUpdate)
   {
-    auto const bitsetSize = sizeof(int32_t) * 8;
-    etl::bitset<bitsetSize> gpioBitFieldBitSet;
-    gpioBitFieldBitSet.set(0, epsChargingValue);
-    gpioBitFieldBitSet.set(1, epsBatteryGoodValue);
-    gpioBitFieldBitSet.set(2, eduEnabledValue);
-    gpioBitFieldBitSet.set(3, eduUpdateValue);
+    constexpr auto bitsetSize = sizeof(int32_t) * 8;
+    auto gpioBitFieldBitSet = etl::bitset<bitsetSize>();
+    gpioBitFieldBitSet.set(0, isEpsCharging);
+    gpioBitFieldBitSet.set(1, isEpsBatteryGood);
+    gpioBitFieldBitSet.set(2, isEduEnabled);
+    gpioBitFieldBitSet.set(3, isEduUpdate);
     return static_cast<int32_t>(gpioBitFieldBitSet.to_ulong());
   }
 
@@ -115,25 +114,21 @@ class Beacon : public StaticThread<>
     ++backupRegisterValue;
     RTC_WriteBackupRegister(RTC_BKP_DR0, backupRegisterValue);
 
-
     auto eduHeartbeatState = static_cast<int32_t>(0);
+
+
     TIME_LOOP(0, 5000 * MILLISECONDS)
     {
       auto const timestamp = static_cast<int32_t>(NOW() / MILLISECONDS);
+      auto const resetCounter = static_cast<int32_t>(RTC_ReadBackupRegister(RTC_BKP_DR0));
 
-      // NOLINTNEXTLINE
-      auto resetCounter = static_cast<int32_t>(RTC_ReadBackupRegister(RTC_BKP_DR0));
+      auto const isEpsCharging = static_cast<bool>(epsCharging.readPins());
+      auto const isEpsBatteryGood = static_cast<bool>(epsBatteryGood.readPins());
+      auto const isEduEnabled = static_cast<bool>(eduEnabled.readPins());
+      auto const isEduUpdate = static_cast<bool>(eduUpdate.readPins());
 
-      auto epsChargingValue = static_cast<bool>(epsCharging.readPins());
-      auto epsBatteryGoodValue = static_cast<bool>(epsBatteryGood.readPins());
-      auto eduEnabledValue = static_cast<bool>(eduEnabled.readPins());
-      auto eduUpdateValue = static_cast<bool>(eduUpdate.readPins());
-
-      auto gpioBitField = ConstructGpioBitfield(
-        /*epsChargingValue=*/epsChargingValue,
-        /*epsBatteryGoodValue=*/epsBatteryGoodValue,
-        /*eduEnabledValue=*/eduEnabledValue,
-        /*eduUpdateValue=*/eduUpdateValue);
+      auto gpioBitField =
+        ConstructGpioBitfield(isEpsCharging, isEpsBatteryGood, isEduEnabled, isEduUpdate);
 
       // Get the lastet value
       buf.get(eduHeartbeatState);

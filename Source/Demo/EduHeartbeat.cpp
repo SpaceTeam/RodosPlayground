@@ -1,15 +1,14 @@
 #include <rodos.h>
 
-#include "topics.h"
+#include "Topics.h"
 
-auto const green = GPIO_005;
-auto const eduHearbeatPin = GPIO_037;  // PC5
-
+constexpr auto greenLedPin = GPIO_005;     // PA5
+constexpr auto eduHearbeatPin = GPIO_037;  // PC5
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO eduHeartbeat(eduHearbeatPin);
+auto eduHeartbeat = HAL_GPIO(eduHearbeatPin);
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO greenLed(green);
+auto greenLed = HAL_GPIO(greenLedPin);
 
 namespace rpg
 {
