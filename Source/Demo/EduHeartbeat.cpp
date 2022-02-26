@@ -5,9 +5,7 @@
 constexpr auto greenLedPin = GPIO_005;     // PA5
 constexpr auto eduHearbeatPin = GPIO_037;  // PC5
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto eduHeartbeat = HAL_GPIO(eduHearbeatPin);
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto greenLed = HAL_GPIO(greenLedPin);
 
 namespace rpg

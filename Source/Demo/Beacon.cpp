@@ -22,7 +22,7 @@
 
 namespace RODOS
 {
-// NOLINTNEXTLINE(readability-identifier-naming, cppcoreguidelines-avoid-non-const-global-variables)
+// NOLINTNEXTLINE(readability-identifier-naming)
 extern HAL_UART uart_stdout;
 }
 
@@ -33,19 +33,15 @@ constexpr auto epsBatteryGoodPin = GPIO_047;  // P15
 constexpr auto eduEnabledPin = GPIO_016;      // PB0
 constexpr auto eduUpdatePin = GPIO_017;       // PB1
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto epsCharging = HAL_GPIO(epsChargingPin);
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto epsBatteryGood = HAL_GPIO(epsBatteryGoodPin);
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto eduEnabled = HAL_GPIO(eduEnabledPin);
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto eduUpdate = HAL_GPIO(eduUpdatePin);
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 static auto buf = CommBuffer<int32_t>();
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables,cppcoreguidelines-interfaces-global-init)
+// NOLINTNEXTLINE(cppcoreguidelines-interfaces-global-init)
+
 static auto receiverBuf = Subscriber(eduHeartbeatTopic, buf, "beaconReceiverBuf");
 
 class Beacon : public StaticThread<>
@@ -82,28 +78,22 @@ class Beacon : public StaticThread<>
                               int32_t eduHeartbeatvalue,
                               int32_t gpioBitField)
   {
-    auto const beaconSize = sizeof(eduHeartbeatvalue) + sizeof(resetCounter) + sizeof(gpioBitField)
-                          + sizeof(timestamp) + sizeof('?');
+    auto constexpr startByte = std::byte{'?'};
+
+    auto const beaconSize = sizeof(startByte) + sizeof(eduHeartbeatvalue)
+                          + sizeof(resetCounter) + sizeof(gpioBitField) + sizeof(timestamp);
     std::array<std::byte, beaconSize> beacon{};
 
     size_t i = 0;
-
-    // NOLINTNEXTLINE
-    beacon[i] = static_cast<std::byte>('?');
-    i += sizeof('?');
-    // NOLINTNEXTLINE
+    beacon[i] = startByte;
+    i += sizeof(startByte);
     std::memcpy(&beacon[i], &timestamp, sizeof(timestamp));
     i += sizeof(timestamp);
-    // NOLINTNEXTLINE
     std::memcpy(&beacon[i], &resetCounter, sizeof(resetCounter));
     i += sizeof(resetCounter);
-    // NOLINTNEXTLINE
     std::memcpy(&beacon[i], &eduHeartbeatvalue, sizeof(eduHeartbeatvalue));
     i += sizeof(eduHeartbeatvalue);
-    // NOLINTNEXTLINE
     std::memcpy(&beacon[i], &gpioBitField, sizeof(gpioBitField));
-    // NOLINTNEXTLINE
-    i += sizeof(gpioBitField);
 
     return beacon;
   }

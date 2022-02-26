@@ -14,7 +14,6 @@ namespace rpg
 // PA10 USART1 RX
 // PA15 USART1 TX
 // TODO: See if this still works if uart1 is made const
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto uart1 = HAL_UART(UART_IDX1, GPIO_015, GPIO_010);
 
 

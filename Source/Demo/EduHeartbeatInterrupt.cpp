@@ -4,9 +4,7 @@ auto const green = GPIO_005;
 auto const eduHearbeatPin = GPIO_037;  // PC5
 
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 HAL_GPIO eduHeartbeat(eduHearbeatPin);
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 HAL_GPIO greenLed(green);
 
 namespace rpg
@@ -26,7 +24,7 @@ class HelloWorld : public StaticThread<>
 
     while(true)
     {
-      // NOLINTNEXTLINE
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Suspend until data is ready\n");
       eduHeartbeat.suspendUntilDataReady(NOW() + timeout * MILLISECONDS);
       if(eduHeartbeat.isDataReady())

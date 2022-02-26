@@ -47,7 +47,6 @@ constexpr auto PC3 = GPIO_035;   // NOLINT(readability-identifier-naming)
 constexpr auto PA1 = GPIO_001;   // NOLINT(readability-identifier-naming)
 constexpr auto PA2 = GPIO_002;   // NOLINT(readability-identifier-naming)
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto pinsToTest = std::to_array<HAL_GPIO>(
   {PA3, PA5, PA6,  PA7,  PC4,  PC5,  PB0,  PB1,  PB12, PB13, PB14, PB15, PC7, PC9,
    PA8, PA9, PA10, PA11, PA12, PA13, PA14, PA15, PC10, PC11, PC12, PD2,  PB3, PB4,

@@ -11,6 +11,8 @@ Checks: "*,\
   -altera-struct-pack-align,\
   -altera-unroll-loops,\
   -android-*,\
+  -cppcoreguidelines-avoid-non-const-global-variables,\
+  -cppcoreguidelines-pro-bounds-constant-array-index,\
   -darwin-*,\
   -fuchsia-*,\
   fuchsia-multiple-inheritance,\
