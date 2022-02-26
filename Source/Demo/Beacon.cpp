@@ -6,10 +6,12 @@
 #include <etl/string.h>
 #include <etl/to_string.h>
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cstddef>
 #include <cstring>
+#include <iterator>
 #include <string_view>
 
 #include <stm32f4xx_pwr.h>
@@ -30,7 +32,7 @@ extern HAL_UART uart_stdout;
 namespace rpg
 {
 constexpr auto epsChargingPin = GPIO_046;     // PC14
-constexpr auto epsBatteryGoodPin = GPIO_047;  // P15
+constexpr auto epsBatteryGoodPin = GPIO_047;  // PC15
 constexpr auto eduEnabledPin = GPIO_016;      // PB0
 constexpr auto eduUpdatePin = GPIO_017;       // PB1
 
@@ -39,11 +41,9 @@ auto epsBatteryGood = HAL_GPIO(epsBatteryGoodPin);
 auto eduEnabled = HAL_GPIO(eduEnabledPin);
 auto eduUpdate = HAL_GPIO(eduUpdatePin);
 
-static auto buf = CommBuffer<int32_t>();
+auto buf = CommBuffer<int32_t>();
+auto receiverBuf = Subscriber(eduHeartbeatTopic, buf, "beaconReceiverBuf");
 
-// NOLINTNEXTLINE(cppcoreguidelines-interfaces-global-init)
-
-static auto receiverBuf = Subscriber(eduHeartbeatTopic, buf, "beaconReceiverBuf");
 
 class Beacon : public StaticThread<>
 {
@@ -81,8 +81,9 @@ class Beacon : public StaticThread<>
   {
     auto constexpr startByte = '?';
 
+    // final +1 is for checksum
     auto const beaconSize = sizeof(startByte) + sizeof(eduHeartbeatvalue) + sizeof(resetCounter)
-                          + sizeof(gpioBitField) + sizeof(timestamp);
+                          + sizeof(gpioBitField) + sizeof(timestamp) + 1;
 
     auto beacon = etl::string<beaconSize + 1>();
     beacon.initialize_free_space();
@@ -97,8 +98,13 @@ class Beacon : public StaticThread<>
     std::memcpy(&beacon[i], &eduHeartbeatvalue, sizeof(eduHeartbeatvalue));
     i += sizeof(eduHeartbeatvalue);
     std::memcpy(&beacon[i], &gpioBitField, sizeof(gpioBitField));
+    i += sizeof(gpioBitField);
 
     beacon.uninitialized_resize(beaconSize);
+
+    auto checksum =
+      static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1, std::end(beacon) - 1, 0) & 0xFF);
+    std::memcpy(&beacon[i], &checksum, sizeof(checksum));
     return beacon;
   }
 
@@ -108,11 +114,10 @@ class Beacon : public StaticThread<>
     auto backupRegisterValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
     ++backupRegisterValue;
     RTC_WriteBackupRegister(RTC_BKP_DR0, backupRegisterValue);
-
     auto eduHeartbeatState = static_cast<int32_t>(0);
 
 
-    TIME_LOOP(0, 200 * MILLISECONDS)
+    TIME_LOOP(0, 500 * MILLISECONDS)
     {
       auto const timestamp = static_cast<int32_t>(NOW() / MILLISECONDS);
       auto const resetCounter = static_cast<int32_t>(RTC_ReadBackupRegister(RTC_BKP_DR0));
@@ -127,6 +132,7 @@ class Beacon : public StaticThread<>
 
       // Get the lastet value
       buf.get(eduHeartbeatState);
+
       auto beacon = ConstructBeacon(timestamp, resetCounter, eduHeartbeatState, gpioBitField);
 
       for(auto c : beacon)

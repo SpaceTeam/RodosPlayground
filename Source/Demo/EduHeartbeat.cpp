@@ -3,7 +3,7 @@
 #include <rodos.h>
 
 
-constexpr auto greenLedPin = GPIO_005;     // PA5
+constexpr auto greenLedPin = GPIO_013;     // PA5
 constexpr auto eduHearbeatPin = GPIO_037;  // PC5
 
 auto eduHeartbeat = HAL_GPIO(eduHearbeatPin);
