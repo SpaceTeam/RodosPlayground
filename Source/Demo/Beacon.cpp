@@ -79,11 +79,13 @@ class Beacon : public StaticThread<>
                               int32_t eduHeartbeatvalue,
                               int32_t gpioBitField)
   {
-    auto constexpr startByte = std::byte{'?'};
+    auto constexpr startByte = '?';
 
-    auto const beaconSize = sizeof(startByte) + sizeof(eduHeartbeatvalue)
-                          + sizeof(resetCounter) + sizeof(gpioBitField) + sizeof(timestamp);
-    std::array<std::byte, beaconSize> beacon{};
+    auto const beaconSize = sizeof(startByte) + sizeof(eduHeartbeatvalue) + sizeof(resetCounter)
+                          + sizeof(gpioBitField) + sizeof(timestamp);
+
+    auto beacon = etl::string<beaconSize + 1>();
+    beacon.initialize_free_space();
 
     size_t i = 0;
     beacon[i] = startByte;
@@ -96,8 +98,10 @@ class Beacon : public StaticThread<>
     i += sizeof(eduHeartbeatvalue);
     std::memcpy(&beacon[i], &gpioBitField, sizeof(gpioBitField));
 
+    beacon.uninitialized_resize(beaconSize);
     return beacon;
   }
+
 
   void run() override
   {
@@ -108,7 +112,7 @@ class Beacon : public StaticThread<>
     auto eduHeartbeatState = static_cast<int32_t>(0);
 
 
-    TIME_LOOP(0, 5000 * MILLISECONDS)
+    TIME_LOOP(0, 200 * MILLISECONDS)
     {
       auto const timestamp = static_cast<int32_t>(NOW() / MILLISECONDS);
       auto const resetCounter = static_cast<int32_t>(RTC_ReadBackupRegister(RTC_BKP_DR0));
@@ -123,8 +127,12 @@ class Beacon : public StaticThread<>
 
       // Get the lastet value
       buf.get(eduHeartbeatState);
-      auto const beacon = ConstructBeacon(timestamp, resetCounter, eduHeartbeatState, gpioBitField);
-      uart_stdout.write(beacon.data(), beacon.size());
+      auto beacon = ConstructBeacon(timestamp, resetCounter, eduHeartbeatState, gpioBitField);
+
+      for(auto c : beacon)
+      {
+        uart_stdout.putcharNoWait(c);
+      }
     }
   }
 };
