@@ -1,6 +1,7 @@
+#include "Topics.hpp"
+
 #include <rodos.h>
 
-#include "Topics.h"
 
 constexpr auto greenLedPin = GPIO_005;     // PA5
 constexpr auto eduHearbeatPin = GPIO_037;  // PC5

@@ -1,3 +1,5 @@
+#include "Topics.hpp"
+
 #include <rodos.h>
 
 #include <etl/bitset.h>
@@ -10,7 +12,6 @@
 #include <cstring>
 #include <string_view>
 
-#include "Topics.h"
 #include <stm32f4xx_pwr.h>
 #include <stm32f4xx_rtc.h>
 
