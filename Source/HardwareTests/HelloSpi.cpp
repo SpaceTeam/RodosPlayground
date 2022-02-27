@@ -11,7 +11,6 @@ constexpr auto spi1Miso = GPIO_006;
 constexpr auto spi1Mosi = GPIO_007;
 constexpr auto spi1Sck = GPIO_005;
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto spi1 = HAL_SPI(SPI_IDX1, spi1Sck, spi1Miso, spi1Mosi);
 
 

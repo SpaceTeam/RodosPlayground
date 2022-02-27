@@ -11,8 +11,7 @@
 
 namespace RODOS
 {
-// NOLINTNEXTLINE(readability-identifier-naming,
-// cppcoreguidelines-avoid-non-const-global-variables)
+// NOLINTNEXTLINE(readability-identifier-naming)
 
 // Include the following line to be able to read from UART when compiling for STM32
 extern HAL_UART uart_stdout;

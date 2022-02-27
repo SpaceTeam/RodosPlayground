@@ -3,9 +3,7 @@
 auto const green = GPIO_005;
 auto const eduHearbeatPin = GPIO_037;  // PC5
 
-// NOLINTNEXTLINE
 HAL_GPIO greenLed(green);
-// NOLINTNEXTLINE
 HAL_GPIO eduHeartbeat(eduHearbeatPin);
 
 namespace rpg
@@ -27,7 +25,7 @@ class HelloWorld : public StaticThread<>
       greenLed.setPins(static_cast<uint32_t>(toggle));
       auto eduHeartbeatvalue = eduHeartbeat.readPins();
 
-      // NOLINTNEXTLINE
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("EDU hearbeat value is : %lu\n", eduHeartbeatvalue);
 
       toggle = not toggle;

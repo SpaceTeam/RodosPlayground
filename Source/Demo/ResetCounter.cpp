@@ -29,7 +29,7 @@ class HelloWorld : public StaticThread<>
       auto regValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
       // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Successfully read from rtc_bkp_dr0\n");
-      // NOLINTNEXTLINE
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Value is %lu\n", regValue);
     }
   }

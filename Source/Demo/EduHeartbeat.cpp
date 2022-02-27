@@ -1,18 +1,24 @@
+#include "Topics.hpp"
+
 #include <rodos.h>
 
-auto const green = GPIO_005;
-auto const eduHearbeatPin = GPIO_037;  // PC5
 
+constexpr auto greenLedPin = GPIO_013;     // PA5
+constexpr auto eduHearbeatPin = GPIO_037;  // PC5
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO eduHeartbeat(eduHearbeatPin);
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-HAL_GPIO greenLed(green);
+auto eduHeartbeat = HAL_GPIO(eduHearbeatPin);
+auto greenLed = HAL_GPIO(greenLedPin);
 
 namespace rpg
 {
-class HelloWorld : public StaticThread<>
+class EduHeartbeat : public StaticThread<>
 {
+public:
+  EduHeartbeat() : StaticThread("EduHeartbeat")
+  {
+  }
+
+private:
   void init() override
   {
     eduHeartbeat.init(/*isOutput=*/false, 1, 0);
@@ -31,16 +37,11 @@ class HelloWorld : public StaticThread<>
       auto eduHeartbeatvalue = eduHeartbeat.readPins();
       ++samplingCount;
 
-      // NOLINTNEXTLINE
-      PRINTF("EDU hearbeat value is : %lu \n", eduHeartbeatvalue);
-
-
       if(heartBeatIsConstant and (eduHeartbeatvalue != eduHeartbeatPrevValue))
       {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
-        PRINTF("EDU is alive !\n");
         heartBeatIsConstant = false;
         greenLed.setPins(1);
+        eduHeartbeatTopic.publish(static_cast<int32_t>(true));
       }
 
       eduHeartbeatPrevValue = eduHeartbeatvalue;
@@ -50,9 +51,8 @@ class HelloWorld : public StaticThread<>
       {
         if(heartBeatIsConstant)
         {
-          // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
-          PRINTF("EDU is dead !\n");
           greenLed.setPins(0);
+          eduHeartbeatTopic.publish(static_cast<int32_t>(false));
         }
         heartBeatIsConstant = true;
         // reset timeout counter
@@ -62,5 +62,5 @@ class HelloWorld : public StaticThread<>
   }
 };
 
-auto const helloWorld = HelloWorld();
+auto const eduHeartbeat = EduHeartbeat();
 }
