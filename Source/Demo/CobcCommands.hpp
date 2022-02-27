@@ -1,11 +1,17 @@
-#ifndef COBC_COMMANDS_HPP
-#define COBC_COMMANDS_HPP
+#pragma once
 
-void turnEduOn(const size_t id);
-void turnEduOff(const size_t id);
-void sendResetCounter(const size_t id);
-void sendTemperature(const size_t id);
-void sendImage(const size_t id);
-void unhandledCommand(const size_t id);
 
-#endif //COBC_COMMANDS_HPP
+#include <rodos.h>
+
+#include <etl/string.h>
+
+
+// ETL Strings with internal buffer -> no null termination needed
+constexpr auto cmdLengthEtl = 3;
+constexpr auto maxDataLengthEtl = 64;
+
+void TurnEduOn();
+void TurnEduOff();
+void SendResetCounter(const etl::string<cmdLengthEtl> & command);
+void SendTemperature(const etl::string<cmdLengthEtl> & command);
+void SendImage(const etl::string<cmdLengthEtl> & command);
