@@ -45,52 +45,46 @@ auto const cmdStringToId = etl::make_map<etl::string<cmdLengthEtl>, CommandId>(
   etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$52", SEND_IMAGE});
 
 
-// class ReaderThread : public StaticThread<>
-// {
-//   void init() override
-//   {
+class UartIOEventReceiver : public IOEventReceiver
+{
+public:
+  void onDataReady()
+  {
+    PRINTF("DATA READY\n");
+  }
+};
 
-//   }
+UartIOEventReceiver uartIOEventReceiver;
 
-//   void run() override
-//   {
-//     while(true)
-//     {
-//       char readChar;
-//       uart1.read(&readChar, 1);
-//       PRINTF("*EDU Data ready*\n");
-//       switch (readChar)
-//       {
-//       case 'i':
-//         // Image incoming
-//         break;
-
-//       case '$':
-//         // Forward to PC
-//         char readBuffer[maxDataLengthEtl + 1];
-//         uart1.read(readBuffer, maxDataLengthEtl);
-//         PRINTF("%s\n", readBuffer);
-//         break;
-
-//       default:
-//         break;
-//       }
-//       uart1.suspendUntilDataReady();
-//     }
-//   }
-
-// };
-
-
-class CommandParserThread : public StaticThread<>
+class ReaderThread : public StaticThread<>
 {
   void init() override
   {
     auto baudrate = 115'200;
     uart1.init(baudrate);
+    uart1.setIoEventReceiver(&uartIOEventReceiver);
   }
 
+  void run() override
+  {
+    char readChar;
+    while(1)
+    {
+      while(uart1.read(&readChar, 1) > 0)
+      {
+        PRINTF("%c", readChar);
+      }
 
+      PRINTF("SUSPEND UART1\n");
+
+      uart1.suspendUntilDataReady();
+    }
+  }
+};
+
+
+class CommandParserThread : public StaticThread<>
+{
   int DispatchCommand(const etl::string<cmdLengthEtl> & command,
                       const etl::string<maxDataLengthEtl> & data)
   {
@@ -183,12 +177,12 @@ class CommandParserThread : public StaticThread<>
           nDataChars++;
         }
       }
+      PRINTF("SUSPEND UART2\n");
       uart_stdout.suspendUntilDataReady();
     }
   }
 };
 
-// auto const reader = ReaderThread();
+auto const reader = ReaderThread();
 auto const commandParser = CommandParserThread();
-
 }
