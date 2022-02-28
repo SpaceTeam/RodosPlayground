@@ -9,6 +9,7 @@
 
 #include <array>
 
+
 namespace RODOS
 {
 // NOLINTNEXTLINE(readability-identifier-naming)
@@ -19,11 +20,10 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-
 // When compiling for COBC, use pins GPIO_015 and GPIO_010
-// auto uart1 = HAL_UART(UART_IDX1, GPIO_015, GPIO_010);
+auto uart1 = HAL_UART(UART_IDX1, GPIO_015, GPIO_010);
 // When compiling for Nucleo, use pins GPIO_009 and GPIO_010
-auto uart1 = HAL_UART(UART_IDX1, GPIO_009, GPIO_010);
+// auto uart1 = HAL_UART(UART_IDX1, GPIO_009, GPIO_010);
 
 // Give and ID to every command to be called from the delegate service afterwards
 enum CommandId
@@ -50,7 +50,7 @@ class UartIOEventReceiver : public IOEventReceiver
 public:
   void onDataReady()
   {
-    PRINTF("DATA READY\n");
+    // PRINTF("DATA READY\n");
   }
 };
 
@@ -60,24 +60,24 @@ class ReaderThread : public StaticThread<>
 {
   void init() override
   {
-    auto baudrate = 115'200;
+    constexpr auto baudrate = 9'600U;
     uart1.init(baudrate);
     uart1.setIoEventReceiver(&uartIOEventReceiver);
   }
 
   void run() override
   {
-    char readChar;
-    while(1)
+    char readChar = 0;
+    while(true)
     {
       while(uart1.read(&readChar, 1) > 0)
       {
         PRINTF("%c", readChar);
       }
 
-      PRINTF("SUSPEND UART1\n");
+      // PRINTF("SUSPEND UART1\n");
 
-      uart1.suspendUntilDataReady();
+      uart1.suspendUntilDataReady(NOW() + 100 * MILLISECONDS);
     }
   }
 };
@@ -143,10 +143,10 @@ class CommandParserThread : public StaticThread<>
       auto nReceived = uart_stdout.read(&readChar, 1);
       if(nReceived != 0)
       {
-        PRINTF("%c", readChar);
+        // PRINTF("%c", readChar);
         if(readChar == '\r' or readChar == '\n')
         {
-          PRINTF("\r\n");
+          // PRINTF("\n");
           // Dispatch Command
           atCommand = true;
 
@@ -177,7 +177,7 @@ class CommandParserThread : public StaticThread<>
           nDataChars++;
         }
       }
-      PRINTF("SUSPEND UART2\n");
+      // PRINTF("SUSPEND UART2\n");
       uart_stdout.suspendUntilDataReady();
     }
   }
