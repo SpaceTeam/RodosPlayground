@@ -5,4 +5,5 @@
 #include <cstdint>
 
 
-inline Topic<int32_t> eduHeartbeatTopic(-1, "eduHeartBeatTopic");
+// TODO: Should be bool
+inline Topic<int32_t> eduIsAliveTopic(-1, "eduHeartBeatsTopic");

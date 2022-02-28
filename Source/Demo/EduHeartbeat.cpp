@@ -45,7 +45,7 @@ private:
       {
         heartbeatIsConstant = false;
         greenLedGpio.setPins(1);
-        eduHeartbeatTopic.publish(static_cast<int32_t>(true));
+        eduIsAliveTopic.publish(static_cast<int32_t>(true));
       }
 
       oldHeartbeat = heartbeat;
@@ -56,7 +56,7 @@ private:
         if(heartbeatIsConstant)
         {
           greenLedGpio.setPins(0);
-          eduHeartbeatTopic.publish(static_cast<int32_t>(false));
+          eduIsAliveTopic.publish(static_cast<int32_t>(false));
         }
         heartbeatIsConstant = true;
         samplingCount = 0;

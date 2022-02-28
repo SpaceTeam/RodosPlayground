@@ -20,7 +20,7 @@
 // 1.   Timestamp
 // 2.   Reset Counter
 // 3.   Edu Heartbeat
-// 4.   GPIO bit field
+// 4.   GPIO bitfield
 
 namespace RODOS
 {
@@ -30,21 +30,67 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-constexpr auto epsChargingPin = GPIO_046;     // PC14
-constexpr auto epsBatteryGoodPin = GPIO_047;  // PC15
-constexpr auto eduEnabledPin = GPIO_016;      // PB0
-constexpr auto eduUpdatePin = GPIO_017;       // PB1
+constexpr auto pc14 = GPIO_046;  // PC14
+constexpr auto pc15 = GPIO_047;  // PC15
+constexpr auto pb1 = GPIO_017;   // PB1
 
-auto epsCharging = HAL_GPIO(epsChargingPin);
-auto epsBatteryGood = HAL_GPIO(epsBatteryGoodPin);
-auto eduEnabled = HAL_GPIO(eduEnabledPin);
-auto eduUpdate = HAL_GPIO(eduUpdatePin);
+auto eduUpdateGpio = HAL_GPIO(pb1);
+auto epsChargingGpio = HAL_GPIO(pc14);
+auto epsBatteryGoodGpio = HAL_GPIO(pc15);
 
-auto buf = CommBuffer<int32_t>();
-auto receiverBuf = Subscriber(eduHeartbeatTopic, buf, "beaconReceiverBuf");
+auto eduIsAliveBuffer = CommBuffer<int32_t>();
+auto eduIsAliveSubscriber = Subscriber(eduIsAliveTopic, eduIsAliveBuffer, "eduIsAliveSubscriber");
 
 
-class Beacon : public StaticThread<>
+auto CreateGpioBitfield(bool epsIsCharging, bool epsBatteryIsGood, bool eduHasUpdate)
+{
+  constexpr auto nBits = sizeof(int32_t) * 8;
+  auto gpioBitField = etl::bitset<nBits>();
+  gpioBitField.set(0, epsIsCharging);
+  gpioBitField.set(1, epsBatteryIsGood);
+  gpioBitField.set(2, eduHasUpdate);
+  return static_cast<int32_t>(gpioBitField.to_ulong());
+}
+
+
+auto CreateBeacon(int32_t timestamp,
+                  int32_t resetCounter,
+                  int32_t eduIsAlive,
+                  int32_t gpioBitfield)
+{
+  constexpr auto startByte = '?';
+  uint8_t checksum = 0;
+  constexpr auto beaconSize = sizeof(startByte) + sizeof(timestamp) + sizeof(resetCounter)
+                            + sizeof(eduIsAlive) + sizeof(gpioBitfield) + sizeof(checksum);
+
+  // TODO: Use std::array of uint8_t or std::byte
+  auto beacon = etl::string<beaconSize + 1>();
+  beacon.initialize_free_space();
+
+  size_t i = 0;
+  beacon[i] = startByte;
+  i += sizeof(startByte);
+  // TODO: Add a function for this: serializeTo, copyTo, writeTo, ... increment the pointer instead
+  // of index? Make the index an in/out parameter?
+  std::memcpy(&beacon[i], &timestamp, sizeof(timestamp));
+  i += sizeof(timestamp);
+  std::memcpy(&beacon[i], &resetCounter, sizeof(resetCounter));
+  i += sizeof(resetCounter);
+  std::memcpy(&beacon[i], &eduIsAlive, sizeof(eduIsAlive));
+  i += sizeof(eduIsAlive);
+  std::memcpy(&beacon[i], &gpioBitfield, sizeof(gpioBitfield));
+  i += sizeof(gpioBitfield);
+
+  beacon.uninitialized_resize(beaconSize);
+
+  checksum =
+    static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1, std::end(beacon) - 1, 0) & 0xFF);
+  std::memcpy(&beacon[i], &checksum, sizeof(checksum));
+  return beacon;
+}
+
+
+class BeaconThread : public StaticThread<>
 {
   void init() override
   {
@@ -53,88 +99,32 @@ class Beacon : public StaticThread<>
     // 2: Enable access to RTC domain using the PWR_BackupAccessCmd() function.
     PWR_BackupAccessCmd(ENABLE);
 
-    epsCharging.init(/*isOutput=*/false, 1, 0);
-    epsBatteryGood.init(/*isOutput=*/false, 1, 0);
-    eduEnabled.init(/*isOutput=*/true, 1, 0);
-    eduUpdate.init(/*isOutput=*/false, 1, 0);
-  }
-
-  static auto ConstructGpioBitfield(bool isEpsCharging,
-                                    bool isEpsBatteryGood,
-                                    bool isEduEnabled,
-                                    bool isEduUpdate)
-  {
-    constexpr auto bitsetSize = sizeof(int32_t) * 8;
-    auto gpioBitFieldBitSet = etl::bitset<bitsetSize>();
-    gpioBitFieldBitSet.set(0, isEpsCharging);
-    gpioBitFieldBitSet.set(1, isEpsBatteryGood);
-    gpioBitFieldBitSet.set(2, isEduEnabled);
-    gpioBitFieldBitSet.set(3, isEduUpdate);
-    return static_cast<int32_t>(gpioBitFieldBitSet.to_ulong());
-  }
-
-  static auto ConstructBeacon(int32_t timestamp,
-                              int32_t resetCounter,
-                              int32_t eduHeartbeatvalue,
-                              int32_t gpioBitField)
-  {
-    auto constexpr startByte = '?';
-
-    // final +1 is for checksum
-    auto const beaconSize = sizeof(startByte) + sizeof(eduHeartbeatvalue) + sizeof(resetCounter)
-                          + sizeof(gpioBitField) + sizeof(timestamp) + 1;
-
-    auto beacon = etl::string<beaconSize + 1>();
-    beacon.initialize_free_space();
-
-    size_t i = 0;
-    beacon[i] = startByte;
-    i += sizeof(startByte);
-    std::memcpy(&beacon[i], &timestamp, sizeof(timestamp));
-    i += sizeof(timestamp);
-    std::memcpy(&beacon[i], &resetCounter, sizeof(resetCounter));
-    i += sizeof(resetCounter);
-    std::memcpy(&beacon[i], &eduHeartbeatvalue, sizeof(eduHeartbeatvalue));
-    i += sizeof(eduHeartbeatvalue);
-    std::memcpy(&beacon[i], &gpioBitField, sizeof(gpioBitField));
-    i += sizeof(gpioBitField);
-
-    beacon.uninitialized_resize(beaconSize);
-
-    auto checksum =
-      static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1, std::end(beacon) - 1, 0) & 0xFF);
-    std::memcpy(&beacon[i], &checksum, sizeof(checksum));
-    return beacon;
+    epsChargingGpio.init(/*isOutput=*/false, 1, 0);
+    epsBatteryGoodGpio.init(/*isOutput=*/false, 1, 0);
+    eduUpdateGpio.init(/*isOutput=*/false, 1, 0);
   }
 
 
   void run() override
   {
-    auto backupRegisterValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
-    ++backupRegisterValue;
-    RTC_WriteBackupRegister(RTC_BKP_DR0, backupRegisterValue);
-    auto eduHeartbeatState = static_cast<int32_t>(0);
-
+    // TODO: Move to init()
+    auto resetCounter = RTC_ReadBackupRegister(RTC_BKP_DR0);
+    ++resetCounter;
+    RTC_WriteBackupRegister(RTC_BKP_DR0, resetCounter);
 
     TIME_LOOP(0, 2000 * MILLISECONDS)
     {
       auto const timestamp = static_cast<int32_t>(NOW() / MILLISECONDS);
-      auto const resetCounter = static_cast<int32_t>(RTC_ReadBackupRegister(RTC_BKP_DR0));
-
-      auto const isEpsCharging = static_cast<bool>(epsCharging.readPins());
-      auto const isEpsBatteryGood = static_cast<bool>(epsBatteryGood.readPins());
-      // auto const isEduEnabled = static_cast<bool>(eduEnabled.readPins());
-      auto const isEduEnabled = false;
-      auto const isEduUpdate = static_cast<bool>(eduUpdate.readPins());
-
-      auto gpioBitField =
-        ConstructGpioBitfield(isEpsCharging, isEpsBatteryGood, isEduEnabled, isEduUpdate);
-
+      auto const epsIsCharging = static_cast<bool>(epsChargingGpio.readPins());
+      auto const epsBatteryIsGood = static_cast<bool>(epsBatteryGoodGpio.readPins());
+      auto const eduHasUpdate = static_cast<bool>(eduUpdateGpio.readPins());
+      auto gpioBitField = CreateGpioBitfield(epsIsCharging, epsBatteryIsGood, eduHasUpdate);
       // Get the lastet value
-      buf.get(eduHeartbeatState);
+      int32_t eduIsAlive = 0;
+      eduIsAliveBuffer.get(eduIsAlive);
 
-      auto beacon = ConstructBeacon(timestamp, resetCounter, eduHeartbeatState, gpioBitField);
-
+      auto beacon = CreateBeacon(
+        timestamp, static_cast<int32_t>(resetCounter), eduIsAlive, gpioBitField);
       for(auto c : beacon)
       {
         uart_stdout.putcharNoWait(c);
@@ -143,5 +133,6 @@ class Beacon : public StaticThread<>
   }
 };
 
-auto const beacon = Beacon();
+
+auto const beaconThread = BeaconThread();
 }
