@@ -3,64 +3,68 @@
 #include <rodos.h>
 
 
-constexpr auto greenLedPin = GPIO_013;     // PA5
-constexpr auto eduHearbeatPin = GPIO_037;  // PC5
-
-auto eduHeartbeat = HAL_GPIO(eduHearbeatPin);
-auto greenLed = HAL_GPIO(greenLedPin);
-
 namespace rpg
 {
-class EduHeartbeat : public StaticThread<>
+constexpr auto pa5 = GPIO_013;
+constexpr auto pc5 = GPIO_037;
+
+
+auto greenLedGpio = HAL_GPIO(pa5);
+auto heartbeatGpio = HAL_GPIO(pc5);
+
+
+class EduHeartbeatThread : public StaticThread<>
 {
 public:
-  EduHeartbeat() : StaticThread("EduHeartbeat")
+  EduHeartbeatThread() : StaticThread("EduHeartbeat")
   {
   }
 
 private:
   void init() override
   {
-    eduHeartbeat.init(/*isOutput=*/false, 1, 0);
-    greenLed.init(/*isOutput=*/true, 1, 0);
+    heartbeatGpio.init(/*isOutput=*/false, 1, 0);
+    greenLedGpio.init(/*isOutput=*/true, 1, 0);
   }
 
   void run() override
   {
-    auto heartBeatIsConstant = true;
-    auto const treshold = 4;
+    auto heartbeatIsConstant = true;
     auto samplingCount = 0;
-    auto eduHeartbeatPrevValue = eduHeartbeat.readPins();
+    auto oldHeartbeat = heartbeatGpio.readPins();
+    constexpr auto heartbeatFrequency = 10LL;                                     // Hz
+    constexpr auto samplingFrequency = 5LL * heartbeatFrequency;                  // Hz
+    constexpr auto samplingPeriode = 1'000LL / samplingFrequency * MILLISECONDS;  // ms
 
-    TIME_LOOP(0, 50 * MILLISECONDS)
+    TIME_LOOP(0, samplingPeriode)
     {
-      auto eduHeartbeatvalue = eduHeartbeat.readPins();
+      auto heartbeat = heartbeatGpio.readPins();
       ++samplingCount;
 
-      if(heartBeatIsConstant and (eduHeartbeatvalue != eduHeartbeatPrevValue))
+      if(heartbeatIsConstant and (heartbeat != oldHeartbeat))
       {
-        heartBeatIsConstant = false;
-        greenLed.setPins(1);
+        heartbeatIsConstant = false;
+        greenLedGpio.setPins(1);
         eduHeartbeatTopic.publish(static_cast<int32_t>(true));
       }
 
-      eduHeartbeatPrevValue = eduHeartbeatvalue;
+      oldHeartbeat = heartbeat;
 
-      // Heartbeat is constant over the last 4* Sampling Period
-      if(samplingCount == treshold)
+      // Check if heartbeat is constant over a whole heartbeat periode
+      if(samplingCount == samplingFrequency / heartbeatFrequency)
       {
-        if(heartBeatIsConstant)
+        if(heartbeatIsConstant)
         {
-          greenLed.setPins(0);
+          greenLedGpio.setPins(0);
           eduHeartbeatTopic.publish(static_cast<int32_t>(false));
         }
-        heartBeatIsConstant = true;
-        // reset timeout counter
+        heartbeatIsConstant = true;
         samplingCount = 0;
       }
     }
   }
 };
 
-auto const eduHeartbeat = EduHeartbeat();
+
+auto const eduHeartbeatThread = EduHeartbeatThread();
 }
