@@ -15,17 +15,20 @@ auto eduOnOffPin = HAL_GPIO(GPIO_016);
 // auto uart1 = HAL_UART(UART_IDX1, GPIO_009, GPIO_010);
 
 extern HAL_UART uart1;
+extern HAL_GPIO eduEnabled;
 
 
 void TurnEduOn()
 {
   PRINTF("*Turn on EDU*\n");
+  eduEnabled.setPins(1);
 }
 
 
 void TurnEduOff()
 {
   PRINTF("*Turn off EDU*\n");
+  eduEnabled.setPins(0);
 }
 
 

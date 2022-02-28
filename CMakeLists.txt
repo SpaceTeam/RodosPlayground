@@ -33,6 +33,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     add_program(Beacon)
     add_program(EduHeartbeat)
     add_program(EduHeartbeatInterrupt)
+    add_program(Demo)
 endif()
 
 add_subdirectory(Source)

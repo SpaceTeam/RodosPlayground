@@ -56,7 +56,7 @@ class Beacon : public StaticThread<>
 
     epsCharging.init(/*isOutput=*/false, 1, 0);
     epsBatteryGood.init(/*isOutput=*/false, 1, 0);
-    eduEnabled.init(/*isOutput=*/false, 1, 0);
+    eduEnabled.init(/*isOutput=*/true, 1, 0);
     eduUpdate.init(/*isOutput=*/false, 1, 0);
   }
 
@@ -117,14 +117,15 @@ class Beacon : public StaticThread<>
     auto eduHeartbeatState = static_cast<int32_t>(0);
 
 
-    TIME_LOOP(0, 500 * MILLISECONDS)
+    TIME_LOOP(0, 2000 * MILLISECONDS)
     {
       auto const timestamp = static_cast<int32_t>(NOW() / MILLISECONDS);
       auto const resetCounter = static_cast<int32_t>(RTC_ReadBackupRegister(RTC_BKP_DR0));
 
       auto const isEpsCharging = static_cast<bool>(epsCharging.readPins());
       auto const isEpsBatteryGood = static_cast<bool>(epsBatteryGood.readPins());
-      auto const isEduEnabled = static_cast<bool>(eduEnabled.readPins());
+      // auto const isEduEnabled = static_cast<bool>(eduEnabled.readPins());
+      auto const isEduEnabled = false;
       auto const isEduUpdate = static_cast<bool>(eduUpdate.readPins());
 
       auto gpioBitField =

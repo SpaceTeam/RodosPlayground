@@ -13,6 +13,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL Generic)
 
     target_sources(RodosPlayground_EduHeartbeatInterrupt PRIVATE EduHeartbeatInterrupt.cpp)
     target_link_libraries(RodosPlayground_EduHeartbeatInterrupt PRIVATE rodos::rodos)
+
+    target_sources(
+        RodosPlayground_Demo PRIVATE Beacon.cpp EduHeartbeat.cpp CommandParser.cpp CobcCommands.cpp
+                                     CobcCommands.hpp
+    )
+    target_link_libraries(RodosPlayground_Demo PRIVATE rodos::rodos etl)
 endif()
 
 target_sources(
