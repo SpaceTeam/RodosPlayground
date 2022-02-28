@@ -2,8 +2,6 @@
 
 #include <rodos.h>
 
-#include <etl/string.h>
-
 
 namespace rpg
 {

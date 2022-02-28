@@ -2,7 +2,7 @@
 
 #include <rodos.h>
 
-#include <cstddef>
+#include <cstdint>
 
 
 inline Topic<int32_t> eduHeartbeatTopic(-1, "eduHeartBeatTopic");

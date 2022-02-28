@@ -2,12 +2,7 @@
 
 #include <rodos.h>
 
-#include <etl/array.h>
-#include <etl/delegate_service.h>
 #include <etl/map.h>
-#include <etl/string.h>
-
-#include <array>
 
 
 namespace RODOS

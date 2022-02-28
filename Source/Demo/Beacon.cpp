@@ -4,17 +4,16 @@
 
 #include <etl/bitset.h>
 #include <etl/string.h>
-#include <etl/to_string.h>
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
-#include <iterator>
-#include <string_view>
 
+#include <stm32f4xx.h>
 #include <stm32f4xx_pwr.h>
+#include <stm32f4xx_rcc.h>
 #include <stm32f4xx_rtc.h>
 
 // Beacon Structure : see https://wiki.tust.at/books/sts1/page/uart-commands-for-pcb-v1
