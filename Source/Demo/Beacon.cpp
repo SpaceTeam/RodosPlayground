@@ -38,7 +38,7 @@ auto eduUpdateGpio = HAL_GPIO(pb1);
 auto epsChargingGpio = HAL_GPIO(pc14);
 auto epsBatteryGoodGpio = HAL_GPIO(pc15);
 
-auto eduIsAliveBuffer = CommBuffer<int32_t>();
+auto eduIsAliveBuffer = CommBuffer<bool>();
 auto eduIsAliveSubscriber = Subscriber(eduIsAliveTopic, eduIsAliveBuffer, "eduIsAliveSubscriber");
 
 
@@ -53,15 +53,15 @@ auto CreateGpioBitfield(bool epsIsCharging, bool epsBatteryIsGood, bool eduHasUp
 }
 
 
-auto CreateBeacon(int32_t timestamp,
-                  int32_t resetCounter,
-                  int32_t eduIsAlive,
-                  int32_t gpioBitfield)
+auto CreateBeacon(int32_t timestamp, int32_t resetCounter, bool eduIsAlive, int32_t gpioBitfield)
 {
   constexpr auto startByte = '?';
   uint8_t checksum = 0;
+  // TODO: Think of a better name
+  // NOLINTNEXTLINE(readability-identifier-naming)
+  auto eduIsAlive_ = static_cast<int32_t>(eduIsAlive);
   constexpr auto beaconSize = sizeof(startByte) + sizeof(timestamp) + sizeof(resetCounter)
-                            + sizeof(eduIsAlive) + sizeof(gpioBitfield) + sizeof(checksum);
+                            + sizeof(eduIsAlive_) + sizeof(gpioBitfield) + sizeof(checksum);
 
   // TODO: Use std::array of uint8_t or std::byte
   auto beacon = etl::string<beaconSize + 1>();
@@ -76,8 +76,8 @@ auto CreateBeacon(int32_t timestamp,
   i += sizeof(timestamp);
   std::memcpy(&beacon[i], &resetCounter, sizeof(resetCounter));
   i += sizeof(resetCounter);
-  std::memcpy(&beacon[i], &eduIsAlive, sizeof(eduIsAlive));
-  i += sizeof(eduIsAlive);
+  std::memcpy(&beacon[i], &eduIsAlive_, sizeof(eduIsAlive_));
+  i += sizeof(eduIsAlive_);
   std::memcpy(&beacon[i], &gpioBitfield, sizeof(gpioBitfield));
   i += sizeof(gpioBitfield);
 
@@ -120,11 +120,11 @@ class BeaconThread : public StaticThread<>
       auto const eduHasUpdate = static_cast<bool>(eduUpdateGpio.readPins());
       auto gpioBitField = CreateGpioBitfield(epsIsCharging, epsBatteryIsGood, eduHasUpdate);
       // Get the lastet value
-      int32_t eduIsAlive = 0;
+      auto eduIsAlive = false;
       eduIsAliveBuffer.get(eduIsAlive);
 
-      auto beacon = CreateBeacon(
-        timestamp, static_cast<int32_t>(resetCounter), eduIsAlive, gpioBitField);
+      auto beacon =
+        CreateBeacon(timestamp, static_cast<int32_t>(resetCounter), eduIsAlive, gpioBitField);
       for(auto c : beacon)
       {
         uart_stdout.putcharNoWait(c);
