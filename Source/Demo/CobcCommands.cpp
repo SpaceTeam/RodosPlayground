@@ -5,28 +5,24 @@
 
 namespace rpg
 {
-// PB0 = GPIO_016 ... EDU on/off
-auto eduOnOffPin = HAL_GPIO(GPIO_016);
-// When compiling for COBC, use pins GPIO_015 and GPIO_010
-// auto uart1 = HAL_UART(UART_IDX1, GPIO_015, GPIO_010);
-// When compiling for Nucleo, use pins GPIO_009 and GPIO_010
-// auto uart1 = HAL_UART(UART_IDX1, GPIO_009, GPIO_010);
+constexpr auto pb0 = GPIO_016;  // PB0
+
 
 extern HAL_UART uart1;
-extern HAL_GPIO eduEnabled;
+auto eduEnabledGpio = HAL_GPIO(pb0);
 
 
 void TurnEduOn()
 {
   PRINTF("*Turn on EDU*\n");
-  eduEnabled.setPins(1);
+  eduEnabledGpio.setPins(1);
 }
 
 
 void TurnEduOff()
 {
   PRINTF("*Turn off EDU*\n");
-  eduEnabled.setPins(0);
+  eduEnabledGpio.setPins(0);
 }
 
 

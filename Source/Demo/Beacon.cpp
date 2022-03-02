@@ -3,18 +3,19 @@
 #include <rodos.h>
 
 #include <etl/bitset.h>
-#include <etl/string.h>
 
 #include <algorithm>
 #include <array>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <span>
 
 #include <stm32f4xx.h>
 #include <stm32f4xx_pwr.h>
 #include <stm32f4xx_rcc.h>
 #include <stm32f4xx_rtc.h>
+
 
 // Beacon Structure : see https://wiki.tust.at/books/sts1/page/uart-commands-for-pcb-v1
 // 1.   Timestamp
@@ -53,6 +54,15 @@ auto CreateGpioBitfield(bool epsIsCharging, bool epsBatteryIsGood, bool eduHasUp
 }
 
 
+auto CopyTo(std::span<std::byte> buffer, std::size_t * const position, auto value)
+{
+  auto newPosition = *position + sizeof(value);
+  RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition < std::size(buffer));
+  std::memcpy(&buffer[*position], &value, sizeof(value));
+  *position = newPosition;
+}
+
+
 auto CreateBeacon(int32_t timestamp, int32_t resetCounter, bool eduIsAlive, int32_t gpioBitfield)
 {
   constexpr auto startByte = '?';
@@ -63,29 +73,21 @@ auto CreateBeacon(int32_t timestamp, int32_t resetCounter, bool eduIsAlive, int3
   constexpr auto beaconSize = sizeof(startByte) + sizeof(timestamp) + sizeof(resetCounter)
                             + sizeof(eduIsAlive_) + sizeof(gpioBitfield) + sizeof(checksum);
 
-  // TODO: Use std::array of uint8_t or std::byte
-  auto beacon = etl::string<beaconSize + 1>();
-  beacon.initialize_free_space();
-
+  // TODO: Use std::array of uint8_t or std::byte, or use an etl::vector and create a push_back-like
+  // function to fill it
+  auto beacon = std::array<uint8_t, beaconSize>{};
+  // TODO: Think of a better name
+  auto rawBeacon = std::as_writable_bytes(std::span(beacon));
   size_t i = 0;
-  beacon[i] = startByte;
-  i += sizeof(startByte);
-  // TODO: Add a function for this: serializeTo, copyTo, writeTo, ... increment the pointer instead
-  // of index? Make the index an in/out parameter?
-  std::memcpy(&beacon[i], &timestamp, sizeof(timestamp));
-  i += sizeof(timestamp);
-  std::memcpy(&beacon[i], &resetCounter, sizeof(resetCounter));
-  i += sizeof(resetCounter);
-  std::memcpy(&beacon[i], &eduIsAlive_, sizeof(eduIsAlive_));
-  i += sizeof(eduIsAlive_);
-  std::memcpy(&beacon[i], &gpioBitfield, sizeof(gpioBitfield));
-  i += sizeof(gpioBitfield);
-
-  beacon.uninitialized_resize(beaconSize);
-
+  CopyTo(rawBeacon, &i, startByte);
+  CopyTo(rawBeacon, &i, timestamp);
+  CopyTo(rawBeacon, &i, resetCounter);
+  CopyTo(rawBeacon, &i, eduIsAlive_);
+  CopyTo(rawBeacon, &i, gpioBitfield);
+  // TODO: Turn this into function and get rid of warnings
   checksum =
     static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1, std::end(beacon) - 1, 0) & 0xFF);
-  std::memcpy(&beacon[i], &checksum, sizeof(checksum));
+  CopyTo(rawBeacon, &i, checksum);
   return beacon;
 }
 
@@ -104,7 +106,6 @@ class BeaconThread : public StaticThread<>
     eduUpdateGpio.init(/*isOutput=*/false, 1, 0);
   }
 
-
   void run() override
   {
     // TODO: Move to init()
@@ -119,8 +120,8 @@ class BeaconThread : public StaticThread<>
       auto const epsBatteryIsGood = static_cast<bool>(epsBatteryGoodGpio.readPins());
       auto const eduHasUpdate = static_cast<bool>(eduUpdateGpio.readPins());
       auto gpioBitField = CreateGpioBitfield(epsIsCharging, epsBatteryIsGood, eduHasUpdate);
-      // Get the lastet value
       auto eduIsAlive = false;
+      // Get the lastet value
       eduIsAliveBuffer.get(eduIsAlive);
 
       auto beacon =
