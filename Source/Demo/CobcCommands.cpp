@@ -1,20 +1,17 @@
 #include "CobcCommands.hpp"
 
+#include "CommandParser.hpp"
+
 #include <rodos.h>
 
 
 namespace rpg
 {
-constexpr auto pb0 = GPIO_016;  // PB0
-
-
-extern HAL_UART uart1;
-auto eduEnabledGpio = HAL_GPIO(pb0);
-
-
 void TurnEduOn()
 {
   PRINTF("*Turn on EDU*\n");
+  // FIXME: Geht nicht! Weil nirgendwo die init() Funktion aufgerufen wird! Gehört am ehesten ins
+  // CommandParser.cpp
   eduEnabledGpio.setPins(1);
 }
 

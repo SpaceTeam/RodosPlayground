@@ -1,6 +1,6 @@
-#include "CobcCommands.hpp"
+#include "CommandParser.hpp"
 
-#include <rodos.h>
+#include "CobcCommands.hpp"
 
 #include <etl/map.h>
 
@@ -15,11 +15,6 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-// When compiling for COBC, use pins GPIO_015 and GPIO_010
-auto uart1 = HAL_UART(UART_IDX1, GPIO_015, GPIO_010);
-// When compiling for Nucleo, use pins GPIO_009 and GPIO_010
-// auto uart1 = HAL_UART(UART_IDX1, GPIO_009, GPIO_010);
-
 // Give and ID to every command to be called from the delegate service afterwards
 enum CommandId
 {
@@ -58,6 +53,8 @@ class ReaderThread : public StaticThread<>
     constexpr auto baudrate = 9'600U;
     uart1.init(baudrate);
     uart1.setIoEventReceiver(&uartIOEventReceiver);
+
+    eduEnabledGpio.init(/*isOutput=*/true, 1, 0);
   }
 
   void run() override

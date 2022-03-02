@@ -1,5 +1,6 @@
 #pragma once
 
+#include <rodos.h>
 
 #include <etl/string.h>
 
