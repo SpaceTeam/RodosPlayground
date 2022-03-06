@@ -4,6 +4,8 @@
 
 #include <rodos.h>
 
+#include <stm32f4xx_rtc.h>
+
 
 namespace rpg
 {
@@ -26,6 +28,8 @@ void TurnEduOff()
 void SendResetCounter(const etl::string<cmdLengthEtl> & command)
 {
   PRINTF("*Send reset counter*\n");
+  auto resetCount = RTC_ReadBackupRegister(RTC_BKP_DR0);
+  PRINTF("$Reset counter = %5i\n", resetCount);
 }
 
 

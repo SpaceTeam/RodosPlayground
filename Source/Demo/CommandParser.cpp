@@ -15,7 +15,7 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-// Give and ID to every command to be called from the delegate service afterwards
+// Give and ID to every command to be called with a switch afterwards
 enum CommandId
 {
   TURN_EDU_ON = 1,
@@ -26,7 +26,7 @@ enum CommandId
 };
 
 
-// Maps command strings to delegate IDs
+// Maps command strings to IDs
 auto const cmdStringToId = etl::make_map<etl::string<cmdLengthEtl>, CommandId>(
   etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$01", TURN_EDU_ON},
   etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$02", TURN_EDU_OFF},
