@@ -7,174 +7,135 @@
 
 namespace RODOS
 {
-// NOLINTNEXTLINE(readability-identifier-naming)
-
 // Include the following line to be able to read from UART when compiling for STM32
+// NOLINTNEXTLINE(readability-identifier-naming)
 extern HAL_UART uart_stdout;
 }
 
 namespace rpg
 {
-// Give and ID to every command to be called with a switch afterwards
-enum CommandId
-{
-  TURN_EDU_ON = 1,
-  TURN_EDU_OFF = 2,
-  SEND_RESET_COUNTER = 3,
-  SEND_TEMPERATURE = 51,
-  SEND_IMAGE = 52,
-};
-
-
-// Maps command strings to IDs
-auto const cmdStringToId = etl::make_map<etl::string<cmdLengthEtl>, CommandId>(
-  etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$01", TURN_EDU_ON},
-  etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$02", TURN_EDU_OFF},
-  etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$03", SEND_RESET_COUNTER},
-  etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$51", SEND_TEMPERATURE},
-  etl::pair<etl::string<cmdLengthEtl>, CommandId>{"$52", SEND_IMAGE});
-
-
-class UartIOEventReceiver : public IOEventReceiver
-{
-public:
-  void onDataReady()
-  {
-    // PRINTF("DATA READY\n");
-  }
-};
-
-UartIOEventReceiver uartIOEventReceiver;
-
 class ReaderThread : public StaticThread<>
 {
   void init() override
   {
     constexpr auto baudrate = 9'600U;
     uart1.init(baudrate);
-    uart1.setIoEventReceiver(&uartIOEventReceiver);
+  }
 
+  void run() override
+  {
+    // TODO: There must be a nicer way to do this than reading single characters with random delays
+
+    // Print everything received from EDU UART
+    char character = 0;
+    while(true)
+    {
+      while(uart1.read(&character, 1) > 0)
+      {
+        PRINTF("%c", character);
+      }
+      constexpr auto delay = 100 * MILLISECONDS;
+      uart1.suspendUntilDataReady(NOW() + delay);
+    }
+  }
+} readerThread;
+
+
+enum CommandId
+{
+  turnEduOn = 1,
+  turnEduOff = 2,
+  sendResetCounter = 3,
+  sendTemperature = 51,
+  sendImage = 52,
+};
+
+
+auto const commandStringToId = etl::make_map<etl::string<commandSize>, CommandId>(
+  etl::pair<etl::string<commandSize>, CommandId>{"$01", turnEduOn},
+  etl::pair<etl::string<commandSize>, CommandId>{"$02", turnEduOff},
+  etl::pair<etl::string<commandSize>, CommandId>{"$03", sendResetCounter},
+  etl::pair<etl::string<commandSize>, CommandId>{"$51", sendTemperature},
+  etl::pair<etl::string<commandSize>, CommandId>{"$52", sendImage});
+
+
+auto DispatchCommand(const etl::string<commandSize> & command)
+{
+  if(not commandStringToId.contains(command))
+  {
+    PRINTF("*Error, invalid command*\n");
+    return;
+  }
+
+  auto commandId = commandStringToId.at(command);
+  switch(commandId)
+  {
+    case turnEduOn:
+    {
+      TurnEduOn();
+      break;
+    }
+    case turnEduOff:
+    {
+      TurnEduOff();
+      break;
+    }
+    case sendResetCounter:
+    {
+      SendResetCounter();
+      break;
+    }
+    case sendTemperature:
+    {
+      SendTemperature(command);
+      break;
+    }
+    case sendImage:
+    {
+      SendImage(command);
+      break;
+    }
+  }
+}
+
+
+class CommandParserThread : public StaticThread<>
+{
+  void init() override
+  {
     eduEnabledGpio.init(/*isOutput=*/true, 1, 0);
   }
 
   void run() override
   {
-    char readChar = 0;
+    constexpr auto startCharacter = '$';
+
+    auto command = etl::string<commandSize>();
+    bool startWasDetected = false;
     while(true)
     {
-      while(uart1.read(&readChar, 1) > 0)
+      char readCharacter = 0;
+      auto nReadCharacters = uart_stdout.read(&readCharacter, 1);
+      if(nReadCharacters != 0)
       {
-        PRINTF("%c", readChar);
-      }
-
-      // PRINTF("SUSPEND UART1\n");
-
-      uart1.suspendUntilDataReady(NOW() + 100 * MILLISECONDS);
-    }
-  }
-};
-
-
-class CommandParserThread : public StaticThread<>
-{
-  int DispatchCommand(const etl::string<cmdLengthEtl> & command,
-                      const etl::string<maxDataLengthEtl> & data)
-  {
-    // Get ID from string
-    if(cmdStringToId.count(command) == 0)
-    {
-      // Error, command not found in map
-      PRINTF("*Error, invalid command*\n");
-      return -1;
-    }
-
-    auto commandId = cmdStringToId.at(command);
-
-    switch(commandId)
-    {
-      case TURN_EDU_ON:
-        TurnEduOn();
-        break;
-
-      case TURN_EDU_OFF:
-        TurnEduOff();
-        break;
-
-      case SEND_RESET_COUNTER:
-        SendResetCounter(command);
-        break;
-
-      case SEND_TEMPERATURE:
-        SendTemperature(command);
-        break;
-
-      case SEND_IMAGE:
-        SendImage(command);
-        break;
-
-      default:
-        return -1;
-        break;
-    }
-
-    return 1;
-  }
-
-
-  void run() override
-  {
-    etl::string<cmdLengthEtl> currentCommand;
-    etl::string<maxDataLengthEtl> currentData;
-    bool atCommand = true;
-    size_t nDataChars = 0;
-    size_t nCommandChars = 0;
-
-    while(true)
-    {
-      char readChar;
-      auto nReceived = uart_stdout.read(&readChar, 1);
-      if(nReceived != 0)
-      {
-        // PRINTF("%c", readChar);
-        if(readChar == '\r' or readChar == '\n')
+        if(readCharacter == startCharacter)
         {
-          // PRINTF("\n");
-          // Dispatch Command
-          atCommand = true;
-
-          currentData.initialize_free_space();
-          DispatchCommand(currentCommand, currentData);
-
-          currentCommand.clear();
-          currentData.clear();
-
-          nCommandChars = 0;
-          nDataChars = 0;
+          startWasDetected = true;
+          command.clear();
+          command += startCharacter;
         }
-        else if(nCommandChars == cmdLengthEtl and atCommand)
+        else if(startWasDetected)
         {
-          // Data part begins
-          atCommand = false;
-        }
-        else if(atCommand)
-        {
-          // Add read char to command
-          currentCommand += readChar;
-          nCommandChars++;
-        }
-        else
-        {
-          // Add read char to data
-          currentData += readChar;
-          nDataChars++;
+          command += readCharacter;
+          if(command.full())
+          {
+            DispatchCommand(command);
+            startWasDetected = false;
+          }
         }
       }
-      // PRINTF("SUSPEND UART2\n");
       uart_stdout.suspendUntilDataReady();
     }
   }
-};
-
-auto const reader = ReaderThread();
-auto const commandParser = CommandParserThread();
+} commandParserThread;
 }

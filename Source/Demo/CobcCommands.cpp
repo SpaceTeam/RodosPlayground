@@ -12,8 +12,6 @@ namespace rpg
 void TurnEduOn()
 {
   PRINTF("*Turn on EDU*\n");
-  // FIXME: Geht nicht! Weil nirgendwo die init() Funktion aufgerufen wird! Gehört am ehesten ins
-  // CommandParser.cpp
   eduEnabledGpio.setPins(1);
 }
 
@@ -25,7 +23,7 @@ void TurnEduOff()
 }
 
 
-void SendResetCounter(const etl::string<cmdLengthEtl> & command)
+void SendResetCounter()
 {
   PRINTF("*Send reset counter*\n");
   auto resetCount = RTC_ReadBackupRegister(RTC_BKP_DR0);
@@ -33,18 +31,18 @@ void SendResetCounter(const etl::string<cmdLengthEtl> & command)
 }
 
 
-void SendTemperature(const etl::string<cmdLengthEtl> & command)
+void SendTemperature(etl::string<commandSize> const & command)
 {
   PRINTF("*Send temperature*\n");
-  uart1.write(command.data(), std::size(command));
+  uart1.write(std::data(command), std::size(command));
   uart1.write("\n", 1);
 }
 
 
-void SendImage(const etl::string<cmdLengthEtl> & command)
+void SendImage(etl::string<commandSize> const & command)
 {
   PRINTF("*Send image*\n");
-  uart1.write(command.data(), std::size(command));
+  uart1.write(std::data(command), std::size(command));
   uart1.write("\n", 1);
 }
 }

@@ -7,14 +7,12 @@
 
 namespace rpg
 {
-// ETL Strings with internal buffer -> no null termination needed
-constexpr auto cmdLengthEtl = 3;
-constexpr auto maxDataLengthEtl = 64;
+constexpr auto commandSize = 3;
 
 
 void TurnEduOn();
 void TurnEduOff();
-void SendResetCounter(const etl::string<cmdLengthEtl> & command);
-void SendTemperature(const etl::string<cmdLengthEtl> & command);
-void SendImage(const etl::string<cmdLengthEtl> & command);
+void SendResetCounter();
+void SendTemperature(etl::string<commandSize> const & command);
+void SendImage(etl::string<commandSize> const & command);
 }
