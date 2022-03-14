@@ -41,61 +41,59 @@ class ReaderThread : public StaticThread<>
 } readerThread;
 
 
-enum CommandId
-{
-  turnEduOn = 1,
-  turnEduOff = 2,
-  sendResetCounter = 3,
-  sendTemperature = 51,
-  sendImage = 52,
-};
-
-
-auto const commandStringToId = etl::make_map<etl::string<commandSize>, CommandId>(
-  etl::pair<etl::string<commandSize>, CommandId>{"$01", turnEduOn},
-  etl::pair<etl::string<commandSize>, CommandId>{"$02", turnEduOff},
-  etl::pair<etl::string<commandSize>, CommandId>{"$03", sendResetCounter},
-  etl::pair<etl::string<commandSize>, CommandId>{"$51", sendTemperature},
-  etl::pair<etl::string<commandSize>, CommandId>{"$52", sendImage});
-
-
 auto DispatchCommand(const etl::string<commandSize> & command)
 {
-  if(not commandStringToId.contains(command))
+  auto targetIsCobc = command[1] == '0';
+  auto targetIsEdu = command[1] == '5';
+  auto commandId = command[2];
+
+  if(targetIsCobc)
   {
-    PRINTF("*Error, invalid command*\n");
-    return;
+    switch(commandId)
+    {
+      case '1':
+      {
+        TurnEduOn();
+        return;
+      }
+      case '2':
+      {
+        TurnEduOff();
+        return;
+      }
+      case '3':
+      {
+        SendResetCounter();
+        return;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+  else if(targetIsEdu)
+  {
+    switch(commandId)
+    {
+      case '1':
+      {
+        SendTemperature(command);
+        return;
+      }
+      case '2':
+      {
+        SendImage(command);
+        return;
+      }
+      default:
+      {
+        break;
+      }
+    }
   }
 
-  auto commandId = commandStringToId.at(command);
-  switch(commandId)
-  {
-    case turnEduOn:
-    {
-      TurnEduOn();
-      break;
-    }
-    case turnEduOff:
-    {
-      TurnEduOff();
-      break;
-    }
-    case sendResetCounter:
-    {
-      SendResetCounter();
-      break;
-    }
-    case sendTemperature:
-    {
-      SendTemperature(command);
-      break;
-    }
-    case sendImage:
-    {
-      SendImage(command);
-      break;
-    }
-  }
+  PRINTF("*Error, invalid command*\n");
 }
 
 
