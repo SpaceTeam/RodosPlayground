@@ -37,17 +37,14 @@ class HelloSpi : public StaticThread<>
         spi1.writeRead(message.data(), message.size(), answer.data(), answer.capacity());
       if(nReceivedBytes < 0)
       {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("Error during spi1.readWrite()! Return value is %i\n",
                static_cast<int>(nReceivedBytes));
       }
       else
       {
         answer.trim_to_terminator();
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("%s", answer.c_str());
       }
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Next attempt\n");
     }
   }

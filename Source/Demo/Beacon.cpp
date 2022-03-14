@@ -57,7 +57,6 @@ auto CreateGpioBitField(bool epsIsCharging, bool epsBatteryIsGood, bool eduHasUp
 auto CopyTo(std::span<std::byte> buffer, std::size_t * const position, auto value)
 {
   auto newPosition = *position + sizeof(value);
-  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
   RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition <= std::size(buffer));
   std::memcpy(&buffer[*position], &value, sizeof(value));
   *position = newPosition;

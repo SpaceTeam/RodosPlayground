@@ -25,7 +25,6 @@ class HelloWorld : public StaticThread<>
       greenLed.setPins(static_cast<uint32_t>(toggle));
       auto eduHeartbeatvalue = eduHeartbeat.readPins();
 
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("EDU hearbeat value is : %lu\n", eduHeartbeatvalue);
 
       toggle = not toggle;

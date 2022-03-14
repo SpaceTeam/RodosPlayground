@@ -21,15 +21,12 @@ class HelloWorld : public StaticThread<>
     auto backupRegisterValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
     ++backupRegisterValue;
     RTC_WriteBackupRegister(RTC_BKP_DR0, backupRegisterValue);
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
     PRINTF("Incremented reset counter\n");
 
     TIME_LOOP(0, 1500 * MILLISECONDS)
     {
       auto regValue = RTC_ReadBackupRegister(RTC_BKP_DR0);
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Successfully read from rtc_bkp_dr0\n");
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Value is %lu\n", regValue);
     }
   }

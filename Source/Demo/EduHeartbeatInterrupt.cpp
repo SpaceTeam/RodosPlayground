@@ -24,18 +24,15 @@ class HelloWorld : public StaticThread<>
 
     while(true)
     {
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Suspend until data is ready\n");
       eduHeartbeat.suspendUntilDataReady(NOW() + timeout * MILLISECONDS);
       if(eduHeartbeat.isDataReady())
       {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("Edu is alive \n");
         greenLed.setPins(1);
       }
       else
       {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("Edu is dead\n");
         greenLed.setPins(0);
       }

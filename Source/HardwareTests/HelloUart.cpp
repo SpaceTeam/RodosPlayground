@@ -35,7 +35,6 @@ class HelloUart : public StaticThread<>
     {
       if(toggle)
       {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
         PRINTF("Hello from UART2\n");
       }
       else
