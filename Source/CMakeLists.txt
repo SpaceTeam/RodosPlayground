@@ -1,4 +1,4 @@
-# ---- Find packages ----
+# --- Find packages ---
 
 find_package(etl REQUIRED)
 get_target_property(etl_include_dirs etl INTERFACE_INCLUDE_DIRECTORIES)
@@ -12,7 +12,7 @@ find_package(${RODOS_PACKAGE_NAME} REQUIRED 0.1.0)
 get_target_property(rodos_location rodos::rodos LOCATION)
 message("Found rodos: ${rodos_location}")
 
-# ---- Define target stuff ----
+# --- Define target stuff ---
 
 target_sources(RodosPlayground_Lib PRIVATE Lib.cpp)
 target_include_directories(
@@ -24,7 +24,9 @@ target_link_libraries(RodosPlayground_Lib PUBLIC etl)
 target_sources(RodosPlayground_HelloWorld PRIVATE HelloWorld.cpp)
 target_link_libraries(RodosPlayground_HelloWorld PRIVATE rodos::rodos RodosPlayground_Lib)
 
+# --- Add subdirectories ---
+
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     add_subdirectory(HardwareTests)
+    add_subdirectory(Demo)
 endif()
-add_subdirectory(Demo)

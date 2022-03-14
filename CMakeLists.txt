@@ -22,17 +22,14 @@ include(cmake/custom-commands.cmake)
 add_library(RodosPlayground_Lib OBJECT)
 
 add_program(HelloWorld)
-add_program(CommandParser)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     add_program(HelloUart)
     add_program(HelloGpio)
     add_program(HelloSpi)
-    add_program(ResetCounter)
-    add_program(HelloHeartbeat)
     add_program(Beacon)
     add_program(EduHeartbeat)
-    add_program(EduHeartbeatInterrupt)
+    add_program(CommandParser)
     add_program(Demo)
 endif()
 

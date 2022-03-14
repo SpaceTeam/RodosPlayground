@@ -1,25 +1,14 @@
-if(CMAKE_SYSTEM_NAME STREQUAL Generic)
-    target_sources(RodosPlayground_ResetCounter PRIVATE ResetCounter.cpp)
-    target_link_libraries(RodosPlayground_ResetCounter PRIVATE rodos::rodos)
+target_sources(RodosPlayground_Beacon PRIVATE Beacon.cpp EduHeartbeat.cpp)
+target_link_libraries(RodosPlayground_Beacon PRIVATE rodos::rodos etl)
 
-    target_sources(RodosPlayground_Beacon PRIVATE Beacon.cpp EduHeartbeat.cpp)
-    target_link_libraries(RodosPlayground_Beacon PRIVATE rodos::rodos etl)
+target_sources(RodosPlayground_EduHeartbeat PRIVATE EduHeartbeat.cpp)
+target_link_libraries(RodosPlayground_EduHeartbeat PRIVATE rodos::rodos)
 
-    target_sources(RodosPlayground_EduHeartbeat PRIVATE EduHeartbeat.cpp)
-    target_link_libraries(RodosPlayground_EduHeartbeat PRIVATE rodos::rodos)
-
-    target_sources(RodosPlayground_HelloHeartbeat PRIVATE HelloHeartbeat.cpp)
-    target_link_libraries(RodosPlayground_HelloHeartbeat PRIVATE rodos::rodos)
-
-    target_sources(RodosPlayground_EduHeartbeatInterrupt PRIVATE EduHeartbeatInterrupt.cpp)
-    target_link_libraries(RodosPlayground_EduHeartbeatInterrupt PRIVATE rodos::rodos)
-
-    target_sources(
-        RodosPlayground_Demo PRIVATE Beacon.cpp EduHeartbeat.cpp CommandParser.cpp CobcCommands.cpp
-                                     CobcCommands.hpp
-    )
-    target_link_libraries(RodosPlayground_Demo PRIVATE rodos::rodos etl)
-endif()
+target_sources(
+    RodosPlayground_Demo PRIVATE Beacon.cpp EduHeartbeat.cpp CommandParser.cpp CobcCommands.cpp
+                                 CobcCommands.hpp
+)
+target_link_libraries(RodosPlayground_Demo PRIVATE rodos::rodos etl)
 
 target_sources(
     RodosPlayground_CommandParser PRIVATE CommandParser.cpp CobcCommands.cpp CobcCommands.hpp
