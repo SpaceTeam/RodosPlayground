@@ -1,9 +1,11 @@
 # --- Find packages ---
 
+# Maybe hide this in a find_package_and_notify() function or something
 find_package(etl REQUIRED)
 get_target_property(etl_include_dirs etl INTERFACE_INCLUDE_DIRECTORIES)
 message("Found ETL include dirs: ${etl_include_dirs}")
 
+# Maybe hide this in a find_rodos() function
 set(RODOS_PACKAGE_NAME
     "rodos"
     CACHE STRING "Name of the Rodos package used when calling find_package()"
