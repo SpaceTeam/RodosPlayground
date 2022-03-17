@@ -59,6 +59,7 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#func-members">Functions</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
@@ -67,6 +68,18 @@
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
+            <dt>
+              class <a href="classrpg_1_1BeaconThread.html" class="m-doc">BeaconThread</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classrpg_1_1CommandParserThread.html" class="m-doc">CommandParserThread</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classrpg_1_1EduHeartbeatThread.html" class="m-doc">EduHeartbeatThread</a>
+            </dt>
+            <dd><span></span></dd>
             <dt>
               class <a href="classrpg_1_1HelloGpio.html" class="m-doc">HelloGpio</a>
             </dt>
@@ -87,11 +100,148 @@
               struct <a href="structrpg_1_1Library.html" class="m-doc">Library</a>
             </dt>
             <dd>The core implementation of the executable.</dd>
+            <dt>
+              class <a href="classrpg_1_1ReaderThread.html" class="m-doc">ReaderThread</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9cc8a6a583ac9c8ff42a25cc2070d767" class="m-doc">CreateGpioBitField</a>(</span><span class="m-doc-wrap">bool epsIsCharging,
+              bool epsBatteryIsGood,
+              bool eduHasUpdate)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa1e946a926a4d5590f7d588d7c883b17" class="m-doc">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
+              std::size_t*const position,
+              auto value)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9419a3c4a686a38c9bd1609e0ec9aced" class="m-doc">CreateBeacon</a>(</span><span class="m-doc-wrap">int32_t timestamp,
+              int32_t resetCounter,
+              bool eduIsAlive,
+              int32_t gpioBitField)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a5183eae4dc3e51f5eb424871c9e41674" class="m-doc">TurnEduOn</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a31902fa148bd6b1f796348da62b8290c" class="m-doc">TurnEduOff</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a67be410d65312c383cd5f63c19f8f07b" class="m-doc">SendResetCounter</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a68551e5bec9ba4b46415182b694db271" class="m-doc">SendTemperature</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a00dbd14045acddd860c4bb87e8cead7c" class="m-doc">SendImage</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aaecaaf8230fac88c08a9c49ce4f3c8be" class="m-doc">DispatchCommand</a>(</span><span class="m-doc-wrap">const etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt;&amp; command)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1f9a3b0536f561c59edbea04c0f28db4" class="m-doc">eduIsAliveTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;eduHeartBeatsTopic&quot;) -&gt; Topic&lt;bool&gt;</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
+            <dt>
+              auto <a href="#a1bc8a5d2b3cf42eac632254c010290a9" class="m-doc">pc14</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a3e8bfe14967eb233068f8be65366805a" class="m-doc">pc15</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#aa5a59b6abd7a4e37b4d3868886909238" class="m-doc">pb1</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#afcfff5b5bbec649d6be8dfea714e9903" class="m-doc">eduUpdateGpio</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a097397e75fe955aef8e7659c1f26bafb" class="m-doc">epsChargingGpio</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#ac77bba5003694a41d2cd48880db41981" class="m-doc">epsBatteryGoodGpio</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a488225be123324ef0d757cc780073b0f" class="m-doc">eduIsAliveBuffer</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#aedae8efc335e3e3cac52bbbea516dc62" class="m-doc">eduIsAliveSubscriber</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              const auto <a href="#ac9b727ace89a4b5542b2d99b1e00127a" class="m-doc">beaconThread</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <a href="classrpg_1_1ReaderThread.html" class="m-doc">rpg::<wbr />ReaderThread</a> <a href="#a0bebb8398fb51dc910414f02ad687121" class="m-doc">readerThread</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <a href="classrpg_1_1CommandParserThread.html" class="m-doc">rpg::<wbr />CommandParserThread</a> <a href="#a75d76f377ff1d07eef8752e830c8bbd0" class="m-doc">commandParserThread</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#ac1000e49009bf6416bedd4114c9fd879" class="m-doc">pb0</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#af9ba009cdd630d5627dee8616885ef61" class="m-doc">eduEnabledGpio</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a921faf43fdea21818379b17b9c4ea66c" class="m-doc">uart1</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#af00e187a0fec2b9e350dd807a51cde1c" class="m-doc">pa5</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a3d5608fc708f1afdf1d97d732757dc46" class="m-doc">pc5</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a6d1ea8288394aaf4a9e2ca3e10286105" class="m-doc">greenLedGpio</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#ab3abb03f1940f818b56c9da3fdf8bf3d" class="m-doc">heartbeatGpio</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              const auto <a href="#acf9eaa0c7387302d4497da25220d2887" class="m-doc">eduHeartbeatThread</a>
+            </dt>
+            <dd><span></span></dd>
             <dt>
               auto <a href="#acb7d0efe42d3923b9ff08d5765127367" class="m-doc">pa1</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -102,10 +252,6 @@
             <dd><span></span></dd>
             <dt>
               auto <a href="#a9fdaf1f0db6f4ed68d9c7c2658681636" class="m-doc">pa3</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              auto <a href="#af00e187a0fec2b9e350dd807a51cde1c" class="m-doc">pa5</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -146,14 +292,6 @@
             <dd><span></span></dd>
             <dt>
               auto <a href="#acb26860c0dc74d20e216de1e5a5686b2" class="m-doc">pa15</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              auto <a href="#ac1000e49009bf6416bedd4114c9fd879" class="m-doc">pb0</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              auto <a href="#aa5a59b6abd7a4e37b4d3868886909238" class="m-doc">pb1</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -218,10 +356,6 @@
             <dd><span></span></dd>
             <dt>
               auto <a href="#a8c7c61ec642f1282576f0b167331f1e3" class="m-doc">pc4</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              auto <a href="#a3d5608fc708f1afdf1d97d732757dc46" class="m-doc">pc5</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -331,7 +465,228 @@
           </dl>
         </section>
         <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a9cc8a6a583ac9c8ff42a25cc2070d767"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9cc8a6a583ac9c8ff42a25cc2070d767" class="m-doc-self">CreateGpioBitField</a>(</span><span class="m-doc-wrap">bool epsIsCharging,
+              bool epsBatteryIsGood,
+              bool eduHasUpdate)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="aa1e946a926a4d5590f7d588d7c883b17"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa1e946a926a4d5590f7d588d7c883b17" class="m-doc-self">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
+              std::size_t*const position,
+              auto value)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a9419a3c4a686a38c9bd1609e0ec9aced"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9419a3c4a686a38c9bd1609e0ec9aced" class="m-doc-self">CreateBeacon</a>(</span><span class="m-doc-wrap">int32_t timestamp,
+              int32_t resetCounter,
+              bool eduIsAlive,
+              int32_t gpioBitField)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a5183eae4dc3e51f5eb424871c9e41674"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5183eae4dc3e51f5eb424871c9e41674" class="m-doc-self">TurnEduOn</a>(</span><span class="m-doc-wrap">)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a31902fa148bd6b1f796348da62b8290c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a31902fa148bd6b1f796348da62b8290c" class="m-doc-self">TurnEduOff</a>(</span><span class="m-doc-wrap">)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a67be410d65312c383cd5f63c19f8f07b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a67be410d65312c383cd5f63c19f8f07b" class="m-doc-self">SendResetCounter</a>(</span><span class="m-doc-wrap">)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a68551e5bec9ba4b46415182b694db271"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a68551e5bec9ba4b46415182b694db271" class="m-doc-self">SendTemperature</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a00dbd14045acddd860c4bb87e8cead7c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a00dbd14045acddd860c4bb87e8cead7c" class="m-doc-self">SendImage</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="aaecaaf8230fac88c08a9c49ce4f3c8be"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaecaaf8230fac88c08a9c49ce4f3c8be" class="m-doc-self">DispatchCommand</a>(</span><span class="m-doc-wrap">const etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt;&amp; command)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8cpp.html">&lt;Source/Demo/CommandParser.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a1f9a3b0536f561c59edbea04c0f28db4"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Topic&lt;bool&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1f9a3b0536f561c59edbea04c0f28db4" class="m-doc-self">eduIsAliveTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;eduHeartBeatsTopic&quot;)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+        </section>
+        <section>
           <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a1bc8a5d2b3cf42eac632254c010290a9"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a1bc8a5d2b3cf42eac632254c010290a9" class="m-doc-self">pc14</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a3e8bfe14967eb233068f8be65366805a"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a3e8bfe14967eb233068f8be65366805a" class="m-doc-self">pc15</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="aa5a59b6abd7a4e37b4d3868886909238"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#aa5a59b6abd7a4e37b4d3868886909238" class="m-doc-self">pb1</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="afcfff5b5bbec649d6be8dfea714e9903"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#afcfff5b5bbec649d6be8dfea714e9903" class="m-doc-self">eduUpdateGpio</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a097397e75fe955aef8e7659c1f26bafb"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a097397e75fe955aef8e7659c1f26bafb" class="m-doc-self">epsChargingGpio</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="ac77bba5003694a41d2cd48880db41981"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#ac77bba5003694a41d2cd48880db41981" class="m-doc-self">epsBatteryGoodGpio</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a488225be123324ef0d757cc780073b0f"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a488225be123324ef0d757cc780073b0f" class="m-doc-self">eduIsAliveBuffer</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="aedae8efc335e3e3cac52bbbea516dc62"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#aedae8efc335e3e3cac52bbbea516dc62" class="m-doc-self">eduIsAliveSubscriber</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="ac9b727ace89a4b5542b2d99b1e00127a"><div>
+            <h3>
+              const auto rpg::<wbr /><a href="#ac9b727ace89a4b5542b2d99b1e00127a" class="m-doc-self">beaconThread</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="aadeaa418d48b0abed543e08d45efc0aa"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc-self">commandSize</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a0bebb8398fb51dc910414f02ad687121"><div>
+            <h3>
+              <a href="classrpg_1_1ReaderThread.html" class="m-doc">rpg::<wbr />ReaderThread</a> rpg::<wbr /><a href="#a0bebb8398fb51dc910414f02ad687121" class="m-doc-self">readerThread</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8cpp.html">&lt;Source/Demo/CommandParser.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a75d76f377ff1d07eef8752e830c8bbd0"><div>
+            <h3>
+              <a href="classrpg_1_1CommandParserThread.html" class="m-doc">rpg::<wbr />CommandParserThread</a> rpg::<wbr /><a href="#a75d76f377ff1d07eef8752e830c8bbd0" class="m-doc-self">commandParserThread</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8cpp.html">&lt;Source/Demo/CommandParser.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="ac1000e49009bf6416bedd4114c9fd879"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#ac1000e49009bf6416bedd4114c9fd879" class="m-doc-self">pb0</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8hpp.html">&lt;Source/Demo/CommandParser.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="af9ba009cdd630d5627dee8616885ef61"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#af9ba009cdd630d5627dee8616885ef61" class="m-doc-self">eduEnabledGpio</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8hpp.html">&lt;Source/Demo/CommandParser.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a921faf43fdea21818379b17b9c4ea66c"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a921faf43fdea21818379b17b9c4ea66c" class="m-doc-self">uart1</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8hpp.html">&lt;Source/Demo/CommandParser.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="af00e187a0fec2b9e350dd807a51cde1c"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#af00e187a0fec2b9e350dd807a51cde1c" class="m-doc-self">pa5</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduHeartbeat_8cpp.html">&lt;Source/Demo/EduHeartbeat.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a3d5608fc708f1afdf1d97d732757dc46"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a3d5608fc708f1afdf1d97d732757dc46" class="m-doc-self">pc5</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduHeartbeat_8cpp.html">&lt;Source/Demo/EduHeartbeat.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a6d1ea8288394aaf4a9e2ca3e10286105"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a6d1ea8288394aaf4a9e2ca3e10286105" class="m-doc-self">greenLedGpio</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduHeartbeat_8cpp.html">&lt;Source/Demo/EduHeartbeat.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="ab3abb03f1940f818b56c9da3fdf8bf3d"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#ab3abb03f1940f818b56c9da3fdf8bf3d" class="m-doc-self">heartbeatGpio</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduHeartbeat_8cpp.html">&lt;Source/Demo/EduHeartbeat.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="acf9eaa0c7387302d4497da25220d2887"><div>
+            <h3>
+              const auto rpg::<wbr /><a href="#acf9eaa0c7387302d4497da25220d2887" class="m-doc-self">eduHeartbeatThread</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduHeartbeat_8cpp.html">&lt;Source/Demo/EduHeartbeat.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
           <section class="m-doc-details" id="acb7d0efe42d3923b9ff08d5765127367"><div>
             <h3>
               auto rpg::<wbr /><a href="#acb7d0efe42d3923b9ff08d5765127367" class="m-doc-self">pa1</a> <span class="m-label m-primary">constexpr</span>
@@ -349,13 +704,6 @@
           <section class="m-doc-details" id="a9fdaf1f0db6f4ed68d9c7c2658681636"><div>
             <h3>
               auto rpg::<wbr /><a href="#a9fdaf1f0db6f4ed68d9c7c2658681636" class="m-doc-self">pa3</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="af00e187a0fec2b9e350dd807a51cde1c"><div>
-            <h3>
-              auto rpg::<wbr /><a href="#af00e187a0fec2b9e350dd807a51cde1c" class="m-doc-self">pa5</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -426,20 +774,6 @@
           <section class="m-doc-details" id="acb26860c0dc74d20e216de1e5a5686b2"><div>
             <h3>
               auto rpg::<wbr /><a href="#acb26860c0dc74d20e216de1e5a5686b2" class="m-doc-self">pa15</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="ac1000e49009bf6416bedd4114c9fd879"><div>
-            <h3>
-              auto rpg::<wbr /><a href="#ac1000e49009bf6416bedd4114c9fd879" class="m-doc-self">pb0</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="aa5a59b6abd7a4e37b4d3868886909238"><div>
-            <h3>
-              auto rpg::<wbr /><a href="#aa5a59b6abd7a4e37b4d3868886909238" class="m-doc-self">pb1</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -552,13 +886,6 @@
           <section class="m-doc-details" id="a8c7c61ec642f1282576f0b167331f1e3"><div>
             <h3>
               auto rpg::<wbr /><a href="#a8c7c61ec642f1282576f0b167331f1e3" class="m-doc-self">pc4</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a3d5608fc708f1afdf1d97d732757dc46"><div>
-            <h3>
-              auto rpg::<wbr /><a href="#a3d5608fc708f1afdf1d97d732757dc46" class="m-doc-self">pc5</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloGpio_8cpp.html">&lt;Source/HardwareTests/HelloGpio.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
