@@ -11,13 +11,16 @@ Checks: "*,\
   -altera-struct-pack-align,\
   -altera-unroll-loops,\
   -android-*,\
+  -cppcoreguidelines-avoid-non-const-global-variables,\
   -cppcoreguidelines-pro-bounds-constant-array-index,\
+  -cppcoreguidelines-pro-type-vararg,\
   -darwin-*,\
   -fuchsia-*,\
   fuchsia-multiple-inheritance,\
   -google-objc-*,\
   -google-readability-todo,\
   -google-readability-namespace-comments,\
+  -hicpp-vararg,\
   -linuxkernel-must-use-errs,\
   -llvm-header-guard,\
   -llvm-namespace-comment,\

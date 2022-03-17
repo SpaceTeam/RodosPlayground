@@ -45,7 +45,7 @@ constexpr auto spi4Sck = GPIO_029;   // PB13
 constexpr auto spi4Miso = GPIO_011;  // PA11
 constexpr auto spi4Mosi = GPIO_001;  // PA1
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+
 auto spis = std::array{HAL_SPI(SPI_IDX1, spi1Sck, spi1Miso, spi1Mosi),
                        HAL_SPI(SPI_IDX2, spi2Sck, spi2Miso, spi2Mosi),
                        HAL_SPI(SPI_IDX3, spi3Sck, spi3Miso, spi3Mosi),
@@ -73,7 +73,6 @@ class HelloSpi : public StaticThread<>
     size_t i = 0;
     TIME_LOOP(0, 500 * MILLISECONDS)
     {
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("Writing to SPI%i\n", static_cast<int>(i + 1));
 
       auto answer = etl::string<std::size(messages[0])>();
@@ -82,9 +81,7 @@ class HelloSpi : public StaticThread<>
         std::data(messages[i]), std::size(messages[i]), std::data(answer), answer.capacity());
       answer.trim_to_terminator();
 
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("nReceivedBytes = %i\n", static_cast<int>(nReceivedBytes));
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
       PRINTF("answer = '%s'\n\n", answer.c_str());
 
       i++;

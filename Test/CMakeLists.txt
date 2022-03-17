@@ -4,9 +4,9 @@
 
 project(RodosPlaygroundTests LANGUAGES CXX)
 
-add_executable(RodosPlayground_test Source/RodosPlayground_Test.cpp)
-target_link_libraries(RodosPlayground_test PRIVATE RodosPlayground_lib)
+add_executable(RodosPlayground_Test Source/RodosPlayground_Test.cpp)
+target_link_libraries(RodosPlayground_Test PRIVATE RodosPlayground_Lib)
 
-add_test(NAME RodosPlayground_test COMMAND RodosPlayground_test)
+add_test(NAME RodosPlayground_Test COMMAND RodosPlayground_Test)
 
 add_folders(Test)

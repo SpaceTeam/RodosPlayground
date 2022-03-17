@@ -27,6 +27,7 @@ constexpr auto pa12 = GPIO_012;
 constexpr auto pa13 = GPIO_013;
 constexpr auto pa14 = GPIO_014;
 constexpr auto pa15 = GPIO_015;
+
 constexpr auto pb0 = GPIO_016;
 constexpr auto pb1 = GPIO_017;
 constexpr auto pb3 = GPIO_019;
@@ -40,6 +41,7 @@ constexpr auto pb12 = GPIO_028;
 constexpr auto pb13 = GPIO_029;
 constexpr auto pb14 = GPIO_030;
 constexpr auto pb15 = GPIO_031;
+
 constexpr auto pc0 = GPIO_032;
 constexpr auto pc1 = GPIO_033;
 constexpr auto pc2 = GPIO_034;
@@ -52,10 +54,10 @@ constexpr auto pc10 = GPIO_042;
 constexpr auto pc11 = GPIO_043;
 constexpr auto pc12 = GPIO_044;
 constexpr auto pc13 = GPIO_045;
+
 constexpr auto pd2 = GPIO_050;
 
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 auto pinsToTest = std::to_array<HAL_GPIO>(
   {pa1, pa2, pa3, pa5, pa6, pa7, pa8, pa9,  pa10, pa11, pa12, pa13, pa14, pa15,
    pb0, pb1, pb3, pb4, pb5, pb6, pb7, pb8,  pb9,  pb12, pb13, pb14, pb15, pc0,

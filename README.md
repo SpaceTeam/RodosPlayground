@@ -119,6 +119,7 @@ root of the project that looks something like the following:
       "name": "dev-common",
       "hidden": true,
       "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"],
+      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
