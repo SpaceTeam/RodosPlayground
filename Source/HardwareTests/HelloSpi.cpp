@@ -19,7 +19,7 @@
 //! ```
 
 
-#include <rodos.h>
+#include <Io.hpp>
 
 #include <etl/string.h>
 
@@ -28,24 +28,6 @@
 
 namespace rpg
 {
-// SPI1 = Flash SPI
-constexpr auto spi1Sck = GPIO_005;   // PA5
-constexpr auto spi1Miso = GPIO_006;  // PA6
-constexpr auto spi1Mosi = GPIO_007;  // PA7
-// SPI2 = FRAM SPI
-constexpr auto spi2Sck = GPIO_039;   // PC7
-constexpr auto spi2Miso = GPIO_034;  // PC2
-constexpr auto spi2Mosi = GPIO_035;  // PC3
-// SPI3 = COBC SPI
-constexpr auto spi3Sck = GPIO_042;   // PC10
-constexpr auto spi3Miso = GPIO_043;  // PC11
-constexpr auto spi3Mosi = GPIO_044;  // PC12
-// SPI4 = RF SPI
-constexpr auto spi4Sck = GPIO_029;   // PB13
-constexpr auto spi4Miso = GPIO_011;  // PA11
-constexpr auto spi4Mosi = GPIO_001;  // PA1
-
-
 auto spis = std::array{HAL_SPI(SPI_IDX1, spi1Sck, spi1Miso, spi1Mosi),
                        HAL_SPI(SPI_IDX2, spi2Sck, spi2Miso, spi2Mosi),
                        HAL_SPI(SPI_IDX3, spi3Sck, spi3Miso, spi3Mosi),

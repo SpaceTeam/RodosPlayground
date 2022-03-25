@@ -1,17 +1,10 @@
+#include "Io.hpp"
 #include "Topics.hpp"
-
-#include <rodos.h>
-
 
 namespace rpg
 {
-constexpr auto pa5 = GPIO_013;
-constexpr auto pc5 = GPIO_037;
-
-
-auto greenLedGpio = HAL_GPIO(pa5);
-auto heartbeatGpio = HAL_GPIO(pc5);
-
+auto ledGpio = HAL_GPIO(ledPin);
+auto heartbeatGpio = HAL_GPIO(eduHeartbeatPin);
 
 class EduHeartbeatThread : public StaticThread<>
 {
@@ -24,7 +17,7 @@ private:
   void init() override
   {
     heartbeatGpio.init(/*isOutput=*/false, 1, 0);
-    greenLedGpio.init(/*isOutput=*/true, 1, 0);
+    ledGpio.init(/*isOutput=*/true, 1, 0);
   }
 
   void run() override
@@ -44,7 +37,7 @@ private:
       if(heartbeatIsConstant and (heartbeat != oldHeartbeat))
       {
         heartbeatIsConstant = false;
-        greenLedGpio.setPins(1);
+        ledGpio.setPins(1);
         eduIsAliveTopic.publish(true);
       }
 
@@ -55,7 +48,7 @@ private:
       {
         if(heartbeatIsConstant)
         {
-          greenLedGpio.setPins(0);
+          ledGpio.setPins(0);
           eduIsAliveTopic.publish(false);
         }
         heartbeatIsConstant = true;

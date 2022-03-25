@@ -26,6 +26,12 @@ target_link_libraries(RodosPlayground_Lib PUBLIC etl)
 target_sources(RodosPlayground_HelloWorld PRIVATE HelloWorld.cpp)
 target_link_libraries(RodosPlayground_HelloWorld PRIVATE rodos::rodos RodosPlayground_Lib)
 
+target_include_directories(Io_Lib INTERFACE "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Source/Io>")
+# Define BOARD based on the port file,
+# e.g. nucleo.cmake -> Board is set to "Nucleo.hpp"
+cmake_path(GET CMAKE_BINARY_DIR STEM BOARD)
+define_board_macro("${BOARD}")
+
 # --- Add subdirectories ---
 
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)

@@ -7,17 +7,14 @@
 //! bit.
 
 
-#include <rodos.h>
+#include <Io.hpp>
 
 #include <string_view>
 
 
 namespace rpg
 {
-constexpr auto pa10 = GPIO_010;
-constexpr auto pa15 = GPIO_015;
-auto eduUart = HAL_UART(UART_IDX1, pa15, pa10);
-
+auto eduUart = HAL_UART(eduUartIndex, eduUartTxPin, eduUartRxPin);
 
 class HelloUart : public StaticThread<>
 {

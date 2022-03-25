@@ -19,3 +19,12 @@ function(add_program program_name)
         objcopy_target(RodosPlayground_${program_name})
     endif()
 endfunction()
+
+function(define_board_macro input_name)
+    # Capitalize
+    string(SUBSTRING ${input_name} 0 1 FIRST_LETTER)
+    string(TOUPPER ${FIRST_LETTER} FIRST_LETTER)
+    string(REGEX REPLACE "^.(.*)" "${FIRST_LETTER}\\1" BOARD "${input_name}")
+    # Add definition
+    target_compile_definitions(Io_Lib INTERFACE BOARD="${BOARD}.hpp")
+endfunction()

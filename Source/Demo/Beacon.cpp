@@ -1,6 +1,6 @@
 #include "Topics.hpp"
 
-#include <rodos.h>
+#include <Io.hpp>
 
 #include <etl/bitset.h>
 
@@ -31,13 +31,9 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-constexpr auto pc14 = GPIO_046;  // PC14
-constexpr auto pc15 = GPIO_047;  // PC15
-constexpr auto pb1 = GPIO_017;   // PB1
-
-auto eduUpdateGpio = HAL_GPIO(pb1);
-auto epsChargingGpio = HAL_GPIO(pc14);
-auto epsBatteryGoodGpio = HAL_GPIO(pc15);
+auto eduUpdateGpio = HAL_GPIO(eduUpdatePin);
+auto epsChargingGpio = HAL_GPIO(epsChargingPin);
+auto epsBatteryGoodGpio = HAL_GPIO(epsBatteryGoodPin);
 
 auto eduIsAliveBuffer = CommBuffer<bool>();
 auto eduIsAliveSubscriber = Subscriber(eduIsAliveTopic, eduIsAliveBuffer, "eduIsAliveSubscriber");
