@@ -29,10 +29,10 @@
 
 namespace rpg
 {
-auto spis = std::array{HAL_SPI(SPI_IDX1, spi1Sck, spi1Miso, spi1Mosi),
-                       HAL_SPI(SPI_IDX2, spi2Sck, spi2Miso, spi2Mosi),
-                       HAL_SPI(SPI_IDX3, spi3Sck, spi3Miso, spi3Mosi),
-                       HAL_SPI(SPI_IDX4, spi4Sck, spi4Miso, spi4Mosi)};
+auto spis = std::array{HAL_SPI(flashSpiIndex, flashSpiSckPin, flashSpiMisoPin, flashSpiMosiPin),
+                       HAL_SPI(framSpiIndex, framSpiMisoPin, framSpiMisoPin, framSpiMosiPin),
+                       HAL_SPI(cobcSpiIndex, cobcSpiSckPin, cobcSpiMisoPin, cobcSpiMosiPin),
+                       HAL_SPI(rfSpiIndex, rfSpiSckPin, rfSpiMisoPin, rfSpiMosiPin)};
 
 
 class HelloSpi : public StaticThread<>
