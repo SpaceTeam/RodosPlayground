@@ -5,6 +5,10 @@ find_package(etl REQUIRED)
 get_target_property(etl_include_dirs etl INTERFACE_INCLUDE_DIRECTORIES)
 message("Found ETL include dirs: ${etl_include_dirs}")
 
+find_package(type_safe REQUIRED)
+get_target_property(type_safe_include_dirs type_safe INTERFACE_INCLUDE_DIRECTORIES)
+message("Found Type_safe include dirs: ${type_safe_include_dirs}")
+
 # Maybe hide this in a find_rodos() function
 set(RODOS_PACKAGE_NAME
     "rodos"
