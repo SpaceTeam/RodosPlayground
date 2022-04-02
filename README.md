@@ -139,7 +139,8 @@ root of the project that looks something like the following:
       "toolchainFile": "~/programming/cmake/stm32f411.cmake",
       "cacheVariables": {
         "RODOS_PACKAGE_NAME": "rodos_discovery_f411",
-        "HSE_VALUE": "8000000"
+        "HSE_VALUE": "8000000",
+        "BOARD_FILE": "Nucleo.hpp"
       }
     },
     {
@@ -148,7 +149,8 @@ root of the project that looks something like the following:
       "inherits": "dev-common",
       "toolchainFile": "~/programming/cmake/stm32f411.cmake",
       "cacheVariables": {
-        "HSE_VALUE": "12000000"
+        "HSE_VALUE": "12000000",
+        "BOARD_FILE": "Nucleo.hpp"
       }
     },
     {
