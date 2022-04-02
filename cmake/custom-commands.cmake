@@ -19,3 +19,19 @@ function(add_program program_name)
         objcopy_target(RodosPlayground_${program_name})
     endif()
 endfunction()
+
+function(find_package_and_notify package_name)
+    find_package(${package_name} REQUIRED)
+    get_target_property(${package_name}_include_dirs ${package_name} INTERFACE_INCLUDE_DIRECTORIES)
+    message("Found ${package_name} include dirs: ${${package_name}_include_dirs}")
+endfunction()
+
+function(find_rodos)
+    set(RODOS_PACKAGE_NAME
+        "rodos"
+        CACHE STRING "Name of the Rodos package used when calling find_package()"
+    )
+    find_package(${RODOS_PACKAGE_NAME} REQUIRED ${ARGN})
+    get_target_property(rodos_location rodos::rodos LOCATION)
+    message("Found rodos: ${rodos_location}")
+endfunction()

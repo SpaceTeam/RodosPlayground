@@ -1,22 +1,9 @@
 # --- Find packages ---
 
-# Maybe hide this in a find_package_and_notify() function or something
-find_package(etl REQUIRED)
-get_target_property(etl_include_dirs etl INTERFACE_INCLUDE_DIRECTORIES)
-message("Found ETL include dirs: ${etl_include_dirs}")
+find_package_and_notify(etl)
+find_package_and_notify(type_safe)
 
-find_package(type_safe REQUIRED)
-get_target_property(type_safe_include_dirs type_safe INTERFACE_INCLUDE_DIRECTORIES)
-message("Found Type_safe include dirs: ${type_safe_include_dirs}")
-
-# Maybe hide this in a find_rodos() function
-set(RODOS_PACKAGE_NAME
-    "rodos"
-    CACHE STRING "Name of the Rodos package used when calling find_package()"
-)
-find_package(${RODOS_PACKAGE_NAME} REQUIRED 0.1.0)
-get_target_property(rodos_location rodos::rodos LOCATION)
-message("Found rodos: ${rodos_location}")
+find_rodos(0.1.0)
 
 # --- Define target stuff ---
 
