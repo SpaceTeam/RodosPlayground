@@ -1,6 +1,8 @@
 #include "Io.hpp"
 #include "Topics.hpp"
 
+#include <rodos.h>
+
 namespace rpg
 {
 auto ledGpio = HAL_GPIO(ledPin);

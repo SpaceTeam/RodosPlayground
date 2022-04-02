@@ -18,8 +18,9 @@
 //! answer = 'Hello from SPI2!'
 //! ```
 
+#include "Io.hpp"
 
-#include <Io.hpp>
+#include <rodos.h>
 
 #include <etl/string.h>
 

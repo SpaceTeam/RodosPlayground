@@ -1,6 +1,7 @@
+#include "Io.hpp"
 #include "Topics.hpp"
 
-#include <Io.hpp>
+#include <rodos.h>
 
 #include <etl/bitset.h>
 
@@ -15,8 +16,6 @@
 #include <stm32f4xx_pwr.h>
 #include <stm32f4xx_rcc.h>
 #include <stm32f4xx_rtc.h>
-
-
 // Beacon Structure : see https://wiki.tust.at/books/sts1/page/uart-commands-for-pcb-v1
 // 1.   Timestamp
 // 2.   Reset Counter

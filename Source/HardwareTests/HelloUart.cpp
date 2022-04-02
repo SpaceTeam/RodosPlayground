@@ -6,8 +6,9 @@
 //! respectively. Both UARTs use the same configuration: 115200 baud, 8 data bits, no parity, 1 stop
 //! bit.
 
+#include "Io.hpp"
 
-#include <Io.hpp>
+#include <rodos.h>
 
 #include <string_view>
 

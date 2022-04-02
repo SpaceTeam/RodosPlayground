@@ -2,6 +2,8 @@
 
 #include "CobcCommands.hpp"
 
+#include <rodos.h>
+
 #include <etl/map.h>
 
 
