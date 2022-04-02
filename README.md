@@ -15,6 +15,7 @@ The following libraries are necessary to build RodosPlayground.
 
 - Rodos
 - ETL (Embedded Template Library)
+- type_safe
 
 Quick installation instructions for those can be found [here](https://wiki.tust.at/books/sts1/page/setup-libraries).
 

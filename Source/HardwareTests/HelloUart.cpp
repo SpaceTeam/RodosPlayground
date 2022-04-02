@@ -19,32 +19,32 @@ auto eduUart = HAL_UART(eduUartIndex, eduUartTxPin, eduUartRxPin);
 
 class HelloUart : public StaticThread<>
 {
-  void init() override
-  {
-    constexpr auto baudrate = 115'200;
-    eduUart.init(baudrate);
-  }
-
-  void run() override
-  {
-    using std::operator""sv;
-
-    auto toggle = true;
-
-    TIME_LOOP(0, 500 * MILLISECONDS)
+    void init() override
     {
-      if(toggle)
-      {
-        PRINTF("Hello from UART2\n");
-      }
-      else
-      {
-        auto myText = "Hello from UART1\n"sv;
-        eduUart.write(myText.data(), myText.size());
-      }
-      toggle = not toggle;
+        constexpr auto baudrate = 115'200;
+        eduUart.init(baudrate);
     }
-  }
+
+    void run() override
+    {
+        using std::operator""sv;
+
+        auto toggle = true;
+
+        TIME_LOOP(0, 500 * MILLISECONDS)
+        {
+            if(toggle)
+            {
+                PRINTF("Hello from UART2\n");
+            }
+            else
+            {
+                auto myText = "Hello from UART1\n"sv;
+                eduUart.write(myText.data(), myText.size());
+            }
+            toggle = not toggle;
+        }
+    }
 };
 
 

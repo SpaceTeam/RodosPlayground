@@ -15,34 +15,34 @@
 namespace rpg
 {
 auto pinsToTest = std::to_array<HAL_GPIO>(
-  {pa1, pa2, pa3, pa5, pa6, pa7, pa8, pa9,  pa10, pa11, pa12, pa13, pa14, pa15,
-   pb0, pb1, pb3, pb4, pb5, pb6, pb7, pb8,  pb9,  pb12, pb13, pb14, pb15, pc0,
-   pc1, pc2, pc3, pc4, pc5, pc7, pc9, pc10, pc11, pc12, pc13, pd2});
+    {pa1, pa2, pa3, pa5, pa6, pa7, pa8, pa9,  pa10, pa11, pa12, pa13, pa14, pa15,
+     pb0, pb1, pb3, pb4, pb5, pb6, pb7, pb8,  pb9,  pb12, pb13, pb14, pb15, pc0,
+     pc1, pc2, pc3, pc4, pc5, pc7, pc9, pc10, pc11, pc12, pc13, pd2});
 
 
 class HelloGpio : public StaticThread<>
 {
-  void init() override
-  {
-    for(auto & pin : pinsToTest)
+    void init() override
     {
-      pin.init(/*isOutput=*/true, 1, 0);
+        for(auto & pin : pinsToTest)
+        {
+            pin.init(/*isOutput=*/true, 1, 0);
+        }
     }
-  }
 
-  void run() override
-  {
-    auto toggle = true;
-
-    TIME_LOOP(0, 100 * MILLISECONDS)
+    void run() override
     {
-      for(auto & i : pinsToTest)
-      {
-        i.setPins(static_cast<uint32_t>(toggle));
-      }
-      toggle = not toggle;
+        auto toggle = true;
+
+        TIME_LOOP(0, 100 * MILLISECONDS)
+        {
+            for(auto & i : pinsToTest)
+            {
+                i.setPins(static_cast<uint32_t>(toggle));
+            }
+            toggle = not toggle;
+        }
     }
-  }
 };
 
 

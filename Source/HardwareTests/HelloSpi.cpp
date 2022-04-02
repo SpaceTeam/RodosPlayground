@@ -37,40 +37,42 @@ auto spis = std::array{HAL_SPI(flashSpiIndex, flashSpiSckPin, flashSpiMisoPin, f
 
 class HelloSpi : public StaticThread<>
 {
-  void init() override
-  {
-    for(auto & spi : spis)
+    void init() override
     {
-      spi.init();
+        for(auto & spi : spis)
+        {
+            spi.init();
+        }
     }
-  }
 
-  void run() override
-  {
-    using std::operator""sv;
-
-    constexpr auto messages = std::array{
-      "Hello from SPI1!"sv, "Hello from SPI2!"sv, "Hello from SPI3!"sv, "Hello from SPI4!"sv};
-    static_assert(std::size(spis) == std::size(messages));
-
-    size_t i = 0;
-    TIME_LOOP(0, 500 * MILLISECONDS)
+    void run() override
     {
-      PRINTF("Writing to SPI%i\n", static_cast<int>(i + 1));
+        using std::operator""sv;
 
-      auto answer = etl::string<std::size(messages[0])>();
-      answer.initialize_free_space();
-      auto nReceivedBytes = spis[i].writeRead(
-        std::data(messages[i]), std::size(messages[i]), std::data(answer), answer.capacity());
-      answer.trim_to_terminator();
+        constexpr auto messages = std::array{
+            "Hello from SPI1!"sv, "Hello from SPI2!"sv, "Hello from SPI3!"sv, "Hello from SPI4!"sv};
+        static_assert(std::size(spis) == std::size(messages));
 
-      PRINTF("nReceivedBytes = %i\n", static_cast<int>(nReceivedBytes));
-      PRINTF("answer = '%s'\n\n", answer.c_str());
+        size_t i = 0;
+        TIME_LOOP(0, 500 * MILLISECONDS)
+        {
+            PRINTF("Writing to SPI%i\n", static_cast<int>(i + 1));
 
-      i++;
-      i %= std::size(spis);
+            auto answer = etl::string<std::size(messages[0])>();
+            answer.initialize_free_space();
+            auto nReceivedBytes = spis[i].writeRead(std::data(messages[i]),
+                                                    std::size(messages[i]),
+                                                    std::data(answer),
+                                                    answer.capacity());
+            answer.trim_to_terminator();
+
+            PRINTF("nReceivedBytes = %i\n", static_cast<int>(nReceivedBytes));
+            PRINTF("answer = '%s'\n\n", answer.c_str());
+
+            i++;
+            i %= std::size(spis);
+        }
     }
-  }
 };
 
 

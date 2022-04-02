@@ -17,14 +17,14 @@ namespace rpg
  */
 struct Library
 {
-  /**
-   * @brief Simply initializes the name member to the name of the project
-   */
-  Library();
+    /**
+     * @brief Simply initializes the name member to the name of the project
+     */
+    Library();
 
-  static constexpr auto maxShortNameLength = 8;
+    static constexpr auto maxShortNameLength = 8;
 
-  std::string_view name;
-  etl::string<maxShortNameLength> shortName;
+    std::string_view name;
+    etl::string<maxShortNameLength> shortName;
 };
 }
