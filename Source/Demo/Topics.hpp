@@ -1,5 +1,7 @@
 #pragma once
 
+#include "rodos.h"
+
 #include <cstdint>
 
 
