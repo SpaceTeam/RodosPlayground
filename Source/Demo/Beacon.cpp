@@ -1,5 +1,6 @@
 #include "Io.hpp"
 #include "Topics.hpp"
+#include "Write.hpp"
 
 #include <rodos.h>
 
@@ -124,10 +125,13 @@ class BeaconThread : public StaticThread<>
 
             auto beacon = CreateBeacon(
                 timestamp, static_cast<int32_t>(resetCounter), eduIsAlive, gpioBitField);
-            for(auto c : beacon)
-            {
-                uart_stdout.putcharNoWait(c);
-            }
+
+            WriteTo(uart_stdout, std::span(beacon));
+
+            // for(auto c : beacon)
+            //{
+            //    uart_stdout.putcharNoWait(c);
+            //}
         }
     }
 };

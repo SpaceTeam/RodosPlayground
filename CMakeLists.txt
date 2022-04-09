@@ -20,6 +20,7 @@ include(cmake/custom-commands.cmake)
 # --- Declare targets ---
 
 add_library(RodosPlayground_Lib OBJECT)
+add_library(RodosWrappers_Lib INTERFACE)
 add_library(Io_Lib INTERFACE)
 
 add_program(HelloWorld)

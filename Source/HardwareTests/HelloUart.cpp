@@ -7,11 +7,17 @@
 //! bit.
 
 #include "Io.hpp"
+#include "Write.hpp"
 
 #include <rodos.h>
 
 #include <string_view>
 
+namespace RODOS
+{
+// NOLINTNEXTLINE(readability-identifier-naming)
+extern HAL_UART uart_stdout;
+}
 
 namespace rpg
 {
@@ -35,12 +41,15 @@ class HelloUart : public StaticThread<>
         {
             if(toggle)
             {
-                PRINTF("Hello from UART2\n");
+                auto myText = "Hello from UART2 - with templated function\r\n"sv;
+                WriteTo(uart_stdout, myText);
             }
             else
             {
-                auto myText = "Hello from UART1\n"sv;
-                eduUart.write(myText.data(), myText.size());
+                // NOLINTNEXTLINE
+                std::array<uint16_t, 5> data = {1, 2, 3, 4, 5};
+                auto span = std::span{data};
+                WriteTo(uart_stdout, span);
             }
             toggle = not toggle;
         }
