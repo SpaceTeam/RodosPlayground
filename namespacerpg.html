@@ -157,6 +157,24 @@
               &quot;eduHeartBeatsTopic&quot;) -&gt; Topic&lt;bool&gt;</span>
             </dt>
             <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, size_t size&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#abac5f4a9d3ae99043c579c69b2215d36" class="m-doc">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
+              std::span&lt;T, size&gt; message)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a03f0fb0d3b70048770eb9fe84707519d" class="m-doc">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
+              std::string_view message)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;size_t size&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a56795ca18b84a95e852df9086e6a5923" class="m-doc">WriteToReadFrom</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a> auto communicationInterface,
+              std::string_view message,
+              etl::string&lt;size&gt;* answer)</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="var-members">
@@ -534,6 +552,16 @@
               auto <a href="#ac0948561a08e41fd30aebe0bc6a148ea" class="m-doc">pd2</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              concept <a href="#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section>
@@ -613,6 +641,37 @@
               <span class="m-doc-wrap-bumper">Topic&lt;bool&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1f9a3b0536f561c59edbea04c0f28db4" class="m-doc-self">eduIsAliveTopic</a>(</span><span class="m-doc-wrap">- 1,
               &quot;eduHeartBeatsTopic&quot;)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="abac5f4a9d3ae99043c579c69b2215d36"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, size_t size&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abac5f4a9d3ae99043c579c69b2215d36" class="m-doc-self">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
+              std::span&lt;T, size&gt; message)</span></span>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a03f0fb0d3b70048770eb9fe84707519d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a03f0fb0d3b70048770eb9fe84707519d" class="m-doc-self">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
+              std::string_view message)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a56795ca18b84a95e852df9086e6a5923"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;size_t size&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a56795ca18b84a95e852df9086e6a5923" class="m-doc-self">WriteToReadFrom</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a> auto communicationInterface,
+              std::string_view message,
+              etl::string&lt;size&gt;* answer)</span></span>
             </h3>
             <p><span></span></p>
           </div></section>
@@ -1267,6 +1326,26 @@
             <h3>
               auto rpg::<wbr /><a href="#ac0948561a08e41fd30aebe0bc6a148ea" class="m-doc-self">pd2</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pins_8hpp.html">&lt;Source/Io/Pins.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a8c2fac49ce3d57e2f2b983c05310a797"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept rpg::<wbr /><a href="#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc-self">Writable</a>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a3ac89fd9e0301bbd9a9fd9909c41380d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              concept rpg::<wbr /><a href="#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc-self">ReadWritable</a>
             </h3>
             <p><span></span></p>
           </div></section>
