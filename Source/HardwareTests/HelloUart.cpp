@@ -7,11 +7,12 @@
 //! bit.
 
 #include "Io.hpp"
-#include "Write.hpp"
+#include "Communication.hpp"
 
 #include <rodos.h>
 
 #include <string_view>
+
 
 namespace RODOS
 {
@@ -19,9 +20,11 @@ namespace RODOS
 extern HAL_UART uart_stdout;
 }
 
+
 namespace rpg
 {
 auto eduUart = HAL_UART(eduUartIndex, eduUartTxPin, eduUartRxPin);
+
 
 class HelloUart : public StaticThread<>
 {
@@ -30,6 +33,7 @@ class HelloUart : public StaticThread<>
         constexpr auto baudrate = 115'200;
         eduUart.init(baudrate);
     }
+
 
     void run() override
     {
@@ -41,15 +45,11 @@ class HelloUart : public StaticThread<>
         {
             if(toggle)
             {
-                auto myText = "Hello from UART2 - with templated function\r\n"sv;
-                WriteTo(uart_stdout, myText);
+                WriteTo(&uart_stdout, "Hello from UART2\n");
             }
             else
             {
-                // NOLINTNEXTLINE
-                std::array<uint16_t, 5> data = {1, 2, 3, 4, 5};
-                auto span = std::span{data};
-                WriteTo(uart_stdout, span);
+                WriteTo(&eduUart, "Hello from UART1\n");
             }
             toggle = not toggle;
         }

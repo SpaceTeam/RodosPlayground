@@ -1,6 +1,6 @@
 #include "Io.hpp"
 #include "Topics.hpp"
-#include "Write.hpp"
+#include "Communication.hpp"
 
 #include <rodos.h>
 
@@ -83,8 +83,8 @@ auto CreateBeacon(int32_t timestamp, int32_t resetCounter, bool eduIsAlive, int3
     CopyTo(rawBeacon, &i, eduIsAlive_);
     CopyTo(rawBeacon, &i, gpioBitField);
     // TODO: Turn this into function and get rid of warnings
-    checksum = static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1, std::end(beacon) - 1, 0)
-                                    & 0xFF);
+    checksum =
+        static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1, std::end(beacon) - 1, 0));
     CopyTo(rawBeacon, &i, checksum);
     CopyTo(rawBeacon, &i, stopByte);
     return beacon;
@@ -126,12 +126,7 @@ class BeaconThread : public StaticThread<>
             auto beacon = CreateBeacon(
                 timestamp, static_cast<int32_t>(resetCounter), eduIsAlive, gpioBitField);
 
-            WriteTo(uart_stdout, std::span(beacon));
-
-            // for(auto c : beacon)
-            //{
-            //    uart_stdout.putcharNoWait(c);
-            //}
+            WriteTo(&uart_stdout, std::span(beacon));
         }
     }
 };

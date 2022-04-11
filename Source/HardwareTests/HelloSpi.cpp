@@ -19,15 +19,13 @@
 //! ```
 
 #include "Io.hpp"
-#include "Write.hpp"
+#include "Communication.hpp"
 
 #include <rodos.h>
 
 #include <etl/string.h>
 
 #include <string_view>
-
-#include <type_safe/output_parameter.hpp>
 
 
 namespace rpg
@@ -61,7 +59,7 @@ class HelloSpi : public StaticThread<>
         {
             PRINTF("Writing to SPI%i\n", static_cast<int>(i + 1));
             auto answer = etl::string<std::size(messages[0])>();
-            auto nReceivedBytes = WriteToReadFrom(spis[i], messages[i], &answer);
+            auto nReceivedBytes = WriteToReadFrom(&spis[i], messages[i], &answer);
             PRINTF("nReceivedBytes = %i\n", static_cast<int>(nReceivedBytes));
             PRINTF("answer = '%s'\n\n", answer.c_str());
 
