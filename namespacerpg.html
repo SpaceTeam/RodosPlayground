@@ -158,19 +158,19 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, size_t size&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#abac5f4a9d3ae99043c579c69b2215d36" class="m-doc">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
-              std::span&lt;T, size&gt; message)</span>
+              <div class="m-doc-template">template&lt;typename T, std::size_t size&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#aeef7394bc1d15b0937b6a43aa5f23f5f" class="m-doc">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto* communicationInterface,
+              std::span&lt;T, size&gt; data)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a03f0fb0d3b70048770eb9fe84707519d" class="m-doc">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
+              <span class="m-doc-wrap-bumper">auto <a href="#a007c21c6dd0ffdd96fe8a70f3a4f0656" class="m-doc">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto* communicationInterface,
               std::string_view message)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <div class="m-doc-template">template&lt;size_t size&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a56795ca18b84a95e852df9086e6a5923" class="m-doc">WriteToReadFrom</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a> auto communicationInterface,
+              <div class="m-doc-template">template&lt;std::size_t size&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a280384abda3e037ca53f539c721abe5d" class="m-doc">WriteToReadFrom</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a> auto* communicationInterface,
               std::string_view message,
               etl::string&lt;size&gt;* answer)</span>
             </dt>
@@ -644,32 +644,32 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="abac5f4a9d3ae99043c579c69b2215d36"><div>
+          <section class="m-doc-details" id="aeef7394bc1d15b0937b6a43aa5f23f5f"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Communication_8hpp.html">&lt;Source/RodosWrappers/Communication.hpp&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, size_t size&gt;
+                template&lt;typename T, std::size_t size&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abac5f4a9d3ae99043c579c69b2215d36" class="m-doc-self">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
-              std::span&lt;T, size&gt; message)</span></span>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aeef7394bc1d15b0937b6a43aa5f23f5f" class="m-doc-self">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto* communicationInterface,
+              std::span&lt;T, size&gt; data)</span></span>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a03f0fb0d3b70048770eb9fe84707519d"><div>
+          <section class="m-doc-details" id="a007c21c6dd0ffdd96fe8a70f3a4f0656"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a03f0fb0d3b70048770eb9fe84707519d" class="m-doc-self">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto communicationInterface,
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a007c21c6dd0ffdd96fe8a70f3a4f0656" class="m-doc-self">WriteTo</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a8c2fac49ce3d57e2f2b983c05310a797" class="m-doc">Writable</a> auto* communicationInterface,
               std::string_view message)</span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Communication_8hpp.html">&lt;Source/RodosWrappers/Communication.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a56795ca18b84a95e852df9086e6a5923"><div>
+          <section class="m-doc-details" id="a280384abda3e037ca53f539c721abe5d"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Communication_8hpp.html">&lt;Source/RodosWrappers/Communication.hpp&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;size_t size&gt;
+                template&lt;std::size_t size&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a56795ca18b84a95e852df9086e6a5923" class="m-doc-self">WriteToReadFrom</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a> auto communicationInterface,
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a280384abda3e037ca53f539c721abe5d" class="m-doc-self">WriteToReadFrom</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#a3ac89fd9e0301bbd9a9fd9909c41380d" class="m-doc">ReadWritable</a> auto* communicationInterface,
               std::string_view message,
               etl::string&lt;size&gt;* answer)</span></span>
             </h3>
@@ -1331,7 +1331,7 @@
           </div></section>
           <section class="m-doc-details" id="a8c2fac49ce3d57e2f2b983c05310a797"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Communication_8hpp.html">&lt;Source/RodosWrappers/Communication.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -1341,7 +1341,7 @@
           </div></section>
           <section class="m-doc-details" id="a3ac89fd9e0301bbd9a9fd9909c41380d"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Write_8hpp.html">&lt;Source/RodosWrappers/Write.hpp&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Communication_8hpp.html">&lt;Source/RodosWrappers/Communication.hpp&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
