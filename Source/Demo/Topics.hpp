@@ -1,8 +1,6 @@
 #pragma once
 
-#include "rodos.h"
-
-#include <cstdint>
+#include <rodos.h>
 
 
 namespace rpg

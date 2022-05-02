@@ -93,8 +93,8 @@ IncludeCategories:
   # C headers from external libraries: <*.h>
   - Regex: '^<[A-Za-z_]+\.h>'
     Priority: 3
-  # C++ headers from external libraries: <*.hh> or <*.hpp> or <*.h++>
-  - Regex: '^<[A-Za-z_]+\.h(h|pp|\+\+)>'
+  # C++ headers from external libraries: <*/*.hh> or <*/*.hpp> or <*/*.h++>
+  - Regex: '^<([A-Za-z_]+\/)*[A-Za-z_]+\.h(h|pp|\+\+)>'
     Priority: 2
   # Local header files, i.e., those from this project: "*.hpp" without underscores
   - Regex: '^"[A-Za-z]+\.hpp"'

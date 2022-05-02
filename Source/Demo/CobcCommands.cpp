@@ -10,40 +10,43 @@
 
 namespace rpg
 {
+namespace ts = type_safe;
+
+
 void TurnEduOn()
 {
     PRINTF("*Turn on EDU*\n");
-    eduEnabledGpio.setPins(1);
+    eduEnabledGpio.setPins(1U);
 }
 
 
 void TurnEduOff()
 {
     PRINTF("*Turn off EDU*\n");
-    eduEnabledGpio.setPins(0);
+    eduEnabledGpio.setPins(0U);
 }
 
 
 void SendResetCounter()
 {
     PRINTF("*Send reset counter*\n");
-    auto resetCount = RTC_ReadBackupRegister(RTC_BKP_DR0);
-    PRINTF("$Reset counter = %5i\n", resetCount);
+    auto resetCount = ts::size_t(RTC_ReadBackupRegister(RTC_BKP_DR0));
+    PRINTF("$Reset counter = %5lu\n", static_cast<unsigned long>(resetCount.get()));
 }
 
 
-void SendTemperature(etl::string<commandSize> const & command)
+void SendTemperature(etl::string<commandSize.get()> const & command)
 {
     PRINTF("*Send temperature*\n");
     uart1.write(std::data(command), std::size(command));
-    uart1.write("\n", 1);
+    uart1.write("\n", 1U);
 }
 
 
-void SendImage(etl::string<commandSize> const & command)
+void SendImage(etl::string<commandSize.get()> const & command)
 {
     PRINTF("*Send image*\n");
     uart1.write(std::data(command), std::size(command));
-    uart1.write("\n", 1);
+    uart1.write("\n", 1U);
 }
 }

@@ -2,6 +2,8 @@
 
 #include "CobcCommands.hpp"
 
+#include <type_safe/types.hpp>
+
 #include <rodos.h>
 
 #include <etl/map.h>
@@ -14,8 +16,12 @@ namespace RODOS
 extern HAL_UART uart_stdout;
 }
 
+
 namespace rpg
 {
+namespace ts = type_safe;
+
+
 class ReaderThread : public StaticThread<>
 {
     void init() override
@@ -26,6 +32,7 @@ class ReaderThread : public StaticThread<>
 
     void run() override
     {
+        using ts::operator""_isize;
         // TODO: There must be a nicer way to do this than reading single characters with random
         // delays
 
@@ -37,14 +44,14 @@ class ReaderThread : public StaticThread<>
             {
                 PRINTF("%c", character);
             }
-            constexpr auto delay = 100 * MILLISECONDS;
-            uart1.suspendUntilDataReady(NOW() + delay);
+            constexpr auto delay = 100_isize * MILLISECONDS;
+            uart1.suspendUntilDataReady(NOW() + delay.get());
         }
     }
 } readerThread;
 
 
-auto DispatchCommand(const etl::string<commandSize> & command)
+auto DispatchCommand(const etl::string<commandSize.get()> & command)
 {
     auto targetIsCobc = command[1] == '0';
     auto targetIsEdu = command[1] == '5';
@@ -111,13 +118,13 @@ class CommandParserThread : public StaticThread<>
     {
         constexpr auto startCharacter = '$';
 
-        auto command = etl::string<commandSize>();
-        bool startWasDetected = false;
+        auto command = etl::string<commandSize.get()>();
+        ts::bool_t startWasDetected = false;
         while(true)
         {
             char readCharacter = 0;
-            auto nReadCharacters = uart_stdout.read(&readCharacter, 1);
-            if(nReadCharacters != 0)
+            auto nReadCharacters = ts::size_t(uart_stdout.read(&readCharacter, 1));
+            if(nReadCharacters != 0U)
             {
                 if(readCharacter == startCharacter)
                 {

@@ -18,8 +18,10 @@
 //! answer = 'Hello from SPI2!'
 //! ```
 
-#include "Io.hpp"
 #include "Communication.hpp"
+#include "Io.hpp"
+
+#include <type_safe/types.hpp>
 
 #include <rodos.h>
 
@@ -48,19 +50,24 @@ class HelloSpi : public StaticThread<>
 
     void run() override
     {
+        namespace ts = type_safe;
         using std::operator""sv;
+        using ts::operator""_usize;
 
         constexpr auto messages = std::array{
             "Hello from SPI1!"sv, "Hello from SPI2!"sv, "Hello from SPI3!"sv, "Hello from SPI4!"sv};
         static_assert(std::size(spis) == std::size(messages));
 
-        size_t i = 0;
+        auto i = 0_usize;
         TIME_LOOP(0, 500 * MILLISECONDS)
         {
-            PRINTF("Writing to SPI%i\n", static_cast<int>(i + 1));
+            // PRINTF is super weired because without the static_cast %u causes "expected unsigned
+            // int but got unsigned long" and %lu causes "expected unsigned long but got unsigned
+            // int". I guess this is because int and long are both 32bit on an STM32.
+            PRINTF("Writing to SPI%lu\n", static_cast<unsigned long>((i + 1U).get()));
             auto answer = etl::string<std::size(messages[0])>();
-            auto nReceivedBytes = WriteToReadFrom(&spis[i], messages[i], &answer);
-            PRINTF("nReceivedBytes = %i\n", static_cast<int>(nReceivedBytes));
+            ts::int_t nReceivedBytes = WriteToReadFrom(&spis[i.get()], messages[i.get()], &answer);
+            PRINTF("nReceivedBytes = %i\n", nReceivedBytes.get());
             PRINTF("answer = '%s'\n\n", answer.c_str());
 
             i++;

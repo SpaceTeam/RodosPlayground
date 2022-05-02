@@ -1,12 +1,16 @@
 #include "Io.hpp"
 #include "Topics.hpp"
 
+#include <type_safe/types.hpp>
+
 #include <rodos.h>
+
 
 namespace rpg
 {
 auto ledGpio = HAL_GPIO(ledPin);
 auto heartbeatGpio = HAL_GPIO(eduHeartbeatPin);
+
 
 class EduHeartbeatThread : public StaticThread<>
 {
@@ -24,22 +28,26 @@ class EduHeartbeatThread : public StaticThread<>
 
     void run() override
     {
-        auto heartbeatIsConstant = true;
-        auto samplingCount = 0;
-        auto oldHeartbeat = heartbeatGpio.readPins();
-        constexpr auto heartbeatFrequency = 10LL;                                     // Hz
-        constexpr auto samplingFrequency = 5LL * heartbeatFrequency;                  // Hz
-        constexpr auto samplingPeriode = 1'000LL / samplingFrequency * MILLISECONDS;  // ms
+        namespace ts = type_safe;
+        using ts::operator""_i;
+        using ts::operator""_isize;
 
-        TIME_LOOP(0, samplingPeriode)
+        auto samplingCount = 0_i;
+        ts::bool_t heartbeatIsConstant = true;
+        ts::uint32_t oldHeartbeat = heartbeatGpio.readPins();
+        constexpr auto heartbeatFrequency = 10_isize;                                     // Hz
+        constexpr auto samplingFrequency = 5_isize * heartbeatFrequency;                  // Hz
+        constexpr auto samplingPeriode = 1'000_isize / samplingFrequency * MILLISECONDS;  // ms
+
+        TIME_LOOP(0, samplingPeriode.get())
         {
-            auto heartbeat = heartbeatGpio.readPins();
+            ts::uint32_t heartbeat = heartbeatGpio.readPins();
             ++samplingCount;
 
             if(heartbeatIsConstant and (heartbeat != oldHeartbeat))
             {
                 heartbeatIsConstant = false;
-                ledGpio.setPins(1);
+                ledGpio.setPins(1U);
                 eduIsAliveTopic.publish(true);
             }
 
@@ -50,7 +58,7 @@ class EduHeartbeatThread : public StaticThread<>
             {
                 if(heartbeatIsConstant)
                 {
-                    ledGpio.setPins(0);
+                    ledGpio.setPins(0U);
                     eduIsAliveTopic.publish(false);
                 }
                 heartbeatIsConstant = true;

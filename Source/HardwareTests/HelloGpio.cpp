@@ -7,6 +7,8 @@
 
 #include "Io.hpp"
 
+#include <type_safe/types.hpp>
+
 #include <rodos.h>
 
 #include <array>
@@ -32,13 +34,13 @@ class HelloGpio : public StaticThread<>
 
     void run() override
     {
-        auto toggle = true;
+        type_safe::bool_t toggle = true;
 
         TIME_LOOP(0, 100 * MILLISECONDS)
         {
             for(auto & i : pinsToTest)
             {
-                i.setPins(static_cast<uint32_t>(toggle));
+                i.setPins(static_cast<uint32_t>(bool(toggle)));
             }
             toggle = not toggle;
         }

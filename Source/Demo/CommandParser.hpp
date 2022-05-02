@@ -4,6 +4,7 @@
 
 #include <rodos.h>
 
+
 namespace rpg
 {
 inline auto eduEnabledGpio = HAL_GPIO(eduEnabledPin);
