@@ -59,6 +59,7 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#func-members">Functions</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
@@ -106,26 +107,39 @@
             <dd><span></span></dd>
           </dl>
         </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt>
+              using <a href="#a0322c17fd4618bb47f632e3f55c04e60" class="m-doc">BitField</a> = etl::bitset&lt;<a href="namespacerpg.html#a6573a2dfdf2c2130630b63ff0ad1eb2e" class="m-doc">nBits</a>&gt;
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9cc8a6a583ac9c8ff42a25cc2070d767" class="m-doc">CreateGpioBitField</a>(</span><span class="m-doc-wrap">bool epsIsCharging,
-              bool epsBatteryIsGood,
-              bool eduHasUpdate)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab0bd6bf2b24d268732725788acadfa3b" class="m-doc">CreateGpioBitField</a>(</span><span class="m-doc-wrap">ts::bool_t epsIsCharging,
+              ts::bool_t epsBatteryIsGood,
+              ts::bool_t eduHasUpdate)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa1e946a926a4d5590f7d588d7c883b17" class="m-doc">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
-              std::size_t*const position,
+              <span class="m-doc-wrap-bumper">auto <a href="#acf68b10b765e46e0f78187174b17287d" class="m-doc">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
+              ts::size_t*const position,
               auto value)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9419a3c4a686a38c9bd1609e0ec9aced" class="m-doc">CreateBeacon</a>(</span><span class="m-doc-wrap">int32_t timestamp,
-              int32_t resetCounter,
-              bool eduIsAlive,
-              int32_t gpioBitField)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2b5b9f373b06ff845448c8f2542e1a31" class="m-doc">ComputeChecksum</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; beacon)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a84aac6762aa4a2574c08b41917764ef3" class="m-doc">CreateBeacon</a>(</span><span class="m-doc-wrap">ts::int64_t timestamp,
+              ts::uint32_t resetCounter,
+              ts::bool_t eduIsAlive,
+              <a href="namespacerpg.html#a0322c17fd4618bb47f632e3f55c04e60" class="m-doc">BitField</a> gpioBitField)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -141,15 +155,15 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a68551e5bec9ba4b46415182b694db271" class="m-doc">SendTemperature</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span>
+              <span class="m-doc-wrap-bumper">void <a href="#aecdc3bfec532aac2439ee08c6691b522" class="m-doc">SendTemperature</a>(</span><span class="m-doc-wrap">etl::string&lt;commandSize.get()&gt; const&amp; command)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a00dbd14045acddd860c4bb87e8cead7c" class="m-doc">SendImage</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span>
+              <span class="m-doc-wrap-bumper">void <a href="#abb0cffe64a1b3d7b7179d1b1e621dee3" class="m-doc">SendImage</a>(</span><span class="m-doc-wrap">etl::string&lt;commandSize.get()&gt; const&amp; command)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aaecaaf8230fac88c08a9c49ce4f3c8be" class="m-doc">DispatchCommand</a>(</span><span class="m-doc-wrap">const etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt;&amp; command)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab85594746fa131af7e3d2eb79b7c4181" class="m-doc">DispatchCommand</a>(</span><span class="m-doc-wrap">const etl::string&lt;commandSize.get()&gt;&amp; command)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -180,6 +194,10 @@
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
+            <dt>
+              auto <a href="#a6573a2dfdf2c2130630b63ff0ad1eb2e" class="m-doc">nBits</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
             <dt>
               auto <a href="#afcfff5b5bbec649d6be8dfea714e9903" class="m-doc">eduUpdateGpio</a>
             </dt>
@@ -565,31 +583,48 @@
           </dl>
         </section>
         <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a9cc8a6a583ac9c8ff42a25cc2070d767"><div>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="a0322c17fd4618bb47f632e3f55c04e60"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9cc8a6a583ac9c8ff42a25cc2070d767" class="m-doc-self">CreateGpioBitField</a>(</span><span class="m-doc-wrap">bool epsIsCharging,
-              bool epsBatteryIsGood,
-              bool eduHasUpdate)</span></span>
+              using rpg::<wbr /><a href="#a0322c17fd4618bb47f632e3f55c04e60" class="m-doc-self">BitField</a> = etl::bitset&lt;<a href="namespacerpg.html#a6573a2dfdf2c2130630b63ff0ad1eb2e" class="m-doc">nBits</a>&gt;
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="aa1e946a926a4d5590f7d588d7c883b17"><div>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="ab0bd6bf2b24d268732725788acadfa3b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa1e946a926a4d5590f7d588d7c883b17" class="m-doc-self">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
-              std::size_t*const position,
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab0bd6bf2b24d268732725788acadfa3b" class="m-doc-self">CreateGpioBitField</a>(</span><span class="m-doc-wrap">ts::bool_t epsIsCharging,
+              ts::bool_t epsBatteryIsGood,
+              ts::bool_t eduHasUpdate)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="acf68b10b765e46e0f78187174b17287d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acf68b10b765e46e0f78187174b17287d" class="m-doc-self">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
+              ts::size_t*const position,
               auto value)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a9419a3c4a686a38c9bd1609e0ec9aced"><div>
+          <section class="m-doc-details" id="a2b5b9f373b06ff845448c8f2542e1a31"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9419a3c4a686a38c9bd1609e0ec9aced" class="m-doc-self">CreateBeacon</a>(</span><span class="m-doc-wrap">int32_t timestamp,
-              int32_t resetCounter,
-              bool eduIsAlive,
-              int32_t gpioBitField)</span></span>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2b5b9f373b06ff845448c8f2542e1a31" class="m-doc-self">ComputeChecksum</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; beacon)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a84aac6762aa4a2574c08b41917764ef3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a84aac6762aa4a2574c08b41917764ef3" class="m-doc-self">CreateBeacon</a>(</span><span class="m-doc-wrap">ts::int64_t timestamp,
+              ts::uint32_t resetCounter,
+              ts::bool_t eduIsAlive,
+              <a href="namespacerpg.html#a0322c17fd4618bb47f632e3f55c04e60" class="m-doc">BitField</a> gpioBitField)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -615,23 +650,23 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a68551e5bec9ba4b46415182b694db271"><div>
+          <section class="m-doc-details" id="aecdc3bfec532aac2439ee08c6691b522"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a68551e5bec9ba4b46415182b694db271" class="m-doc-self">SendTemperature</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span></span>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aecdc3bfec532aac2439ee08c6691b522" class="m-doc-self">SendTemperature</a>(</span><span class="m-doc-wrap">etl::string&lt;commandSize.get()&gt; const&amp; command)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a00dbd14045acddd860c4bb87e8cead7c"><div>
+          <section class="m-doc-details" id="abb0cffe64a1b3d7b7179d1b1e621dee3"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a00dbd14045acddd860c4bb87e8cead7c" class="m-doc-self">SendImage</a>(</span><span class="m-doc-wrap">etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt; const&amp; command)</span></span>
+              <span class="m-doc-wrap-bumper">void rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abb0cffe64a1b3d7b7179d1b1e621dee3" class="m-doc-self">SendImage</a>(</span><span class="m-doc-wrap">etl::string&lt;commandSize.get()&gt; const&amp; command)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CobcCommands_8hpp.html">&lt;Source/Demo/CobcCommands.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="aaecaaf8230fac88c08a9c49ce4f3c8be"><div>
+          <section class="m-doc-details" id="ab85594746fa131af7e3d2eb79b7c4181"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaecaaf8230fac88c08a9c49ce4f3c8be" class="m-doc-self">DispatchCommand</a>(</span><span class="m-doc-wrap">const etl::string&lt;<a href="namespacerpg.html#aadeaa418d48b0abed543e08d45efc0aa" class="m-doc">commandSize</a>&gt;&amp; command)</span></span>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab85594746fa131af7e3d2eb79b7c4181" class="m-doc-self">DispatchCommand</a>(</span><span class="m-doc-wrap">const etl::string&lt;commandSize.get()&gt;&amp; command)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8cpp.html">&lt;Source/Demo/CommandParser.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -678,6 +713,13 @@
         </section>
         <section>
           <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a6573a2dfdf2c2130630b63ff0ad1eb2e"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a6573a2dfdf2c2130630b63ff0ad1eb2e" class="m-doc-self">nBits</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
           <section class="m-doc-details" id="afcfff5b5bbec649d6be8dfea714e9903"><div>
             <h3>
               auto rpg::<wbr /><a href="#afcfff5b5bbec649d6be8dfea714e9903" class="m-doc-self">eduUpdateGpio</a>
