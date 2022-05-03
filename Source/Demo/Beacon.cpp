@@ -76,8 +76,11 @@ auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value
 }
 
 
-auto ComputeChecksum(std::span<std::byte> beacon)
+template<std::size_t size>
+auto ComputeChecksum(std::span<std::byte, size> beacon)
 {
+    static_assert(size >= 3, "The size of 'beacon' must be >= 3 because the start, stop and "
+                  "checksum bytes are not included in the computation.");
     return std::accumulate(std::begin(beacon) + 1,
                            std::end(beacon) - 2,
                            0_u8,
@@ -115,7 +118,7 @@ auto CreateBeacon(ts::int64_t timestamp,
     CopyTo(beacon, &position, beaconResetCounter);
     CopyTo(beacon, &position, beaconEduIsAlive);
     CopyTo(beacon, &position, beaconGpioBitField);
-    checksum = ComputeChecksum(beacon);
+    checksum = ComputeChecksum(std::span(beacon));
     CopyTo(beacon, &position, checksum);
     CopyTo(beacon, &position, stopByte);
     return beacon;
