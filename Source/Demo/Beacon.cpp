@@ -38,7 +38,6 @@ extern HAL_UART uart_stdout;
 namespace rpg
 {
 namespace ts = type_safe;
-using ts::operator""_u8;
 using ts::operator""_i32;
 using ts::operator""_isize;
 using ts::operator""_usize;
@@ -54,6 +53,25 @@ auto epsBatteryGoodGpio = HAL_GPIO(epsBatteryGoodPin);
 auto eduIsAliveBuffer = CommBuffer<bool>();
 auto eduIsAliveSubscriber = Subscriber(eduIsAliveTopic, eduIsAliveBuffer, "eduIsAliveSubscriber");
 
+auto temperatureBuffer = CommBuffer<int32_t>();
+auto temperatureSubscriber =
+    Subscriber(temperatureTopic, temperatureBuffer, "temperatureSubscriber");
+
+auto accelerationXBuffer = CommBuffer<int32_t>();
+auto accelerationXSubscriber =
+    Subscriber(accelerationXTopic, accelerationXBuffer, "accelerationXSubscriber");
+
+auto accelerationYBuffer = CommBuffer<int32_t>();
+auto accelerationYSubscriber =
+    Subscriber(accelerationYTopic, accelerationYBuffer, "accelerationYSubscriber");
+
+auto accelerationZBuffer = CommBuffer<int32_t>();
+auto accelerationZSubscriber =
+    Subscriber(accelerationZTopic, accelerationZBuffer, "accelerationZSubscriber");
+
+auto uvBrightnessBuffer = CommBuffer<int32_t>();
+auto uvBrightnessSubscriber =
+    Subscriber(uvBrightnessTopic, uvBrightnessBuffer, "uvBrightnessSubscriber");
 
 auto CreateGpioBitField(ts::bool_t epsIsCharging,
                         ts::bool_t epsBatteryIsGood,
@@ -79,23 +97,30 @@ auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value
 template<std::size_t size>
 auto ComputeChecksum(std::span<std::byte, size> beacon)
 {
-    static_assert(size >= 3, "The size of 'beacon' must be >= 3 because the start, stop and "
+    static_assert(size >= 3,
+                  "The size of 'beacon' must be >= 3 because the start, stop and "
                   "checksum bytes are not included in the computation.");
-    return std::accumulate(std::begin(beacon) + 1,
-                           std::end(beacon) - 2,
-                           0_u8,
-                           [](auto sum, auto currentElement)
-                           {
-                               ts::uint8_t x = static_cast<uint8_t>(currentElement);
-                               return sum + x;
-                           });
+    // TODO fix this mess with type safe
+    return static_cast<uint8_t>(std::accumulate(std::begin(beacon) + 1,
+                                                std::end(beacon) - 2,
+                                                0,
+                                                [](auto sum, auto currentElement)
+                                                {
+                                                    auto x = static_cast<uint8_t>(currentElement);
+                                                    return sum + x;
+                                                }));
 }
 
 
 auto CreateBeacon(ts::int64_t timestamp,
                   ts::uint32_t resetCounter,
                   ts::bool_t eduIsAlive,
-                  BitField gpioBitField)  // NOLINT(performance-unnecessary-value-param)
+                  BitField gpioBitField,  // NOLINT(performance-unnecessary-value-param)
+                  ts::int32_t temperature,
+                  ts::int32_t accelerationX,
+                  ts::int32_t accelerationY,
+                  ts::int32_t accelerationZ,
+                  ts::int32_t uvBrightness)
 {
     constexpr auto startByte = '?';
     constexpr auto stopByte = '\n';
@@ -104,13 +129,13 @@ auto CreateBeacon(ts::int64_t timestamp,
     auto beaconResetCounter = ts::narrow_cast<ts::int32_t>(resetCounter);
     auto beaconGpioBitField = ts::narrow_cast<ts::int32_t>(gpioBitField.to_ulong());
     auto beaconEduIsAlive = eduIsAlive ? 1_i32 : 0_i32;
-    auto checksum = 0_u8;
-    constexpr auto beaconSize = sizeof(startByte) + sizeof(beaconTimestamp)
-                              + sizeof(beaconResetCounter) + sizeof(beaconEduIsAlive)
-                              + sizeof(beaconGpioBitField) + sizeof(checksum) + sizeof(stopByte);
+    uint8_t checksum = 0;
+    constexpr auto beaconSize =
+        sizeof(startByte) + sizeof(beaconTimestamp) + sizeof(beaconResetCounter)
+        + sizeof(beaconEduIsAlive) + sizeof(beaconGpioBitField) + sizeof(temperature)
+        + sizeof(accelerationX) + sizeof(accelerationY) + sizeof(accelerationZ)
+        + sizeof(uvBrightness) + sizeof(checksum) + sizeof(stopByte);
 
-    // TODO: Use std::array of uint8_t or std::byte, or use an etl::vector and create a
-    // push_back-like function to fill it
     auto beacon = std::array<std::byte, beaconSize>{};
     auto position = 0_usize;
     CopyTo(beacon, &position, startByte);
@@ -118,6 +143,11 @@ auto CreateBeacon(ts::int64_t timestamp,
     CopyTo(beacon, &position, beaconResetCounter);
     CopyTo(beacon, &position, beaconEduIsAlive);
     CopyTo(beacon, &position, beaconGpioBitField);
+    CopyTo(beacon, &position, temperature);
+    CopyTo(beacon, &position, accelerationY);
+    CopyTo(beacon, &position, accelerationX);
+    CopyTo(beacon, &position, accelerationZ);
+    CopyTo(beacon, &position, uvBrightness);
     checksum = ComputeChecksum(std::span(beacon));
     CopyTo(beacon, &position, checksum);
     CopyTo(beacon, &position, stopByte);
@@ -127,6 +157,12 @@ auto CreateBeacon(ts::int64_t timestamp,
 
 class BeaconThread : public StaticThread<>
 {
+  public:
+    BeaconThread() : StaticThread("BeaconThread")
+    {
+    }
+
+  private:
     void init() override
     {
         // 1:  Enable the power controller APB1 interface
@@ -152,12 +188,32 @@ class BeaconThread : public StaticThread<>
             ts::bool_t const epsIsCharging = epsChargingGpio.readPins() != 0;
             ts::bool_t const epsBatteryIsGood = epsBatteryGoodGpio.readPins() != 0;
             ts::bool_t const eduHasUpdate = eduUpdateGpio.readPins() != 0;
+            auto temperature = static_cast<int32_t>(0);
+            auto accelerationX = static_cast<int32_t>(0);
+            auto accelerationY = static_cast<int32_t>(0);
+            auto uvBrightness = static_cast<int32_t>(0);
+            auto accelerationZ = static_cast<int32_t>(0);
+
+            temperatureBuffer.get(temperature);
+            accelerationXBuffer.get(accelerationX);
+            accelerationYBuffer.get(accelerationY);
+            accelerationZBuffer.get(accelerationZ);
+            uvBrightnessBuffer.get(uvBrightness);
+
             auto gpioBitField = CreateGpioBitField(epsIsCharging, epsBatteryIsGood, eduHasUpdate);
             auto eduIsAlive = false;
             // Get the lastet value
             eduIsAliveBuffer.get(eduIsAlive);
-            auto beacon = CreateBeacon(timestamp, resetCounter, eduIsAlive, gpioBitField);
 
+            auto beacon = CreateBeacon(timestamp,
+                                       resetCounter,
+                                       eduIsAlive,
+                                       gpioBitField,
+                                       temperature,
+                                       accelerationX,
+                                       accelerationY,
+                                       accelerationZ,
+                                       uvBrightness);
             WriteTo(&uart_stdout, std::span(beacon));
         }
     }

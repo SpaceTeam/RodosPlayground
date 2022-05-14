@@ -1,12 +1,19 @@
 #include "CommandParser.hpp"
 
 #include "CobcCommands.hpp"
+#include "Communication.hpp"
+#include "Topics.hpp"
 
+#include <type_safe/index.hpp>
 #include <type_safe/types.hpp>
 
 #include <rodos.h>
 
 #include <etl/map.h>
+#include <etl/string.h>
+#include <etl/string_view.h>
+
+#include <cstring>
 
 
 namespace RODOS
@@ -21,35 +28,9 @@ namespace rpg
 {
 namespace ts = type_safe;
 
-
-class ReaderThread : public StaticThread<>
-{
-    void init() override
-    {
-        constexpr auto baudrate = 9'600U;
-        uart1.init(baudrate);
-    }
-
-    void run() override
-    {
-        using ts::operator""_isize;
-        // TODO: There must be a nicer way to do this than reading single characters with random
-        // delays
-
-        // Print everything received from EDU UART
-        char character = 0;
-        while(true)
-        {
-            while(uart1.read(&character, 1) > 0)
-            {
-                PRINTF("%c", character);
-            }
-            constexpr auto delay = 100_isize * MILLISECONDS;
-            uart1.suspendUntilDataReady(NOW() + delay.get());
-        }
-    }
-} readerThread;
-
+using ts::operator""_u8;
+using ts::operator""_i32;
+using ts::operator""_usize;
 
 auto DispatchCommand(const etl::string<commandSize.get()> & command)
 {
@@ -146,4 +127,93 @@ class CommandParserThread : public StaticThread<>
         }
     }
 } commandParserThread;
+
+//  startByte + 5*(ID byte + 4 data bytes) + endByte
+constexpr auto dataFrameSize = 1_usize + (5_usize * (1_usize + 4_usize)) + 1_usize;
+
+auto EduDataParse(const etl::string<dataFrameSize.get()> & dataFrame)
+{
+    constexpr auto channelSize = ts::difference_t(5);  // ID byte + 32bit data
+    for(ts::index_t index = 1_usize; index < (ts::index_t(dataFrameSize) - channelSize);
+        index += channelSize)
+    {
+        auto id = 0_u8;
+        auto data = 0_i32;
+
+        std::memcpy(&id, &(at(dataFrame, index)), sizeof(id));
+        std::memcpy(&data, &(at(dataFrame, index + 1)), sizeof(data));
+
+        switch(static_cast<ts::integer<unsigned char>::integer_type>(id))
+        {
+            case 1:  // NOLINT
+                temperatureTopic.publish(data);
+                break;
+            case 2:  // NOLINT
+                accelerationXTopic.publish(data);
+                break;
+            case 3:  // NOLINT
+                accelerationYTopic.publish(data);
+                break;
+            case 4:  // NOLINT
+                accelerationZTopic.publish(data);
+                break;
+            case 5:  // NOLINT
+                uvBrightnessTopic.publish(data);
+                break;
+            default:;
+                // Too bad
+        }
+    }
+}
+
+class EduReaderThread : public StaticThread<>
+{
+    void init() override
+    {
+        constexpr auto baudrate = 9'600;
+        uart1.init(baudrate);
+    }
+
+    void run() override
+    {
+        constexpr auto startCharacter = '?';
+
+        // StartByte + 5 channels * (ID byte + data) + stopByte
+        auto eduDataFrame = etl::string<dataFrameSize.get()>();
+        ts::bool_t startWasDetected = false;
+        while(true)
+        {
+            WriteTo(&uart1, "$52\n");
+            uart1.suspendUntilWriteFinished();
+
+            char readCharacter = 0;
+            auto nReadCharacters = ts::size_t(uart1.read(&readCharacter, 1));
+            if(nReadCharacters != 0U)
+            {
+                // PRINTF("%c", readCharacter);
+                if(readCharacter == startCharacter)
+                {
+                    // PRINTF("Start Detected\n");
+                    startWasDetected = true;
+                    eduDataFrame.clear();
+                    eduDataFrame += startCharacter;
+                }
+                else if(startWasDetected)
+                {
+                    eduDataFrame += readCharacter;
+                    if(eduDataFrame.full())
+                    {
+                        // Command full
+                        // TODO maybe check that endbyte is correct (and more checks in general)
+                        EduDataParse(eduDataFrame);
+                        startWasDetected = false;
+                    }
+                }
+            }
+            uart1.suspendUntilDataReady();
+        }
+    }
+} eduReaderThread;
+
+
 }
