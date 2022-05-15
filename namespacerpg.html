@@ -137,7 +137,7 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aaa86361089b3fba63b4d6f0ca75f142c" class="m-doc">CreateBeacon</a>(</span><span class="m-doc-wrap">ts::int64_t timestamp,
+              <span class="m-doc-wrap-bumper">auto <a href="#a7abdc352ba9fc7dc0766a24182982847" class="m-doc">CreateBeacon</a>(</span><span class="m-doc-wrap">ts::int64_t timestamp,
               ts::uint32_t resetCounter,
               ts::bool_t eduIsAlive,
               <a href="namespacerpg.html#a0322c17fd4618bb47f632e3f55c04e60" class="m-doc">BitField</a> gpioBitField,
@@ -145,7 +145,7 @@
               ts::int32_t accelerationX,
               ts::int32_t accelerationY,
               ts::int32_t accelerationZ,
-              ts::int32_t uvBrightness)</span>
+              ts::int32_t brightness)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -182,28 +182,28 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a52ced5930f90f92911e812f443439ca3" class="m-doc">temperatureTopic</a>(</span><span class="m-doc-wrap">- 1,
-              &quot;temperatureTopic&quot;) -&gt; Topic&lt;type_safe::int32_t&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a424b28b21eb01adb13999b4383b98d69" class="m-doc">temperatureTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;temperatureTopic&quot;) -&gt; Topic&lt;ts::int32_t&gt;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ada23f539ee442727f3ebcfaecc9d4bf1" class="m-doc">accelerationXTopic</a>(</span><span class="m-doc-wrap">- 1,
-              &quot;accelerationXTopic&quot;) -&gt; Topic&lt;type_safe::int32_t&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3214fc5b7551c744a9625569c0ab1cf8" class="m-doc">accelerationXTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;accelerationXTopic&quot;) -&gt; Topic&lt;ts::int32_t&gt;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0d78c2db1d1a19aa779832576b2eff9a" class="m-doc">accelerationYTopic</a>(</span><span class="m-doc-wrap">- 1,
-              &quot;accelerationYTopic&quot;) -&gt; Topic&lt;type_safe::int32_t&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2e518ba4d483871b6dbe142d560c0c2e" class="m-doc">accelerationYTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;accelerationYTopic&quot;) -&gt; Topic&lt;ts::int32_t&gt;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab770601b658658c4b3a91bc2cde4caae" class="m-doc">accelerationZTopic</a>(</span><span class="m-doc-wrap">- 1,
-              &quot;accelerationZTopic&quot;) -&gt; Topic&lt;type_safe::int32_t&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab374d836bc84ae72adfd8aed0e51fbac" class="m-doc">accelerationZTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;accelerationZTopic&quot;) -&gt; Topic&lt;ts::int32_t&gt;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae486cd37a8f46c980a72e0914bd9fd73" class="m-doc">uvBrightnessTopic</a>(</span><span class="m-doc-wrap">- 1,
-              &quot;uvBrightnessTopic&quot;) -&gt; Topic&lt;type_safe::int32_t&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5db4150458619cff4eb22bc31149e641" class="m-doc">brightnessTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;brightnessTopic&quot;) -&gt; Topic&lt;ts::int32_t&gt;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -211,13 +211,13 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#adde2673c32f4fc70e6e0d6810ae9ee91" class="m-doc">huart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
+              <span class="m-doc-wrap-bumper">auto <a href="#a4e6a518385c8c9954a584a4d7f9b3d77" class="m-doc">uart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
               GPIO_009,
               GPIO_010) -&gt; HAL_UART</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5b9bf262008e0bc892dfb07f04cb4b6f" class="m-doc">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">void)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a59fe2df9cb04969cc9fadba78659cacd" class="m-doc">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -300,11 +300,11 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              auto <a href="#a9c2b5f0962e1ca4da2e6e9804f504c3c" class="m-doc">uvBrightnessBuffer</a>
+              auto <a href="#a4be25a4e2d7f367d40e6edf44538a6e1" class="m-doc">brightnessBuffer</a>
             </dt>
             <dd><span></span></dd>
             <dt>
-              auto <a href="#ac93ef57c3282e1c28a9460642ebd9e0a" class="m-doc">uvBrightnessSubscriber</a>
+              auto <a href="#a4c9c5bd1c58e14c76d1d72daa8521d52" class="m-doc">brightnessSubscriber</a>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -332,7 +332,7 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              auto <a href="#a921faf43fdea21818379b17b9c4ea66c" class="m-doc">uart1</a>
+              auto <a href="#a8bcefb88d2759059e15ff0281b03778a" class="m-doc">eduUart</a>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -711,9 +711,9 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="aaa86361089b3fba63b4d6f0ca75f142c"><div>
+          <section class="m-doc-details" id="a7abdc352ba9fc7dc0766a24182982847"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaa86361089b3fba63b4d6f0ca75f142c" class="m-doc-self">CreateBeacon</a>(</span><span class="m-doc-wrap">ts::int64_t timestamp,
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7abdc352ba9fc7dc0766a24182982847" class="m-doc-self">CreateBeacon</a>(</span><span class="m-doc-wrap">ts::int64_t timestamp,
               ts::uint32_t resetCounter,
               ts::bool_t eduIsAlive,
               <a href="namespacerpg.html#a0322c17fd4618bb47f632e3f55c04e60" class="m-doc">BitField</a> gpioBitField,
@@ -721,7 +721,7 @@
               ts::int32_t accelerationX,
               ts::int32_t accelerationY,
               ts::int32_t accelerationZ,
-              ts::int32_t uvBrightness)</span></span>
+              ts::int32_t brightness)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -783,42 +783,42 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a52ced5930f90f92911e812f443439ca3"><div>
+          <section class="m-doc-details" id="a424b28b21eb01adb13999b4383b98d69"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">Topic&lt;type_safe::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a52ced5930f90f92911e812f443439ca3" class="m-doc-self">temperatureTopic</a>(</span><span class="m-doc-wrap">- 1,
+              <span class="m-doc-wrap-bumper">Topic&lt;ts::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a424b28b21eb01adb13999b4383b98d69" class="m-doc-self">temperatureTopic</a>(</span><span class="m-doc-wrap">- 1,
               &quot;temperatureTopic&quot;)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ada23f539ee442727f3ebcfaecc9d4bf1"><div>
+          <section class="m-doc-details" id="a3214fc5b7551c744a9625569c0ab1cf8"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">Topic&lt;type_safe::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ada23f539ee442727f3ebcfaecc9d4bf1" class="m-doc-self">accelerationXTopic</a>(</span><span class="m-doc-wrap">- 1,
+              <span class="m-doc-wrap-bumper">Topic&lt;ts::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3214fc5b7551c744a9625569c0ab1cf8" class="m-doc-self">accelerationXTopic</a>(</span><span class="m-doc-wrap">- 1,
               &quot;accelerationXTopic&quot;)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a0d78c2db1d1a19aa779832576b2eff9a"><div>
+          <section class="m-doc-details" id="a2e518ba4d483871b6dbe142d560c0c2e"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">Topic&lt;type_safe::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0d78c2db1d1a19aa779832576b2eff9a" class="m-doc-self">accelerationYTopic</a>(</span><span class="m-doc-wrap">- 1,
+              <span class="m-doc-wrap-bumper">Topic&lt;ts::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2e518ba4d483871b6dbe142d560c0c2e" class="m-doc-self">accelerationYTopic</a>(</span><span class="m-doc-wrap">- 1,
               &quot;accelerationYTopic&quot;)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ab770601b658658c4b3a91bc2cde4caae"><div>
+          <section class="m-doc-details" id="ab374d836bc84ae72adfd8aed0e51fbac"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">Topic&lt;type_safe::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab770601b658658c4b3a91bc2cde4caae" class="m-doc-self">accelerationZTopic</a>(</span><span class="m-doc-wrap">- 1,
+              <span class="m-doc-wrap-bumper">Topic&lt;ts::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab374d836bc84ae72adfd8aed0e51fbac" class="m-doc-self">accelerationZTopic</a>(</span><span class="m-doc-wrap">- 1,
               &quot;accelerationZTopic&quot;)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ae486cd37a8f46c980a72e0914bd9fd73"><div>
+          <section class="m-doc-details" id="a5db4150458619cff4eb22bc31149e641"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">Topic&lt;type_safe::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae486cd37a8f46c980a72e0914bd9fd73" class="m-doc-self">uvBrightnessTopic</a>(</span><span class="m-doc-wrap">- 1,
-              &quot;uvBrightnessTopic&quot;)</span></span>
+              <span class="m-doc-wrap-bumper">Topic&lt;ts::int32_t&gt; rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5db4150458619cff4eb22bc31149e641" class="m-doc-self">brightnessTopic</a>(</span><span class="m-doc-wrap">- 1,
+              &quot;brightnessTopic&quot;)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Topics_8hpp.html">&lt;Source/Demo/Topics.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -830,18 +830,18 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="adde2673c32f4fc70e6e0d6810ae9ee91"><div>
+          <section class="m-doc-details" id="a4e6a518385c8c9954a584a4d7f9b3d77"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">HAL_UART rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adde2673c32f4fc70e6e0d6810ae9ee91" class="m-doc-self">huart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
+              <span class="m-doc-wrap-bumper">HAL_UART rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4e6a518385c8c9954a584a4d7f9b3d77" class="m-doc-self">uart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
               GPIO_009,
               GPIO_010)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloUart_8cpp.html">&lt;Source/HardwareTests/HelloUart.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a5b9bf262008e0bc892dfb07f04cb4b6f"><div>
+          <section class="m-doc-details" id="a59fe2df9cb04969cc9fadba78659cacd"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5b9bf262008e0bc892dfb07f04cb4b6f" class="m-doc-self">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">void)</span></span>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a59fe2df9cb04969cc9fadba78659cacd" class="m-doc-self">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloUart_8cpp.html">&lt;Source/HardwareTests/HelloUart.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -978,16 +978,16 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a9c2b5f0962e1ca4da2e6e9804f504c3c"><div>
+          <section class="m-doc-details" id="a4be25a4e2d7f367d40e6edf44538a6e1"><div>
             <h3>
-              auto rpg::<wbr /><a href="#a9c2b5f0962e1ca4da2e6e9804f504c3c" class="m-doc-self">uvBrightnessBuffer</a>
+              auto rpg::<wbr /><a href="#a4be25a4e2d7f367d40e6edf44538a6e1" class="m-doc-self">brightnessBuffer</a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ac93ef57c3282e1c28a9460642ebd9e0a"><div>
+          <section class="m-doc-details" id="a4c9c5bd1c58e14c76d1d72daa8521d52"><div>
             <h3>
-              auto rpg::<wbr /><a href="#ac93ef57c3282e1c28a9460642ebd9e0a" class="m-doc-self">uvBrightnessSubscriber</a>
+              auto rpg::<wbr /><a href="#a4c9c5bd1c58e14c76d1d72daa8521d52" class="m-doc-self">brightnessSubscriber</a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -1034,9 +1034,9 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a921faf43fdea21818379b17b9c4ea66c"><div>
+          <section class="m-doc-details" id="a8bcefb88d2759059e15ff0281b03778a"><div>
             <h3>
-              auto rpg::<wbr /><a href="#a921faf43fdea21818379b17b9c4ea66c" class="m-doc-self">uart1</a>
+              auto rpg::<wbr /><a href="#a8bcefb88d2759059e15ff0281b03778a" class="m-doc-self">eduUart</a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8hpp.html">&lt;Source/Demo/CommandParser.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
