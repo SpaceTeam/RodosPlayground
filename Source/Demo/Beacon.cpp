@@ -69,9 +69,8 @@ auto accelerationZBuffer = CommBuffer<int32_t>();
 auto accelerationZSubscriber =
     Subscriber(accelerationZTopic, accelerationZBuffer, "accelerationZSubscriber");
 
-auto uvBrightnessBuffer = CommBuffer<int32_t>();
-auto uvBrightnessSubscriber =
-    Subscriber(uvBrightnessTopic, uvBrightnessBuffer, "uvBrightnessSubscriber");
+auto brightnessBuffer = CommBuffer<int32_t>();
+auto brightnessSubscriber = Subscriber(brightnessTopic, brightnessBuffer, "brightnessSubscriber");
 
 auto CreateGpioBitField(ts::bool_t epsIsCharging,
                         ts::bool_t epsBatteryIsGood,
@@ -120,7 +119,7 @@ auto CreateBeacon(ts::int64_t timestamp,
                   ts::int32_t accelerationX,
                   ts::int32_t accelerationY,
                   ts::int32_t accelerationZ,
-                  ts::int32_t uvBrightness)
+                  ts::int32_t brightness)
 {
     constexpr auto startByte = '?';
     constexpr auto stopByte = '\n';
@@ -133,8 +132,8 @@ auto CreateBeacon(ts::int64_t timestamp,
     constexpr auto beaconSize =
         sizeof(startByte) + sizeof(beaconTimestamp) + sizeof(beaconResetCounter)
         + sizeof(beaconEduIsAlive) + sizeof(beaconGpioBitField) + sizeof(temperature)
-        + sizeof(accelerationX) + sizeof(accelerationY) + sizeof(accelerationZ)
-        + sizeof(uvBrightness) + sizeof(checksum) + sizeof(stopByte);
+        + sizeof(accelerationX) + sizeof(accelerationY) + sizeof(accelerationZ) + sizeof(brightness)
+        + sizeof(checksum) + sizeof(stopByte);
 
     auto beacon = std::array<std::byte, beaconSize>{};
     auto position = 0_usize;
@@ -147,7 +146,7 @@ auto CreateBeacon(ts::int64_t timestamp,
     CopyTo(beacon, &position, accelerationY);
     CopyTo(beacon, &position, accelerationX);
     CopyTo(beacon, &position, accelerationZ);
-    CopyTo(beacon, &position, uvBrightness);
+    CopyTo(beacon, &position, brightness);
     checksum = ComputeChecksum(std::span(beacon));
     CopyTo(beacon, &position, checksum);
     CopyTo(beacon, &position, stopByte);
@@ -191,14 +190,14 @@ class BeaconThread : public StaticThread<>
             auto temperature = static_cast<int32_t>(0);
             auto accelerationX = static_cast<int32_t>(0);
             auto accelerationY = static_cast<int32_t>(0);
-            auto uvBrightness = static_cast<int32_t>(0);
             auto accelerationZ = static_cast<int32_t>(0);
+            auto brightness = static_cast<int32_t>(0);
 
             temperatureBuffer.get(temperature);
             accelerationXBuffer.get(accelerationX);
             accelerationYBuffer.get(accelerationY);
             accelerationZBuffer.get(accelerationZ);
-            uvBrightnessBuffer.get(uvBrightness);
+            brightnessBuffer.get(brightness);
 
             auto gpioBitField = CreateGpioBitField(epsIsCharging, epsBatteryIsGood, eduHasUpdate);
             auto eduIsAlive = false;
@@ -213,7 +212,7 @@ class BeaconThread : public StaticThread<>
                                        accelerationX,
                                        accelerationY,
                                        accelerationZ,
-                                       uvBrightness);
+                                       brightness);
             WriteTo(&uart_stdout, std::span(beacon));
         }
     }

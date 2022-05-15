@@ -28,12 +28,12 @@ namespace rpg
 {
 HAL_GPIO greenLed(ledPin);
 
-HAL_UART huart1(UART_IDX1, GPIO_009, GPIO_010);
+HAL_UART uart1(UART_IDX1, GPIO_009, GPIO_010);
 
 namespace ts = type_safe;
 using ts::operator""_usize;
 
-auto CreateFakeEduDataFrame(void)  // NOLINT(performance-unnecessary-value-param)
+auto CreateFakeEduDataFrame()
 {
     constexpr auto eduDataFrameSize = 1 + 5 * (1 + 4) + 1;
     auto eduDataFrame = std::array<std::byte, eduDataFrameSize>{};
@@ -65,7 +65,6 @@ auto CreateFakeEduDataFrame(void)  // NOLINT(performance-unnecessary-value-param
 
     std::memcpy(&eduDataFrame[26], &endByte, sizeof(endByte));
 
-
     return eduDataFrame;
 }
 
@@ -75,8 +74,8 @@ class HelloUart : public StaticThread<>
     void init() override
     {
         greenLed.init(/*isOutput=*/true, 1, 0);
-        constexpr auto baudrate = 9600;
-        huart1.init(baudrate);
+        constexpr auto baudrate = 9'600;
+        uart1.init(baudrate);
     }
 
 
@@ -96,7 +95,7 @@ class HelloUart : public StaticThread<>
             else
             {
                 auto eduDataFrame = CreateFakeEduDataFrame();
-                WriteTo(&huart1, std::span(eduDataFrame));
+                WriteTo(&uart1, std::span(eduDataFrame));
             }
             toggle = not toggle;
         }

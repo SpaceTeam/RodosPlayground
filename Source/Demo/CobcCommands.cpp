@@ -16,14 +16,16 @@ namespace ts = type_safe;
 void TurnEduOn()
 {
     PRINTF("*Turn on EDU*\n");
-    eduEnabledGpio.setPins(1U);
+    // The enable pin uses inverted logic: 0 = enable
+    eduEnabledGpio.setPins(0U);
 }
 
 
 void TurnEduOff()
 {
     PRINTF("*Turn off EDU*\n");
-    eduEnabledGpio.setPins(0U);
+    // The enable pin uses inverted logic: 1 = disable
+    eduEnabledGpio.setPins(1U);
 }
 
 
@@ -38,15 +40,15 @@ void SendResetCounter()
 void SendTemperature(etl::string<commandSize.get()> const & command)
 {
     PRINTF("*Send temperature*\n");
-    uart1.write(std::data(command), std::size(command));
-    uart1.write("\n", 1U);
+    eduUart.write(std::data(command), std::size(command));
+    eduUart.write("\n", 1U);
 }
 
 
 void SendImage(etl::string<commandSize.get()> const & command)
 {
     PRINTF("*Send image*\n");
-    uart1.write(std::data(command), std::size(command));
-    uart1.write("\n", 1U);
+    eduUart.write(std::data(command), std::size(command));
+    eduUart.write("\n", 1U);
 }
 }

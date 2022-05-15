@@ -157,7 +157,7 @@ auto EduDataParse(const etl::string<dataFrameSize.get()> & dataFrame)
             accelerationZTopic.publish(data);
             break;
         case 5:  // NOLINT
-            uvBrightnessTopic.publish(data);
+            brightnessTopic.publish(data);
             break;
         default:;
             // Too bad
@@ -169,7 +169,7 @@ class EduReaderThread : public StaticThread<>
     void init() override
     {
         constexpr auto baudrate = 9'600;
-        uart1.init(baudrate);
+        eduUart.init(baudrate);
     }
 
     void run() override
@@ -181,11 +181,11 @@ class EduReaderThread : public StaticThread<>
         ts::bool_t startWasDetected = false;
         while(true)
         {
-            WriteTo(&uart1, "$52\n");
-            uart1.suspendUntilWriteFinished();
+            WriteTo(&eduUart, "$52\n");
+            eduUart.suspendUntilWriteFinished();
 
             char readCharacter = 0;
-            auto nReadCharacters = ts::size_t(uart1.read(&readCharacter, 1));
+            auto nReadCharacters = ts::size_t(eduUart.read(&readCharacter, 1));
             if(nReadCharacters != 0U)
             {
                 // PRINTF("%c", readCharacter);
@@ -208,7 +208,7 @@ class EduReaderThread : public StaticThread<>
                     }
                 }
             }
-            uart1.suspendUntilDataReady();
+            eduUart.suspendUntilDataReady();
         }
     }
 } eduReaderThread;

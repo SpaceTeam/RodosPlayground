@@ -7,7 +7,8 @@
 
 namespace rpg
 {
+// TODO: Why is this here? Wouldn't it fit better in CobcCommands.hpp?
 inline auto eduEnabledGpio = HAL_GPIO(eduEnabledPin);
 
-inline auto uart1 = HAL_UART(eduUartIndex, eduUartTxPin, eduUartRxPin);
+inline auto eduUart = HAL_UART(eduUartIndex, eduUartTxPin, eduUartRxPin);
 }
