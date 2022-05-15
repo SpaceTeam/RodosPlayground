@@ -128,41 +128,39 @@ class CommandParserThread : public StaticThread<>
     }
 } commandParserThread;
 
-//  startByte + 5*(ID byte + 4 data bytes) + endByte
-constexpr auto dataFrameSize = 1_usize + (5_usize * (1_usize + 4_usize)) + 1_usize;
+// startByte + 1 Id byte + 4 data bytes + endByte
+constexpr auto dataFrameSize = 1_usize + 1_usize + 4_usize + 1_usize;
 
 auto EduDataParse(const etl::string<dataFrameSize.get()> & dataFrame)
 {
-    constexpr auto channelSize = ts::difference_t(5);  // ID byte + 32bit data
-    for(ts::index_t index = 1_usize; index < (ts::index_t(dataFrameSize) - channelSize);
-        index += channelSize)
+    ts::index_t index = 1_usize;
+
+    auto id = 0_u8;
+    auto data = 0_i32;
+
+    std::memcpy(&id, &(at(dataFrame, index)), sizeof(id));
+    std::memcpy(&data, &(at(dataFrame, index + 1)), sizeof(data));
+
+    // TODO fix magic constants
+    switch(static_cast<ts::integer<unsigned char>::integer_type>(id))
     {
-        auto id = 0_u8;
-        auto data = 0_i32;
-
-        std::memcpy(&id, &(at(dataFrame, index)), sizeof(id));
-        std::memcpy(&data, &(at(dataFrame, index + 1)), sizeof(data));
-
-        switch(static_cast<ts::integer<unsigned char>::integer_type>(id))
-        {
-            case 1:  // NOLINT
-                temperatureTopic.publish(data);
-                break;
-            case 2:  // NOLINT
-                accelerationXTopic.publish(data);
-                break;
-            case 3:  // NOLINT
-                accelerationYTopic.publish(data);
-                break;
-            case 4:  // NOLINT
-                accelerationZTopic.publish(data);
-                break;
-            case 5:  // NOLINT
-                uvBrightnessTopic.publish(data);
-                break;
-            default:;
-                // Too bad
-        }
+        case 1:  // NOLINT
+            temperatureTopic.publish(data);
+            break;
+        case 2:  // NOLINT
+            accelerationXTopic.publish(data);
+            break;
+        case 3:  // NOLINT
+            accelerationYTopic.publish(data);
+            break;
+        case 4:  // NOLINT
+            accelerationZTopic.publish(data);
+            break;
+        case 5:  // NOLINT
+            uvBrightnessTopic.publish(data);
+            break;
+        default:;
+            // Too bad
     }
 }
 
