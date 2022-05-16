@@ -143,8 +143,8 @@ auto CreateBeacon(ts::int64_t timestamp,
     CopyTo(beacon, &position, beaconEduIsAlive);
     CopyTo(beacon, &position, beaconGpioBitField);
     CopyTo(beacon, &position, temperature);
-    CopyTo(beacon, &position, accelerationY);
     CopyTo(beacon, &position, accelerationX);
+    CopyTo(beacon, &position, accelerationY);
     CopyTo(beacon, &position, accelerationZ);
     CopyTo(beacon, &position, brightness);
     checksum = ComputeChecksum(std::span(beacon));
@@ -181,17 +181,19 @@ class BeaconThread : public StaticThread<>
         ++resetCounter;
         RTC_WriteBackupRegister(RTC_BKP_DR0, resetCounter.get());
 
-        TIME_LOOP(0, (2'000_isize * MILLISECONDS).get())
+        // TODO use a constant here
+        TIME_LOOP(0, (100_isize * MILLISECONDS).get())
         {
             ts::int64_t const timestamp = NOW() / MILLISECONDS;
             ts::bool_t const epsIsCharging = epsChargingGpio.readPins() != 0;
             ts::bool_t const epsBatteryIsGood = epsBatteryGoodGpio.readPins() != 0;
             ts::bool_t const eduHasUpdate = eduUpdateGpio.readPins() != 0;
-            auto temperature = static_cast<int32_t>(0);
-            auto accelerationX = static_cast<int32_t>(0);
-            auto accelerationY = static_cast<int32_t>(0);
-            auto accelerationZ = static_cast<int32_t>(0);
-            auto brightness = static_cast<int32_t>(0);
+
+            int32_t temperature = 0;
+            int32_t accelerationX = 0;
+            int32_t accelerationY = 0;
+            int32_t accelerationZ = 0;
+            int32_t brightness = 0;
 
             temperatureBuffer.get(temperature);
             accelerationXBuffer.get(accelerationX);

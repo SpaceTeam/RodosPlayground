@@ -6,8 +6,12 @@ target_link_libraries(
 target_sources(RodosPlayground_EduHeartbeat PRIVATE EduHeartbeat.cpp)
 target_link_libraries(RodosPlayground_EduHeartbeat PRIVATE rodos::rodos Io_Lib type_safe)
 
+
+target_sources(RodosPlayground_EduData PRIVATE EduData.cpp)
+target_link_libraries(RodosPlayground_EduData PRIVATE rodos::rodos Io_Lib type_safe RodosWrappers_Lib)
+
 target_sources(
-    RodosPlayground_Demo PRIVATE Beacon.cpp EduHeartbeat.cpp CommandParser.cpp CobcCommands.cpp
+    RodosPlayground_Demo PRIVATE Beacon.cpp EduHeartbeat.cpp EduData.cpp CommandParser.cpp CobcCommands.cpp
                                  CobcCommands.hpp
 )
 target_link_libraries(

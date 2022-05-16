@@ -129,34 +129,41 @@ class CommandParserThread : public StaticThread<>
 } commandParserThread;
 
 // startByte + 1 Id byte + 4 data bytes + endByte
-constexpr auto dataFrameSize = 1_usize + 1_usize + 4_usize + 1_usize;
+constexpr auto dataFrameSize = 1_usize + 1_usize + sizeof(int32_t) + 1_usize;
 
 auto EduDataParse(const etl::string<dataFrameSize.get()> & dataFrame)
 {
-    ts::index_t index = 1_usize;
+    ts::size_t index = 1_usize;
 
     auto id = 0_u8;
     auto data = 0_i32;
 
-    std::memcpy(&id, &(at(dataFrame, index)), sizeof(id));
-    std::memcpy(&data, &(at(dataFrame, index + 1)), sizeof(data));
+    // TODO no explicit calls to memcpy, use utility function instead
+    std::memcpy(&id, &dataFrame[index.get()], sizeof(id));
+    index = index + sizeof(id);
+    std::memcpy(&id, &dataFrame[index.get()], sizeof(id));
 
-    // TODO fix magic constants
-    switch(static_cast<ts::integer<unsigned char>::integer_type>(id))
+    constexpr auto temperatureID = 1;
+    constexpr auto accelerationXId = 2;
+    constexpr auto accelerationYId = 3;
+    constexpr auto accelerationZId = 4;
+    constexpr auto brightnessId = 5;
+
+    switch(id.get())
     {
-        case 1:  // NOLINT
+        case temperatureID:
             temperatureTopic.publish(data);
             break;
-        case 2:  // NOLINT
+        case accelerationXId:
             accelerationXTopic.publish(data);
             break;
-        case 3:  // NOLINT
+        case accelerationYId:
             accelerationYTopic.publish(data);
             break;
-        case 4:  // NOLINT
+        case accelerationZId:
             accelerationZTopic.publish(data);
             break;
-        case 5:  // NOLINT
+        case brightnessId:
             brightnessTopic.publish(data);
             break;
         default:;
@@ -176,14 +183,10 @@ class EduReaderThread : public StaticThread<>
     {
         constexpr auto startCharacter = '?';
 
-        // StartByte + 5 channels * (ID byte + data) + stopByte
         auto eduDataFrame = etl::string<dataFrameSize.get()>();
         ts::bool_t startWasDetected = false;
         while(true)
         {
-            WriteTo(&eduUart, "$52\n");
-            eduUart.suspendUntilWriteFinished();
-
             char readCharacter = 0;
             auto nReadCharacters = ts::size_t(eduUart.read(&readCharacter, 1));
             if(nReadCharacters != 0U)
@@ -191,7 +194,6 @@ class EduReaderThread : public StaticThread<>
                 // PRINTF("%c", readCharacter);
                 if(readCharacter == startCharacter)
                 {
-                    // PRINTF("Start Detected\n");
                     startWasDetected = true;
                     eduDataFrame.clear();
                     eduDataFrame += startCharacter;

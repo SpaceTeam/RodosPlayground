@@ -61,7 +61,7 @@ class HelloSpi : public StaticThread<>
         auto i = 0_usize;
         TIME_LOOP(0, 500 * MILLISECONDS)
         {
-            // PRINTF is super weired because without the static_cast %u causes "expected unsigned
+            // PRINTF is super weird because without the static_cast %u causes "expected unsigned
             // int but got unsigned long" and %lu causes "expected unsigned long but got unsigned
             // int". I guess this is because int and long are both 32bit on an STM32.
             PRINTF("Writing to SPI%lu\n", static_cast<unsigned long>((i + 1U).get()));

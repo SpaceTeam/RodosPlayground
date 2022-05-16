@@ -53,7 +53,7 @@ class EduHeartbeatThread : public StaticThread<>
 
             oldHeartbeat = heartbeat;
 
-            // Check if heartbeat is constant over a whole heartbeat periode
+            // Check if heartbeat is constant over a whole heartbeat period
             if(samplingCount == samplingFrequency / heartbeatFrequency)
             {
                 if(heartbeatIsConstant)
