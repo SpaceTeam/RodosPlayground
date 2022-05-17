@@ -19,7 +19,6 @@ class EduData : public StaticThread<>
 
     void run() override
     {
-
         constexpr auto temperatureCommand = "$51\n";
         constexpr auto accelerationCommand = "$52\n";
         constexpr auto brightnessCommand = "$53\n";

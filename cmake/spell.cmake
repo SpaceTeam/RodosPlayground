@@ -14,10 +14,13 @@ if(FIX)
     set(flag -w)
 endif()
 
+set(filesToSkip .clang-format)
+set(allowedWords tust)
+
 execute_process(
-    COMMAND "${SPELL_COMMAND}" ${flag}
+    COMMAND "codespell" ${flag} "--skip=${filesToSkip}" "-L ${allowedWords}"
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    RESULT_VARIABLE result
+    RESULT_VARIABLE result COMMAND_ECHO STDERR
 )
 
 if(result EQUAL "65")
