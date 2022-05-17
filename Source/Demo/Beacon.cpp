@@ -1,6 +1,7 @@
 #include "Communication.hpp"
 #include "Io.hpp"
 #include "Topics.hpp"
+#include "Util.hpp"
 
 #include <type_safe/narrow_cast.hpp>
 #include <type_safe/types.hpp>
@@ -39,7 +40,6 @@ namespace rpg
 {
 namespace ts = type_safe;
 using ts::operator""_i32;
-using ts::operator""_isize;
 using ts::operator""_usize;
 
 constexpr auto nBits = 32;
@@ -82,16 +82,6 @@ auto CreateGpioBitField(ts::bool_t epsIsCharging,
     gpioBitField.set(2, bool(eduHasUpdate));
     return gpioBitField;
 }
-
-
-auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value)
-{
-    auto newPosition = *position + sizeof(value);
-    RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition <= std::size(buffer));
-    std::memcpy(&buffer[(*position).get()], &value, sizeof(value));
-    *position = newPosition;
-}
-
 
 template<std::size_t size>
 auto ComputeChecksum(std::span<std::byte, size> beacon)
@@ -182,7 +172,7 @@ class BeaconThread : public StaticThread<>
         RTC_WriteBackupRegister(RTC_BKP_DR0, resetCounter.get());
 
         // TODO use a constant here
-        TIME_LOOP(0, (100_isize * MILLISECONDS).get())
+        TIME_LOOP(0, (beaconPeriod * MILLISECONDS).get())
         {
             ts::int64_t const timestamp = NOW() / MILLISECONDS;
             ts::bool_t const epsIsCharging = epsChargingGpio.readPins() != 0;

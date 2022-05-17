@@ -3,6 +3,7 @@
 #include "CobcCommands.hpp"
 #include "Communication.hpp"
 #include "Topics.hpp"
+#include "Util.hpp"
 
 #include <type_safe/index.hpp>
 #include <type_safe/types.hpp>
@@ -131,19 +132,18 @@ class CommandParserThread : public StaticThread<>
 // startByte + 1 Id byte + 4 data bytes + endByte
 constexpr auto dataFrameSize = 1_usize + 1_usize + sizeof(int32_t) + 1_usize;
 
-auto EduDataParse(const etl::string<dataFrameSize.get()> & dataFrame)
+auto ParseEduDataFrame(const etl::string<dataFrameSize.get()> & dataFrame)
 {
     ts::size_t index = 1_usize;
 
     auto id = 0_u8;
     auto data = 0_i32;
 
-    // TODO no explicit calls to memcpy, use utility function instead
-    std::memcpy(&id, &dataFrame[index.get()], sizeof(id));
-    index = index + sizeof(id);
-    std::memcpy(&id, &dataFrame[index.get()], sizeof(id));
 
-    constexpr auto temperatureID = 1;
+    CopyFrom(dataFrame, &index, id);
+    CopyFrom(dataFrame, &index, data);
+
+    constexpr auto temperatureId = 1;
     constexpr auto accelerationXId = 2;
     constexpr auto accelerationYId = 3;
     constexpr auto accelerationZId = 4;
@@ -151,7 +151,7 @@ auto EduDataParse(const etl::string<dataFrameSize.get()> & dataFrame)
 
     switch(id.get())
     {
-        case temperatureID:
+        case temperatureId:
             temperatureTopic.publish(data);
             break;
         case accelerationXId:
@@ -204,8 +204,8 @@ class EduReaderThread : public StaticThread<>
                     if(eduDataFrame.full())
                     {
                         // Command full
-                        // TODO maybe check that endbyte is correct (and more checks in general)
-                        EduDataParse(eduDataFrame);
+                        // TODO maybe check that endbyte is correct
+                        ParseEduDataFrame(eduDataFrame);
                         startWasDetected = false;
                     }
                 }
