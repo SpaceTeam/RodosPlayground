@@ -82,6 +82,10 @@
             </dt>
             <dd><span></span></dd>
             <dt>
+              class <a href="classrpg_1_1EduDataFrameFaker.html" class="m-doc">EduDataFrameFaker</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
               class <a href="classrpg_1_1EduHeartbeatThread.html" class="m-doc">EduHeartbeatThread</a>
             </dt>
             <dd><span></span></dd>
@@ -130,12 +134,6 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#acf68b10b765e46e0f78187174b17287d" class="m-doc">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
-              ts::size_t*const position,
-              auto value)</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
               <div class="m-doc-template">template&lt;std::size_t size&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a8300688533fcf44e2b545073b6e3df56" class="m-doc">ComputeChecksum</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte, size&gt; beacon)</span>
             </dt>
@@ -177,13 +175,23 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a70a2a3b97668cf669303f946ed67328b" class="m-doc">EduDataParse</a>(</span><span class="m-doc-wrap">const etl::string&lt;dataFrameSize.get()&gt;&amp; dataFrame)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9faa9f63957ce5c2ff7e259093846bb9" class="m-doc">ParseEduDataFrame</a>(</span><span class="m-doc-wrap">const etl::string&lt;dataFrameSize.get()&gt;&amp; dataFrame)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a8b126d502d4b9030b2f2d603c49c2868" class="m-doc">eduUart</a>(</span><span class="m-doc-wrap">UART_IDX1,
               <a href="namespacerpg.html#a986411abea9fc8f82dc47548ceda2331" class="m-doc">eduUartTxPin</a>,
               <a href="namespacerpg.html#af16fc291fe8dfcb8f1f511705433c7c7" class="m-doc">eduUartRxPin</a>) -&gt; HAL_UART</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#afd20495fa8c94aaec9b6e8ab5a87c09f" class="m-doc">uart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
+              <a href="namespacerpg.html#a986411abea9fc8f82dc47548ceda2331" class="m-doc">eduUartTxPin</a>,
+              <a href="namespacerpg.html#af16fc291fe8dfcb8f1f511705433c7c7" class="m-doc">eduUartRxPin</a>) -&gt; HAL_UART</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a59fe2df9cb04969cc9fadba78659cacd" class="m-doc">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -217,6 +225,19 @@
             </dt>
             <dd><span></span></dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#acf68b10b765e46e0f78187174b17287d" class="m-doc">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
+              ts::size_t*const position,
+              auto value)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;std::size_t size&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6cad1959c62b674220363f8ef10d7fae" class="m-doc">CopyFrom</a>(</span><span class="m-doc-wrap">const etl::string&lt;size&gt;&amp; buffer,
+              ts::size_t*const position,
+              auto value)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a48c33564b76dd39f44971b2358e90448" class="m-doc">greenLed</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#afb6c77c4e2f01a2871971fe0f4db52b8" class="m-doc">ledPin</a>) -&gt; HAL_GPIO</span>
             </dt>
             <dd><span></span></dd>
@@ -224,10 +245,6 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a4e6a518385c8c9954a584a4d7f9b3d77" class="m-doc">uart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
               GPIO_009,
               GPIO_010) -&gt; HAL_UART</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a59fe2df9cb04969cc9fadba78659cacd" class="m-doc">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -350,6 +367,10 @@
             </dt>
             <dd><span></span></dd>
             <dt>
+              const auto <a href="#a5bafe616476e4a980ec4c0df4b11ddd2" class="m-doc">eduDataFrameFaker</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
               auto <a href="#a42ed665ed69a4a30e460a5c7f3b25a3b" class="m-doc">ledGpio</a>
             </dt>
             <dd><span></span></dd>
@@ -359,6 +380,10 @@
             <dd><span></span></dd>
             <dt>
               const auto <a href="#acf9eaa0c7387302d4497da25220d2887" class="m-doc">eduHeartbeatThread</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              auto <a href="#a7d2b70ed57c0f5fa2276d594a4f08936" class="m-doc">beaconPeriod</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -706,15 +731,6 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="acf68b10b765e46e0f78187174b17287d"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acf68b10b765e46e0f78187174b17287d" class="m-doc-self">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
-              ts::size_t*const position,
-              auto value)</span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
           <section class="m-doc-details" id="a8300688533fcf44e2b545073b6e3df56"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Beacon_8cpp.html">&lt;Source/Demo/Beacon.cpp&gt;</a></div>
@@ -782,9 +798,9 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a70a2a3b97668cf669303f946ed67328b"><div>
+          <section class="m-doc-details" id="a9faa9f63957ce5c2ff7e259093846bb9"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a70a2a3b97668cf669303f946ed67328b" class="m-doc-self">EduDataParse</a>(</span><span class="m-doc-wrap">const etl::string&lt;dataFrameSize.get()&gt;&amp; dataFrame)</span></span>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9faa9f63957ce5c2ff7e259093846bb9" class="m-doc-self">ParseEduDataFrame</a>(</span><span class="m-doc-wrap">const etl::string&lt;dataFrameSize.get()&gt;&amp; dataFrame)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="CommandParser_8cpp.html">&lt;Source/Demo/CommandParser.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -795,6 +811,22 @@
               <a href="namespacerpg.html#a986411abea9fc8f82dc47548ceda2331" class="m-doc">eduUartTxPin</a>,
               <a href="namespacerpg.html#af16fc291fe8dfcb8f1f511705433c7c7" class="m-doc">eduUartRxPin</a>)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduData_8cpp.html">&lt;Source/Demo/EduData.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="afd20495fa8c94aaec9b6e8ab5a87c09f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">HAL_UART rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afd20495fa8c94aaec9b6e8ab5a87c09f" class="m-doc-self">uart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
+              <a href="namespacerpg.html#a986411abea9fc8f82dc47548ceda2331" class="m-doc">eduUartTxPin</a>,
+              <a href="namespacerpg.html#af16fc291fe8dfcb8f1f511705433c7c7" class="m-doc">eduUartRxPin</a>)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduDataFrameFaker_8cpp.html">&lt;Source/Demo/EduDataFrameFaker.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a59fe2df9cb04969cc9fadba78659cacd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a59fe2df9cb04969cc9fadba78659cacd" class="m-doc-self">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduDataFrameFaker_8cpp.html">&lt;Source/Demo/EduDataFrameFaker.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
@@ -846,6 +878,27 @@
             </h3>
             <p><span></span></p>
           </div></section>
+          <section class="m-doc-details" id="acf68b10b765e46e0f78187174b17287d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acf68b10b765e46e0f78187174b17287d" class="m-doc-self">CopyTo</a>(</span><span class="m-doc-wrap">std::span&lt;std::byte&gt; buffer,
+              ts::size_t*const position,
+              auto value)</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Util_8hpp.html">&lt;Source/Demo/Util.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a6cad1959c62b674220363f8ef10d7fae"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Util_8hpp.html">&lt;Source/Demo/Util.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;std::size_t size&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6cad1959c62b674220363f8ef10d7fae" class="m-doc-self">CopyFrom</a>(</span><span class="m-doc-wrap">const etl::string&lt;size&gt;&amp; buffer,
+              ts::size_t*const position,
+              auto value)</span></span>
+            </h3>
+            <p><span></span></p>
+          </div></section>
           <section class="m-doc-details" id="a48c33564b76dd39f44971b2358e90448"><div>
             <h3>
               <span class="m-doc-wrap-bumper">HAL_GPIO rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a48c33564b76dd39f44971b2358e90448" class="m-doc-self">greenLed</a>(</span><span class="m-doc-wrap"><a href="namespacerpg.html#afb6c77c4e2f01a2871971fe0f4db52b8" class="m-doc">ledPin</a>)</span></span>
@@ -858,13 +911,6 @@
               <span class="m-doc-wrap-bumper">HAL_UART rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4e6a518385c8c9954a584a4d7f9b3d77" class="m-doc-self">uart1</a>(</span><span class="m-doc-wrap">UART_IDX1,
               GPIO_009,
               GPIO_010)</span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloUart_8cpp.html">&lt;Source/HardwareTests/HelloUart.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-          <section class="m-doc-details" id="a59fe2df9cb04969cc9fadba78659cacd"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">auto rpg::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a59fe2df9cb04969cc9fadba78659cacd" class="m-doc-self">CreateFakeEduDataFrame</a>(</span><span class="m-doc-wrap">)</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="HelloUart_8cpp.html">&lt;Source/HardwareTests/HelloUart.cpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -1071,6 +1117,13 @@
             </h3>
             <p><span></span></p>
           </div></section>
+          <section class="m-doc-details" id="a5bafe616476e4a980ec4c0df4b11ddd2"><div>
+            <h3>
+              const auto rpg::<wbr /><a href="#a5bafe616476e4a980ec4c0df4b11ddd2" class="m-doc-self">eduDataFrameFaker</a>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduDataFrameFaker_8cpp.html">&lt;Source/Demo/EduDataFrameFaker.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
           <section class="m-doc-details" id="a42ed665ed69a4a30e460a5c7f3b25a3b"><div>
             <h3>
               auto rpg::<wbr /><a href="#a42ed665ed69a4a30e460a5c7f3b25a3b" class="m-doc-self">ledGpio</a>
@@ -1089,6 +1142,13 @@
             <h3>
               const auto rpg::<wbr /><a href="#acf9eaa0c7387302d4497da25220d2887" class="m-doc-self">eduHeartbeatThread</a>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EduHeartbeat_8cpp.html">&lt;Source/Demo/EduHeartbeat.cpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a7d2b70ed57c0f5fa2276d594a4f08936"><div>
+            <h3>
+              auto rpg::<wbr /><a href="#a7d2b70ed57c0f5fa2276d594a4f08936" class="m-doc-self">beaconPeriod</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Util_8hpp.html">&lt;Source/Demo/Util.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
