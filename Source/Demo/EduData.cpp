@@ -22,11 +22,14 @@ class EduData : public StaticThread<>
         constexpr auto temperatureCommand = "$51\n";
         constexpr auto accelerationCommand = "$52\n";
         constexpr auto brightnessCommand = "$53\n";
+        constexpr auto delay = 8;
 
         TIME_LOOP(0, (beaconPeriod * MILLISECONDS).get())
         {
             WriteTo(&eduUart, temperatureCommand);
+            AT(NOW() + delay * MILLISECONDS);
             WriteTo(&eduUart, accelerationCommand);
+            AT(NOW() + delay * MILLISECONDS);
             WriteTo(&eduUart, brightnessCommand);
         }
     }
