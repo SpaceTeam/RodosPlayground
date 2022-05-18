@@ -19,8 +19,8 @@ using ts::operator""_usize;
 auto CreateFakeEduDataFrame()
 {
     char startByte = '?';
-    constexpr int8_t id = 1;
-    constexpr int32_t data = 256;
+    constexpr int8_t id = 3;
+    constexpr int32_t data = 123459876;
     char endByte = '\n';
 
     constexpr auto eduDataFrameSize =

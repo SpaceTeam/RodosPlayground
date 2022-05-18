@@ -140,14 +140,16 @@ auto ParseEduDataFrame(const etl::string<dataFrameSize.get()> & dataFrame)
     auto data = 0_i32;
 
 
-    CopyFrom(dataFrame, &index, id);
-    CopyFrom(dataFrame, &index, data);
+    CopyFrom(dataFrame, &index, &id);
+    CopyFrom(dataFrame, &index, &data);
 
     constexpr auto temperatureId = 1;
     constexpr auto accelerationXId = 2;
     constexpr auto accelerationYId = 3;
     constexpr auto accelerationZId = 4;
     constexpr auto brightnessId = 5;
+
+    //    PRINTF("Received data (%ld) at id = %d\n",data.get(), id.get());
 
     switch(id.get())
     {
