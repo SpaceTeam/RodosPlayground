@@ -9,6 +9,7 @@ namespace rpg
 {
 namespace ts = type_safe;
 
+
 inline Topic<bool> eduIsAliveTopic(-1, "eduHeartBeatsTopic");
 inline Topic<ts::int32_t> temperatureTopic(-1, "temperatureTopic");
 inline Topic<ts::int32_t> accelerationXTopic(-1, "accelerationXTopic");

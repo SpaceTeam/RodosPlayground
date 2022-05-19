@@ -36,7 +36,6 @@ using ts::operator""_usize;
 auto DispatchCommand(const etl::string<commandSize.get()> & command)
 {
     auto targetIsCobc = command[1] == '0';
-    auto targetIsEdu = command[1] == '5';
     auto commandId = command[2];
 
     if(targetIsCobc)
@@ -51,31 +50,6 @@ auto DispatchCommand(const etl::string<commandSize.get()> & command)
             case '2':
             {
                 TurnEduOff();
-                return;
-            }
-            case '3':
-            {
-                SendResetCounter();
-                return;
-            }
-            default:
-            {
-                break;
-            }
-        }
-    }
-    else if(targetIsEdu)
-    {
-        switch(commandId)
-        {
-            case '1':
-            {
-                SendTemperature(command);
-                return;
-            }
-            case '2':
-            {
-                SendImage(command);
                 return;
             }
             default:
@@ -128,6 +102,7 @@ class CommandParserThread : public StaticThread<>
         }
     }
 } commandParserThread;
+
 
 // startByte + 1 Id byte + 4 data bytes + endByte
 constexpr auto dataFrameSize = 1_usize + 1_usize + sizeof(int32_t) + 1_usize;

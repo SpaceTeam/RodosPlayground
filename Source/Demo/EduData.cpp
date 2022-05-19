@@ -13,7 +13,7 @@ class EduData : public StaticThread<>
 {
     void init() override
     {
-        constexpr auto baudrate = 9600;
+        constexpr auto baudrate = 9'600;
         eduUart.init(baudrate);
     }
 
