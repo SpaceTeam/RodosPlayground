@@ -24,7 +24,7 @@ class EduData : public StaticThread<>
         constexpr auto brightnessCommand = "$53\n";
         constexpr auto delay = 8;
 
-        TIME_LOOP(0, (beaconPeriod * MILLISECONDS).get())
+        TIME_LOOP(0, beaconPeriod.get())
         {
             WriteTo(&eduUart, temperatureCommand);
             AT(NOW() + delay * MILLISECONDS);

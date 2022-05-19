@@ -172,7 +172,7 @@ class BeaconThread : public StaticThread<>
         RTC_WriteBackupRegister(RTC_BKP_DR0, resetCounter.get());
 
         // TODO use a constant here
-        TIME_LOOP(0, (beaconPeriod * MILLISECONDS).get())
+        TIME_LOOP(0, beaconPeriod.get())
         {
             ts::int64_t const timestamp = NOW() / MILLISECONDS;
             ts::bool_t const epsIsCharging = epsChargingGpio.readPins() != 0;

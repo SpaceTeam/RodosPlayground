@@ -2,6 +2,8 @@
 
 #include <type_safe/types.hpp>
 
+#include <rodos.h>
+
 #include <etl/string.h>
 
 #include <cstring>
@@ -16,7 +18,7 @@ namespace ts = type_safe;
 using ts::operator""_isize;
 
 
-constexpr auto beaconPeriod = 100_isize;
+constexpr auto beaconPeriod = 50_isize * MILLISECONDS;
 
 
 auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value)
