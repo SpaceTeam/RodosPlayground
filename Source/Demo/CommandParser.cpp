@@ -3,7 +3,7 @@
 #include "CobcCommands.hpp"
 #include "Communication.hpp"
 #include "Topics.hpp"
-#include "Util.hpp"
+#include "Utility.hpp"
 
 #include <type_safe/index.hpp>
 #include <type_safe/types.hpp>
