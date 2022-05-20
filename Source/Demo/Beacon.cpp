@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -116,8 +117,8 @@ auto CreateBeacon(ts::int64_t timestamp,
     // TODO: Think of better names
     auto beaconTimestamp = ts::narrow_cast<ts::int32_t>(timestamp);
     auto beaconResetCounter = ts::narrow_cast<ts::int32_t>(resetCounter);
-    auto beaconGpioBitField = ts::narrow_cast<ts::int32_t>(gpioBitField.to_ulong());
     auto beaconEduIsAlive = eduIsAlive ? 1_i32 : 0_i32;
+    auto beaconGpioBitField = ts::narrow_cast<ts::int32_t>(gpioBitField.to_ulong());
     uint8_t checksum = 0;
     constexpr auto beaconSize =
         sizeof(startByte) + sizeof(beaconTimestamp) + sizeof(beaconResetCounter)
@@ -125,21 +126,30 @@ auto CreateBeacon(ts::int64_t timestamp,
         + sizeof(accelerationX) + sizeof(accelerationY) + sizeof(accelerationZ) + sizeof(brightness)
         + sizeof(checksum) + sizeof(stopByte);
 
+    // EDU sends data in big endian so enforce it also for the COBC data
+    if constexpr(std::endian::native == std::endian::little)
+    {
+        beaconTimestamp = util::byteswap(beaconTimestamp.get());
+        beaconResetCounter = util::byteswap(beaconResetCounter.get());
+        beaconEduIsAlive = util::byteswap(beaconEduIsAlive.get());
+        beaconGpioBitField = util::byteswap(beaconGpioBitField.get());
+    }
+
     auto beacon = std::array<std::byte, beaconSize>{};
     auto position = 0_usize;
-    CopyTo(beacon, &position, startByte);
-    CopyTo(beacon, &position, beaconTimestamp);
-    CopyTo(beacon, &position, beaconResetCounter);
-    CopyTo(beacon, &position, beaconEduIsAlive);
-    CopyTo(beacon, &position, beaconGpioBitField);
-    CopyTo(beacon, &position, temperature);
-    CopyTo(beacon, &position, accelerationX);
-    CopyTo(beacon, &position, accelerationY);
-    CopyTo(beacon, &position, accelerationZ);
-    CopyTo(beacon, &position, brightness);
+    util::CopyTo(beacon, &position, startByte);
+    util::CopyTo(beacon, &position, beaconTimestamp);
+    util::CopyTo(beacon, &position, beaconResetCounter);
+    util::CopyTo(beacon, &position, beaconEduIsAlive);
+    util::CopyTo(beacon, &position, beaconGpioBitField);
+    util::CopyTo(beacon, &position, temperature);
+    util::CopyTo(beacon, &position, accelerationX);
+    util::CopyTo(beacon, &position, accelerationY);
+    util::CopyTo(beacon, &position, accelerationZ);
+    util::CopyTo(beacon, &position, brightness);
     checksum = ComputeChecksum(std::span(beacon));
-    CopyTo(beacon, &position, checksum);
-    CopyTo(beacon, &position, stopByte);
+    util::CopyTo(beacon, &position, checksum);
+    util::CopyTo(beacon, &position, stopByte);
     return beacon;
 }
 

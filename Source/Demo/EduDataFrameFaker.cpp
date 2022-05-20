@@ -28,10 +28,10 @@ auto CreateFakeEduDataFrame()
     auto eduDataFrame = std::array<std::byte, eduDataFrameSize>{};
     ts::size_t index = 0_usize;
 
-    CopyTo(eduDataFrame, &index, startByte);
-    CopyTo(eduDataFrame, &index, id);
-    CopyTo(eduDataFrame, &index, data);
-    CopyTo(eduDataFrame, &index, endByte);
+    util::CopyTo(eduDataFrame, &index, startByte);
+    util::CopyTo(eduDataFrame, &index, id);
+    util::CopyTo(eduDataFrame, &index, data);
+    util::CopyTo(eduDataFrame, &index, endByte);
 
     return eduDataFrame;
 }

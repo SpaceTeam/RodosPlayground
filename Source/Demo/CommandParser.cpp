@@ -109,14 +109,11 @@ constexpr auto dataFrameSize = 1_usize + 1_usize + sizeof(int32_t) + 1_usize;
 
 auto ParseEduDataFrame(const etl::string<dataFrameSize.get()> & dataFrame)
 {
-    ts::size_t index = 1_usize;
-
+    auto index = 1_usize;
     auto id = 0_u8;
     auto data = 0_i32;
-
-
-    CopyFrom(dataFrame, &index, &id);
-    CopyFrom(dataFrame, &index, &data);
+    util::CopyFrom(dataFrame, &index, &id);
+    util::CopyFrom(dataFrame, &index, &data);
 
     constexpr auto temperatureId = 1;
     constexpr auto accelerationXId = 2;
