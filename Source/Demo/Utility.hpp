@@ -46,7 +46,7 @@ auto CopyFrom(etl::string<size> const & buffer, ts::size_t * const position, aut
 }
 
 
-// std::bit_cast needs GCC 11 or later. This is the possible implemntation from
+// std::bit_cast needs GCC 11 or later. This is the possible implementation from
 // https://en.cppreference.com/w/cpp/numeric/bit_cast
 template<class To, class From>
 std::enable_if_t<sizeof(To) == sizeof(From)
@@ -65,7 +65,7 @@ bit_cast(From const & src) noexcept  // NOLINT(readability-identifier-naming,
 }
 
 
-// std::byteswap needs GCC 12 or later. This is the possible implemntation from
+// std::byteswap needs GCC 12 or later. This is the possible implementation from
 // https://en.cppreference.com/w/cpp/numeric/byteswap
 template<std::integral T>
 constexpr auto byteswap(T value) noexcept  // NOLINT(readability-identifier-naming)
