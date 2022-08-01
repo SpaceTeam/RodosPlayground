@@ -99,7 +99,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: false
+    if: true
 
     steps:
     - uses: actions/checkout@v2

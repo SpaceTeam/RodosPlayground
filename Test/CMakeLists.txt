@@ -1,12 +1,11 @@
-# Parent project does not export its library target, so this CML implicitly depends on being added
-# from it, i.e. the testing is done only from the build tree and is not feasible from an install
-# location
+cmake_minimum_required(VERSION 3.22)
 
-project(RodosPlaygroundTests LANGUAGES CXX)
+project(Test LANGUAGES CXX VERSION 0.0.1)
 
-add_executable(RodosPlayground_Test Source/RodosPlayground_Test.cpp)
-target_link_libraries(RodosPlayground_Test PRIVATE RodosPlayground_Lib)
+find_package(Catch2 REQUIRED)
+add_executable(RodosPlayground_test test.cpp)
+target_link_libraries(RodosPlayground_test PRIVATE Catch2::Catch2WithMain)
 
-add_test(NAME RodosPlayground_Test COMMAND RodosPlayground_Test)
-
-add_folders(Test)
+include(CTest)
+include(Catch)
+catch_discover_tests(RodosPlayground_test)
