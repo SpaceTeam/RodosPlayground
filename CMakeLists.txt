@@ -12,7 +12,6 @@ project(
 )
 
 docs_early_return()
-
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 include(cmake/custom-commands.cmake)
@@ -24,6 +23,9 @@ add_library(RodosWrappers_Lib INTERFACE)
 add_library(Io_Lib INTERFACE)
 
 add_program(HelloWorld)
+
+message("System name : ${CMAKE_SYSTEM_NAME}")
+message("Size of void_p: ${CMAKE_SIZEOF_VOID_P}")
 
 if(CMAKE_SYSTEM_NAME STREQUAL Generic)
     add_program(HelloUart)

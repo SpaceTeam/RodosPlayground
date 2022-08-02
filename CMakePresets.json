@@ -119,6 +119,11 @@
       "name": "ci-build",
       "binaryDir": "${sourceDir}/build",
       "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"]
+    },
+    {
+      "name": "ci-test",
+      "binaryDir": "${sourceDir}/build/test",
+      "inherits": ["dev-mode", "unix-common"]
     }
   ]
 }

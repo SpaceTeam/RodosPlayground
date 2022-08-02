@@ -109,13 +109,13 @@ jobs:
       run: sudo apt-get install clang-tidy cppcheck -y -q
 
     - name: Configure
-      run: cmake --preset=ci-ubuntu
+      run: cmake --preset=ci-test
 
     - name: Build
-      run: cmake --build build --config Release -j 2
+      run: cmake --build build/test --target RodosPlayground_test --config Release -j 2
 
     - name: Test
-      working-directory: build
+      working-directory: build/test
       run: ctest --output-on-failure -C Release -j 2
 
   docs:
