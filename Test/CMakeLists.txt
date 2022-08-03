@@ -8,8 +8,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/custom-commands.cmake)
 
 find_package(Catch2 REQUIRED)
 
-# Header only, drop arch
-unset(CMAKE_SIZEOF_VOID_P)
+set(CMAKE_SIZEOF_VOID_P "")
 message("Architecture(sizeofVoidP) : ${CMAKE_SIZEOF_VOID_P}")
 find_package(etl)
 find_package_and_notify(type_safe)
