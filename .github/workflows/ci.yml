@@ -110,21 +110,16 @@ jobs:
     - name: Install static analyzers
       run: apt-get install clang-tidy cppcheck -y -q
 
-    - name: Make 
-      run: make
-
+    - name: Configure
+      run: cmake --preset=ci-test -DCI_TEST=ON
+    
+    - name: Build
+      run: cmake --build build/test --target RodosPlayground_test --config Release -j 2
+    
     - name: Test
-      run: ./RodosPlayground_test
-
-        #    - name: Configure
-        #      run: cmake --preset=ci-test
-        #
-        #    - name: Build
-        #      run: cmake --build build/test --target RodosPlayground_test --config Release -j 2
-        #
-        #    - name: Test
-        #      working-directory: build/test
-        #      run: ctest --output-on-failure -C Release -j 2
+      working-directory: build/test
+        #run: ctest --output-on-failure -C Release -j 2
+      run: ls && ./Test/Source/RodosPlayground_test
 
   docs:
     # Deploy docs only when builds succeed

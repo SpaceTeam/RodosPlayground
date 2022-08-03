@@ -123,6 +123,7 @@
     {
       "name": "ci-test",
       "binaryDir": "${sourceDir}/build/test",
+      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "unix-common"]
     }
   ]
