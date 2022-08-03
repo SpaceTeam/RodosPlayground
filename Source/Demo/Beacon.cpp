@@ -1,3 +1,5 @@
+#include "Beacon.hpp"
+
 #include "Communication.hpp"
 #include "Io.hpp"
 #include "Topics.hpp"

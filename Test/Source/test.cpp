@@ -1,14 +1,15 @@
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "UtilityMock.hpp"
 
-#include <catch2/catch.hpp>
+#include <type_safe/types.hpp>
+
+#include <catch2/catch_test_macros.hpp>
 
 namespace ts = type_safe;
 using ts::operator""_usize;
 
 auto Factorial(unsigned int number) -> unsigned int
 {
-    return number <= 1 ? number : Factorial(number - 1) * number;
+    return number > 1 ? Factorial(number - 1) * number : 1;
 }
 
 TEST_CASE("Factorials are computed 1", "[factorial]")
@@ -27,7 +28,7 @@ TEST_CASE("Factorials are computed 2", "[factorial]")
 TEST_CASE("CopyTo Position Offset", "[Utility]")
 {
     constexpr auto startByte = '?';
-    auto beacon = std::array<std::byte, 4>{};
+    auto beacon = std::array<std::byte, 8>{};
     auto position = 0_usize;
     rpg::util::CopyTo(beacon, &position, startByte);
     REQUIRE(position.get() == sizeof(startByte));

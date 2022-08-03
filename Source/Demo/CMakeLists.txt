@@ -20,6 +20,7 @@ target_sources(
             CobcCommands.cpp
             CobcCommands.hpp
             Utility.hpp
+            Beacon.hpp
 )
 target_link_libraries(
     RodosPlayground_Demo PRIVATE rodos::rodos etl Io_Lib RodosWrappers_Lib type_safe
