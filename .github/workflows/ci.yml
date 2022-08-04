@@ -117,9 +117,9 @@ jobs:
       run: cmake --build build/test --target RodosPlayground_test --config Release -j 2
     
     - name: Test
-      working-directory: build/test
-        #run: ctest --output-on-failure -C Release -j 2
-      run: ls && ./Test/Source/RodosPlayground_test
+      working-directory: build/test/Test/Source
+      run: ctest --output-on-failure -C Release -j 2
+      #run: ls && ./Test/Source/RodosPlayground_test
 
   docs:
     # Deploy docs only when builds succeed

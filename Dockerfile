@@ -4,7 +4,6 @@ RUN apt-get update -yq \
 && apt-get install cmake git curl build-essential -yq \
 && apt-get install gcc-multilib g++-multilib -yq
 
-
 # Make gcc-10 the default compiler
 #RUN apt-get install gcc-10 -yq\
 #&& apt-get install g++-10 -yq
@@ -19,7 +18,6 @@ RUN git clone https://github.com/ETLCPP/etl.git \
 && git clone https://github.com/foonathan/debug_assert.git \
 && git clone https://github.com/catchorg/Catch2.git
 
-ADD . ./rodos_playground/
 ADD linux-x86.cmake .
 
 WORKDIR etl
@@ -37,12 +35,19 @@ RUN cmake --toolchain /linux-x86.cmake -S . -B build \
 && cmake --install build
 WORKDIR $HOME
 
+RUN apt-get install tree -yq
+RUN tree /usr/local/lib/cmake
+RUN cat /usr/local/lib/cmake/debug_assert/debug_assert-config-version.cmake
+
+
 WORKDIR Catch2
 ADD linux-x86.cmake .
+RUN git checkout v3.1.0
 RUN cmake --toolchain linux-x86.cmake -S . -Bbuild -H.  -DBUILD_TESTING=OFF
-RUN cmake --build build/ --target install
+RUN cmake --build build --target install
 WORKDIR $HOME
 
+ADD . ./rodos_playground/
 WORKDIR rodos_playground
 ADD linux-x86.cmake .
 RUN cmake --preset=ci-test -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCI_TEST=ON
@@ -51,5 +56,6 @@ WORKDIR $HOME
 
 WORKDIR rodos_playground/build/test
 RUN ls
-RUN ctest
 RUN ./Test/Source/RodosPlayground_test
+WORKDIR Test/Source
+RUN ctest
