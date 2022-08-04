@@ -19,10 +19,12 @@ RUN git clone https://github.com/ETLCPP/etl.git \
 && git clone https://github.com/catchorg/Catch2.git
 
 ADD linux-x86.cmake .
+RUN echo "something" 
 
 WORKDIR etl
 RUN cmake --toolchain /linux-x86.cmake -S . -B build \
 && cmake --install build
+#&& cmake --build build --target install
 WORKDIR $HOME
 
 WORKDIR debug_assert
@@ -47,14 +49,17 @@ RUN cmake --toolchain linux-x86.cmake -S . -Bbuild -H.  -DBUILD_TESTING=OFF
 RUN cmake --build build --target install
 WORKDIR $HOME
 
+RUN apt-get install clang-tidy cppcheck -y -q
+
 ADD . ./rodos_playground/
 WORKDIR rodos_playground
 ADD linux-x86.cmake .
-RUN cmake --preset=ci-test -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCI_TEST=ON
-RUN cmake --build build/test --target RodosPlayground_test
+RUN cmake --preset=ci-linux-x86 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCI_TEST=ON
+RUN cmake --build build --target RodosPlayground_test
 WORKDIR $HOME
 
-WORKDIR rodos_playground/build/test
+
+WORKDIR rodos_playground/build
 RUN ls
 RUN ./Test/Source/RodosPlayground_test
 WORKDIR Test/Source

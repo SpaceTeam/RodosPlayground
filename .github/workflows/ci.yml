@@ -101,7 +101,6 @@ jobs:
     runs-on: ubuntu-latest
     container: jeromehue/test:latest
 
-
     if: true
 
     steps:
@@ -111,13 +110,13 @@ jobs:
       run: apt-get install clang-tidy cppcheck -y -q
 
     - name: Configure
-      run: cmake --preset=ci-test -DCI_TEST=ON
+      run: cmake --preset=ci-linux-x86 -DCI_TEST=ON
     
     - name: Build
-      run: cmake --build build/test --target RodosPlayground_test --config Release -j 2
+      run: cmake --build build --config Release -j 2
     
     - name: Test
-      working-directory: build/test/Test/Source
+      working-directory: build/Test/Source
       run: ctest --output-on-failure -C Release -j 2
       #run: ls && ./Test/Source/RodosPlayground_test
 

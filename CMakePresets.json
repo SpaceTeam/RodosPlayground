@@ -116,14 +116,14 @@
       }
     },
     {
-      "name": "ci-build",
+      "name": "ci-linux-x86",
       "binaryDir": "${sourceDir}/build",
+      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"]
     },
     {
       "name": "ci-test",
       "binaryDir": "${sourceDir}/build/test",
-      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "unix-common"]
     }
   ]
