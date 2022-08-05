@@ -23,8 +23,6 @@ namespace ts = type_safe;
 using ts::operator""_isize;
 
 
-constexpr auto beaconPeriod = 50_isize * MILLISECONDS;
-
 namespace util
 {
 auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value)
