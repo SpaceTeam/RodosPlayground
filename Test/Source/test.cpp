@@ -24,11 +24,11 @@ TEST_CASE("Factorials are computed 2", "[factorial]")
 {
     REQUIRE(Factorial(0) == 1);
 }
-
 TEST_CASE("CopyTo Position Offset", "[Utility]")
 {
+    constexpr auto beaconSize = 2;
     constexpr auto startByte = '?';
-    auto beacon = std::array<std::byte, 8>{};
+    auto beacon = std::array<std::byte, beaconSize>{};
     auto position = 0_usize;
     rpg::util::CopyTo(beacon, &position, startByte);
     REQUIRE(position.get() == sizeof(startByte));

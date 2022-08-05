@@ -1,10 +1,11 @@
 project(Test LANGUAGES CXX VERSION 0.0.1)
 
-message("Architecture(sizeofVoidP) : ${CMAKE_SIZEOF_VOID_P}")
+#message("Architecture(sizeofVoidP) : ${CMAKE_SIZEOF_VOID_P}")
 include(${CMAKE_SOURCE_DIR}/cmake/custom-commands.cmake)
 
 # Find libraries
 find_package(Catch2 REQUIRED)
+find_rodos()
 find_package(etl)
 find_package_and_notify(type_safe)
 
