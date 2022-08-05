@@ -110,7 +110,7 @@ jobs:
       run: apt-get install clang-tidy cppcheck -y -q
 
     - name: Configure
-      run: cmake --preset=ci-linux-x86 -DCI_TEST=ON
+      run: cmake --preset=ci-linux-x86
     
     - name: Build
       run: cmake --build build --config Release -j 2
