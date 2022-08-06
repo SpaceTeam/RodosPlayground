@@ -99,7 +99,7 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-    container: jeromehue/test:latest
+    container: tuwienspaceteam/sts1-cobc:latest
 
     if: true
 
