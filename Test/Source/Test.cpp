@@ -4,13 +4,16 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+
 namespace ts = type_safe;
 using ts::operator""_usize;
+
 
 auto Factorial(unsigned int number) -> unsigned int
 {
     return number > 1 ? Factorial(number - 1) * number : 1;
 }
+
 
 TEST_CASE("Factorials are computed 1", "[factorial]")
 {
@@ -20,10 +23,13 @@ TEST_CASE("Factorials are computed 1", "[factorial]")
     REQUIRE(Factorial(10) == 3628800);
 }
 
+
 TEST_CASE("Factorials are computed 2", "[factorial]")
 {
     REQUIRE(Factorial(0) == 1);
 }
+
+
 TEST_CASE("CopyTo Position Offset", "[Utility]")
 {
     constexpr auto beaconSize = 2;

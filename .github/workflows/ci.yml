@@ -118,11 +118,11 @@ jobs:
     - name: Test
       working-directory: build/Test/Source
       run: ctest --output-on-failure -C Release -j 2
-      #run: ls && ./Test/Source/RodosPlayground_test
 
   docs:
     # Deploy docs only when builds succeed
     # needs: [sanitize, test]
+    needs: [test]
 
     runs-on: ubuntu-latest
 

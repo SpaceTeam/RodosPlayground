@@ -16,7 +16,6 @@
 namespace rpg
 {
 namespace ts = type_safe;
-using ts::operator""_isize;
 
 
 namespace util

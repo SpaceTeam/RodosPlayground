@@ -5,6 +5,7 @@
 
 #include <rodos.h>
 
+
 namespace rpg
 {
 HAL_UART eduUart(UART_IDX1, eduUartTxPin, eduUartRxPin);

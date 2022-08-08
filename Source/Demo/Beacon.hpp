@@ -2,6 +2,7 @@
 
 #include <rodos.h>
 
+
 namespace rpg
 {
 namespace ts = type_safe;

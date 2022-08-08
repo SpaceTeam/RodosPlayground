@@ -16,17 +16,6 @@ include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 include(cmake/custom-commands.cmake)
 
-if(DEFINED CI_TEST)
-    # !!! Even if CI_TEST if not defined, Test subdirectory will be included at some point.
-    # This condition is here not to ensure we include Test, but to ensure we include 
-    # only Test.
-    message("Returning after loading tests")
-    add_subdirectory(Test)
-    return()
-endif()
-
-
-
 # --- Declare targets ---
 
 add_library(RodosPlayground_Lib OBJECT)
