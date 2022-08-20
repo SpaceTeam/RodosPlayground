@@ -106,14 +106,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Install static analyzers
-      run: apt-get install clang-tidy cppcheck -y -q
-    
-    - name: Configure
+    - name: Configure linux-x86
       run: cmake --preset=ci-linux-x86
+
+    - name: Configure Cobc
+      run: cp ./stm32f411.cmake /. && cmake --preset=ci-cobc
     
-    - name: Build
+    - name: Build linux-x86
       run: cmake --build build/linux-x86 --config Release -j 2
+
+    - name: Build cobc
+      run: cmake --build build/cobc --config Release -j 2
     
     - name: Test
       working-directory: build/linux-x86/Test
