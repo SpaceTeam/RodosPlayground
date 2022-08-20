@@ -34,20 +34,20 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
+    container: tuwienspaceteam/sts1-cobc:latest
 
     # To enable coverage, delete the last line from the conditional below and
     # edit the "<name>" placeholder to your GitHub name.
     # If you do not wish to use codecov, then simply delete this job from the
     # workflow.
-    if: github.repository_owner == '<name>'
-      && false
+    if: github.repository_owner == 'SpaceTeam'
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Install LCov
-      run: sudo apt-get update -q
-        && sudo apt-get install lcov -q -y
+      run: apt-get update -q
+        && apt-get install lcov -q -y
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -71,14 +71,15 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
+    container: tuwienspaceteam/sts1-cobc:latest
 
-    if: false
+    if: true
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Configure
-      env: { CXX: clang++-11 }
+      #env: { CXX: clang++-11 }
       run: cmake --preset=ci-sanitize
 
     - name: Build
