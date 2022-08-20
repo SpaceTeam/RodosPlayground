@@ -3,16 +3,16 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 
 namespace rpg
 {
-auto ledGpio = HAL_GPIO(ledPin);
-auto heartbeatGpio = HAL_GPIO(eduHeartbeatPin);
+auto ledGpio = RODOS::HAL_GPIO(ledPin);
+auto heartbeatGpio = RODOS::HAL_GPIO(eduHeartbeatPin);
 
 
-class EduHeartbeatThread : public StaticThread<>
+class EduHeartbeatThread : public RODOS::StaticThread<>
 {
   public:
     EduHeartbeatThread() : StaticThread("EduHeartbeat")
@@ -35,9 +35,10 @@ class EduHeartbeatThread : public StaticThread<>
         auto samplingCount = 0_i;
         ts::bool_t heartbeatIsConstant = true;
         ts::uint32_t oldHeartbeat = heartbeatGpio.readPins();
-        constexpr auto heartbeatFrequency = 10_isize;                                     // Hz
-        constexpr auto samplingFrequency = 5_isize * heartbeatFrequency;                  // Hz
-        constexpr auto samplingPeriode = 1'000_isize / samplingFrequency * MILLISECONDS;  // ms
+        constexpr auto heartbeatFrequency = 10_isize;                     // Hz
+        constexpr auto samplingFrequency = 5_isize * heartbeatFrequency;  // Hz
+        constexpr auto samplingPeriode =
+            1'000_isize / samplingFrequency * RODOS::MILLISECONDS;  // ms
 
         TIME_LOOP(0, samplingPeriode.get())
         {

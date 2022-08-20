@@ -9,20 +9,20 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <array>
 
 
 namespace rpg
 {
-auto pinsToTest = std::to_array<HAL_GPIO>(
+auto pinsToTest = std::to_array<RODOS::HAL_GPIO>(
     {pa1, pa2, pa3, pa5, pa6, pa7, pa8, pa9,  pa10, pa11, pa12, pa13, pa14, pa15,
      pb0, pb1, pb3, pb4, pb5, pb6, pb7, pb8,  pb9,  pb12, pb13, pb14, pb15, pc0,
      pc1, pc2, pc3, pc4, pc5, pc7, pc9, pc10, pc11, pc12, pc13, pd2});
 
 
-class HelloGpio : public StaticThread<>
+class HelloGpio : public RODOS::StaticThread<>
 {
     void init() override
     {
@@ -36,7 +36,7 @@ class HelloGpio : public StaticThread<>
     {
         type_safe::bool_t toggle = true;
 
-        TIME_LOOP(0, 100 * MILLISECONDS)
+        TIME_LOOP(0, 100 * RODOS::MILLISECONDS)
         {
             for(auto & i : pinsToTest)
             {

@@ -3,15 +3,14 @@
 #include "Io.hpp"
 #include "Utility.hpp"
 
-#include <rodos.h>
-
+#include <rodos_no_using_namespace.h>
 
 namespace rpg
 {
-HAL_UART eduUart(UART_IDX1, eduUartTxPin, eduUartRxPin);
+RODOS::HAL_UART eduUart(RODOS::UART_IDX1, eduUartTxPin, eduUartRxPin);
 
 // Ask edu for data from sensors
-class EduData : public StaticThread<>
+class EduData : public RODOS::StaticThread<>
 {
     void init() override
     {
@@ -29,9 +28,9 @@ class EduData : public StaticThread<>
         TIME_LOOP(0, beaconPeriod.get())
         {
             WriteTo(&eduUart, temperatureCommand);
-            AT(NOW() + delay * MILLISECONDS);
+            RODOS::AT(RODOS::NOW() + delay * RODOS::MILLISECONDS);
             WriteTo(&eduUart, accelerationCommand);
-            AT(NOW() + delay * MILLISECONDS);
+            RODOS::AT(RODOS::NOW() + delay * RODOS::MILLISECONDS);
             WriteTo(&eduUart, brightnessCommand);
         }
     }

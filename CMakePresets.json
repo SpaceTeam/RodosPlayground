@@ -117,9 +117,22 @@
     },
     {
       "name": "ci-linux-x86",
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/build/linux-x86",
       "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"]
+    },
+    {
+      "name": "ci-cobc",
+      "binaryDir": "${sourceDir}/build/cobc",
+      "toolchainFile": "/stm32f411.cmake",
+      "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"],
+      "cacheVariables": {
+        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411",
+        "HSE_VALUE": "12000000",
+        "BOARD_FILE": "Cobc.hpp"
+      }
+
     }
+
   ]
 }

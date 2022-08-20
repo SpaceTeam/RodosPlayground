@@ -1,6 +1,6 @@
 target_sources(RodosPlayground_Beacon PRIVATE Beacon.cpp EduHeartbeat.cpp)
 target_link_libraries(
-    RodosPlayground_Beacon PRIVATE rodos::rodos etl Io_Lib RodosWrappers_Lib type_safe
+    RodosPlayground_Beacon PRIVATE rodos::rodos etl::etl Io_Lib RodosWrappers_Lib type_safe
 )
 
 target_sources(RodosPlayground_EduHeartbeat PRIVATE EduHeartbeat.cpp)

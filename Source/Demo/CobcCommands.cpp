@@ -3,10 +3,11 @@
 #include "CommandParser.hpp"
 #include "Io.hpp"
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <stm32f4xx_rtc.h>
 
+using RODOS::PRINTF;
 
 namespace rpg
 {

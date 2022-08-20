@@ -8,7 +8,7 @@
 namespace ts = type_safe;
 using ts::operator""_usize;
 
-
+// NOLINTNEXTLINE (misc-no-recursion)
 auto Factorial(unsigned int number) -> unsigned int
 {
     return number > 1 ? Factorial(number - 1) * number : 1;

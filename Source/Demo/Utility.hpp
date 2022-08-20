@@ -2,7 +2,7 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <etl/string.h>
 
@@ -68,9 +68,9 @@ template<std::integral T>
 constexpr auto byteswap(T value) noexcept  // NOLINT(readability-identifier-naming)
 {
     static_assert(std::has_unique_object_representations_v<T>, "T may not have padding bits");
-    auto valueRepresentation = bit_cast<std::array<std::byte, sizeof(T)>>(value);
+    auto valueRepresentation = util::bit_cast<std::array<std::byte, sizeof(T)>>(value);
     std::ranges::reverse(valueRepresentation);
-    return bit_cast<T>(valueRepresentation);
+    return util::bit_cast<T>(valueRepresentation);
 }
 }
 }

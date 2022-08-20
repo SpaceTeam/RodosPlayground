@@ -9,7 +9,7 @@
 #include "Communication.hpp"
 #include "Io.hpp"
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <string_view>
 
@@ -22,11 +22,11 @@ extern HAL_UART uart_stdout;
 
 namespace rpg
 {
-HAL_GPIO greenLed(ledPin);
+RODOS::HAL_GPIO greenLed(ledPin);
 
-HAL_UART uart1(UART_IDX1, GPIO_009, GPIO_010);
+RODOS::HAL_UART uart1(RODOS::UART_IDX1, RODOS::GPIO_009, RODOS::GPIO_010);
 
-class HelloUart : public StaticThread<>
+class HelloUart : public RODOS::StaticThread<>
 {
     void init() override
     {
@@ -42,16 +42,16 @@ class HelloUart : public StaticThread<>
 
         auto toggle = true;
 
-        TIME_LOOP(0, 1000 * MILLISECONDS)
+        TIME_LOOP(0, 1000 * RODOS::MILLISECONDS)
         {
             greenLed.setPins(static_cast<uint32_t>(toggle));
             if(toggle)
             {
-                WriteTo(&uart_stdout, "Hello from uart2\n");
+                WriteTo(&RODOS::uart_stdout, "Hello from uart2\n");
             }
             else
             {
-                WriteTo(&uart_stdout, "Hello from uart1\n");
+                WriteTo(&RODOS::uart_stdout, "Hello from uart1\n");
             }
             toggle = not toggle;
         }
