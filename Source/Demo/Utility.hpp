@@ -2,8 +2,6 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos_no_using_namespace.h>
-
 #include <etl/string.h>
 
 #include <array>
@@ -13,8 +11,6 @@
 #include <cstring>
 #include <ranges>
 #include <span>
-
-#include <rodos-assert.h>
 
 
 namespace rpg
@@ -27,7 +23,6 @@ namespace util
 auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value)
 {
     auto newPosition = *position + sizeof(value);
-    RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition <= std::size(buffer));
     std::memcpy(&buffer[(*position).get()], &value, sizeof(value));
     *position = newPosition;
 }
@@ -37,7 +32,6 @@ template<std::size_t size>
 auto CopyFrom(etl::string<size> const & buffer, ts::size_t * const position, auto * value)
 {
     auto newPosition = *position + sizeof(*value);
-    RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition <= std::size(buffer));
     std::memcpy(value, &buffer[(*position).get()], sizeof(*value));
     *position = newPosition;
 }

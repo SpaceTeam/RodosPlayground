@@ -101,6 +101,8 @@
     },
     {
       "name": "ci-coverage",
+      "binaryDir": "${sourceDir}/build/coverage",
+      "toolchainFile": "/usr/local/src/rodos/cmake/port/linux-x86.cmake",
       "inherits": ["dev-mode", "coverage-unix"],
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
@@ -109,6 +111,7 @@
     {
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
+      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "unix-common"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
