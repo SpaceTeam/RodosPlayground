@@ -102,7 +102,7 @@
     {
       "name": "ci-coverage",
       "binaryDir": "${sourceDir}/build/coverage",
-      "toolchainFile": "/usr/local/src/rodos/cmake/port/linux-x86.cmake",
+      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "coverage-unix"],
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
