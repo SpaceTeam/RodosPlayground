@@ -1,0 +1,195 @@
+name: Continuous Integration on Push
+
+on:
+  push:
+    branches:
+    - master
+    - catch2
+
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Install codespell
+      run: pip3 install codespell
+
+    - name: Lint
+      run: cmake -D FORMAT_COMMAND=clang-format-12 -P cmake/lint.cmake
+
+    - name: Spell check
+      if: always()
+      run: cmake -P cmake/spell.cmake
+
+  coverage:
+    needs: [lint]
+
+    runs-on: ubuntu-latest
+      # container: tuwienspaceteam/sts1-cobc:v0.2.0
+    container: jeromehue/test:linux
+      #container: tuwienspaceteam/sts1-cobc:latest
+
+    # To enable coverage, delete the last line from the conditional below and
+    # edit the "<name>" placeholder to your GitHub name.
+    # If you do not wish to use codecov, then simply delete this job from the
+    # workflow.
+    if: github.repository_owner == 'SpaceTeam'
+
+    steps:
+    - uses: actions/checkout@v2
+
+      #- name: Download toolchain
+      #run: curl -LJO https://gitlab.com/rodos/rodos/-/raw/master/cmake/port/linux-x86.cmake && cp ./linux-x86.cmake /linux-x86.cmake
+
+      #- name : Install LCov and multilib
+      #run: sudo apt-get update -q
+      #  && sudo apt-get install lcov -q -y
+
+    - name: Configure
+      run: cmake --preset=ci-coverage
+
+    - name: Build
+      run: cmake --build build/coverage -j 2
+
+    - name: Test
+      working-directory: build/coverage
+      run: ctest --output-on-failure -j 2
+
+    - name: Process coverage info
+      run: cmake --build build/coverage -t coverage
+
+    - name: Upload coverage info
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage.info
+        path: build/coverage/coverage.info
+
+
+    - name: Submit to codecov.io
+      uses: codecov/codecov-action@v1
+      with:
+        file: build/coverage/coverage.info
+
+  sanitize:
+    needs: [lint]
+
+    runs-on: ubuntu-latest
+    container: tuwienspaceteam/sts1-cobc:v0.2.0
+    #container: tuwienspaceteam/sts1-cobc:latest
+
+    if: false
+
+    steps:
+    - uses: actions/checkout@v2
+
+      # - name: Download toolchain
+      #   run: curl -LJO https://gitlab.com/rodos/rodos/-/raw/master/cmake/port/linux-x86.cmake && sudo cp ./linux-x86.cmake /linux-x86.cmake
+
+      # - name : Install multilib
+      #   run: sudo apt-get update -q
+      #     && sudo apt-get install gcc-multilib g++-multilib -q -y
+
+    - name: Configure
+      #env: { CXX: clang++-11 }
+      run: cmake --preset=ci-sanitize
+
+    - name: Build
+      run: cmake --build build/sanitize -j 2
+
+    - name: Test
+      working-directory: build/sanitize
+      env:
+        ASAN_OPTIONS: "strict_string_checks=1:\
+          detect_stack_use_after_return=1:\
+          check_initialization_order=1:\
+          strict_init_order=1:\
+          detect_leaks=1"
+        UBSAN_OPTIONS: print_stacktrace=1
+      run: ctest --output-on-failure -j 2
+
+  test:
+    needs: [lint]
+
+    runs-on: ubuntu-latest
+    container: tuwienspaceteam/sts1-cobc:latest
+
+    if: false
+
+    steps:
+    - uses: actions/checkout@v2
+    
+      #- name: Configure linux-x86
+      #run: cmake --preset=ci-linux-x86
+
+    - name: Configure Cobc
+      run: cp ./stm32f411.cmake /. && cmake --preset=ci-cobc
+    
+        #- name: Build linux-x86
+        #run: cmake --build build/linux-x86 --config Release -j 2
+
+    - name: Build cobc
+      run: cmake --build build/cobc --config Release -j 2
+    
+        #- name: Test
+        #working-directory: build/linux-x86/Test
+        #run: ctest --output-on-failure -C Release -j 2
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Cobc_Binaries
+        path: ./build/cobc/*.bin
+
+  docs:
+    # Deploy docs only when builds succeed
+    # needs: [sanitize, test]
+    needs: [test]
+
+    runs-on: ubuntu-latest
+
+    # To enable, first you have to create an orphaned gh-pages branch:
+    #
+    #    git switch --orphan gh-pages
+    #    git commit --allow-empty -m "Initial commit"
+    #    git push -u origin gh-pages
+    #
+    # Edit the <name> placeholder below to your GitHub name, so this action
+    # runs only in your repository and no one else's fork. After these, delete
+    # this comment and the last line in the conditional below.
+    # If you do not wish to use GitHub Pages for deploying documentation, then
+    # simply delete this job similarly to the coverage one.
+    if: github.ref == 'refs/heads/master'
+      && github.event_name == 'push'
+      && github.repository_owner == 'SpaceTeam'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Install m.css dependencies
+      run: pip3 install jinja2 Pygments
+
+    - name: Install Doxygen
+      run: sudo apt-get update -q
+        && sudo apt-get install doxygen -q -y
+
+    - name: Build docs
+      run: cmake -B build -D "CMAKE_PROJECT_INCLUDE=$PWD/cmake/docs.cmake"
+        && cmake --build build --target docs
+
+    - name: Deploy docs
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: build/docs/html

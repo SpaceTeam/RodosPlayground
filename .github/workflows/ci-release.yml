@@ -1,14 +1,8 @@
-name: Continuous Integration
+name: Continuous Integration on release
 
 on:
-  push:
-    branches:
-    - master
-    - catch2
-
-  pull_request:
-    branches:
-    - master
+  release:
+    types: [created]
 
 jobs:
   lint:
@@ -34,7 +28,7 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-    container: tuwienspaceteam/sts1-cobc:latest
+      #container: tuwienspaceteam/sts1-cobc:latest
 
     # To enable coverage, delete the last line from the conditional below and
     # edit the "<name>" placeholder to your GitHub name.
@@ -48,6 +42,9 @@ jobs:
     - name: Install LCov
       run: apt-get update -q
         && apt-get install lcov -q -y
+
+    - name: Download toolchain
+      run: curl -LJO https://gitlab.com/rodos/rodos/-/blob/master/cmake/port/linux-x86.cmake
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -78,12 +75,15 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-    container: tuwienspaceteam/sts1-cobc:latest
+      #container: tuwienspaceteam/sts1-cobc:latest
 
     if: false
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Download toolchain
+      run: curl -LJO https://gitlab.com/rodos/rodos/-/blob/master/cmake/port/linux-x86.cmake
 
     - name: Configure
       #env: { CXX: clang++-11 }
@@ -135,6 +135,11 @@ jobs:
       with:
         name: Cobc_Binaries
         path: ./build/cobc/*.bin
+
+    - name: Release with Notes
+      uses: softprops/action-gh-release@v1
+      with:
+          files: ./build/cobc/*.bin
 
   docs:
     # Deploy docs only when builds succeed
