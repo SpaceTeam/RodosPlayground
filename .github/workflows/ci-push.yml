@@ -34,9 +34,7 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-      # container: tuwienspaceteam/sts1-cobc:v0.2.0
     container: jeromehue/test:linux
-      #container: tuwienspaceteam/sts1-cobc:latest
 
     # To enable coverage, delete the last line from the conditional below and
     # edit the "<name>" placeholder to your GitHub name.
@@ -46,13 +44,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-      #- name: Download toolchain
-      #run: curl -LJO https://gitlab.com/rodos/rodos/-/raw/master/cmake/port/linux-x86.cmake && cp ./linux-x86.cmake /linux-x86.cmake
-
-      #- name : Install LCov and multilib
-      #run: sudo apt-get update -q
-      #  && sudo apt-get install lcov -q -y
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -83,20 +74,10 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-    container: tuwienspaceteam/sts1-cobc:v0.2.0
-    #container: tuwienspaceteam/sts1-cobc:latest
-
-    if: false
+    container: jeromehue/test:linux
 
     steps:
     - uses: actions/checkout@v2
-
-      # - name: Download toolchain
-      #   run: curl -LJO https://gitlab.com/rodos/rodos/-/raw/master/cmake/port/linux-x86.cmake && sudo cp ./linux-x86.cmake /linux-x86.cmake
-
-      # - name : Install multilib
-      #   run: sudo apt-get update -q
-      #     && sudo apt-get install gcc-multilib g++-multilib -q -y
 
     - name: Configure
       #env: { CXX: clang++-11 }
@@ -122,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     container: tuwienspaceteam/sts1-cobc:latest
 
-    if: false
+    if: true
 
     steps:
     - uses: actions/checkout@v2
