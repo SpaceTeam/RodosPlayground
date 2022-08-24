@@ -1,5 +1,6 @@
 name: Continuous Integration on release
 
+
 on:
   release:
     types: [created]
@@ -28,23 +29,12 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-      #container: tuwienspaceteam/sts1-cobc:latest
+    container: jeromehue/test:linux
 
-    # To enable coverage, delete the last line from the conditional below and
-    # edit the "<name>" placeholder to your GitHub name.
-    # If you do not wish to use codecov, then simply delete this job from the
-    # workflow.
     if: github.repository_owner == 'SpaceTeam'
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Install LCov
-      run: apt-get update -q
-        && apt-get install lcov -q -y
-
-    - name: Download toolchain
-      run: curl -LJO https://gitlab.com/rodos/rodos/-/blob/master/cmake/port/linux-x86.cmake
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -59,31 +49,20 @@ jobs:
     - name: Process coverage info
       run: cmake --build build/coverage -t coverage
 
-    - name: Upload coverage info
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage.info
-        path: build/coverage/coverage.info
 
-
-    - name: Submit to codecov.io
-      uses: codecov/codecov-action@v1
-      with:
-        file: build/coverage/coverage.info
+    #- name: Submit to codecov.io
+    #uses: codecov/codecov-action@v1
+    #with:
+    #file: build/coverage/coverage.info
 
   sanitize:
     needs: [lint]
 
     runs-on: ubuntu-latest
-      #container: tuwienspaceteam/sts1-cobc:latest
-
-    if: false
+    container: jeromehue/test:linux
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Download toolchain
-      run: curl -LJO https://gitlab.com/rodos/rodos/-/blob/master/cmake/port/linux-x86.cmake
 
     - name: Configure
       #env: { CXX: clang++-11 }
@@ -109,26 +88,26 @@ jobs:
     runs-on: ubuntu-latest
     container: tuwienspaceteam/sts1-cobc:latest
 
-    if: false
+    if: true
 
     steps:
     - uses: actions/checkout@v2
     
-      #- name: Configure linux-x86
-      #run: cmake --preset=ci-linux-x86
+    - name: Configure linux-x86
+      run: cmake --preset=ci-linux-x86
 
     - name: Configure Cobc
       run: cp ./stm32f411.cmake /. && cmake --preset=ci-cobc
     
-        #- name: Build linux-x86
-        #run: cmake --build build/linux-x86 --config Release -j 2
+    - name: Build linux-x86
+      run: cmake --build build/linux-x86 --config Release -j 2
 
     - name: Build cobc
       run: cmake --build build/cobc --config Release -j 2
     
-        #- name: Test
-        #working-directory: build/linux-x86/Test
-        #run: ctest --output-on-failure -C Release -j 2
+    - name: Test
+      working-directory: build/linux-x86/Test
+      run: ctest --output-on-failure -C Release -j 2
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
@@ -136,7 +115,7 @@ jobs:
         name: Cobc_Binaries
         path: ./build/cobc/*.bin
 
-    - name: Release with Notes
+    - name: Add assets to release
       uses: softprops/action-gh-release@v1
       with:
           files: ./build/cobc/*.bin
