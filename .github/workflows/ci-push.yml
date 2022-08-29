@@ -38,7 +38,7 @@ jobs:
     container: jeromehue/test:linux
 
     if: github.repository_owner == 'SpaceTeam'
-      && github.ref == 'refs/head/master'
+      # && github.ref == 'refs/head/master'
 
     steps:
     - uses: actions/checkout@v2
@@ -64,9 +64,9 @@ jobs:
 
 
     - name: Submit to codecov.io
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
-        file: build/coverage/coverage.info
+        files: build/coverage/coverage.info
 
   sanitize:
     needs: [lint]
