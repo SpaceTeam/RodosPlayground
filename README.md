@@ -1,5 +1,7 @@
 # RodosPlayground
 
+[![codecov](https://codecov.io/gh/SpaceTeam/RodosPlayground/branch/catch2/graph/badge.svg?token=V4G6S8KDRX)](https://codecov.io/gh/SpaceTeam/RodosPlayground)
+
 This is the RodosPlayground project.
 
 ## Hacking
@@ -17,12 +19,15 @@ The following libraries are necessary to build RodosPlayground.
 - ETL (Embedded Template Library)
 - type_safe
 
-Quick installation instructions for those can be found [here](https://wiki.tust.at/books/sts1/page/setup-libraries).
+Quick installation instructions for those can be found
+[here](https://wiki.tust.at/books/sts1/page/setup-libraries).
 
 ### Toolchain files
 
-Generally, toolchain files are specific to the target platforms as well as your environment and setup
-but not to your project. Therefore they are not supplied with this repo and should be kept at some "global" directory (I, e.g., use `~/programming/cmake/`). A toolchain file for an STM32F411 can look something like the following:
+Generally, toolchain files are specific to the target platforms as well as your environment and
+setup but not to your project. Therefore they are not supplied with this repo and should be kept at
+some "global" directory (I, e.g., use `~/programming/cmake/`). A toolchain file for an STM32F411 can
+look something like the following:
 
 ```cmake
 # ##################################################################################################
@@ -98,7 +103,8 @@ add_link_options(
 )
 ```
 
-You must at least change the `platform_root` variable to point to the directory in which you install all your cross-compiled libraries for the target platform (=STM32F411).
+You must at least change the `platform_root` variable to point to the directory in which you install
+all your cross-compiled libraries for the target platform (=STM32F411).
 
 ### Presets
 
@@ -205,8 +211,8 @@ that you would otherwise want to pass to the configure command in the terminal.
 
 ### Configure, build and test on Linux
 
-If you followed the above instructions, then you can configure, build and test the project on
-Linux respectively with the following commands from the project root:
+If you followed the above instructions, then you can configure, build and test the project on Linux
+respectively with the following commands from the project root:
 
 ```sh
 cmake --preset=dev-linux-x86
@@ -230,8 +236,8 @@ cmake --preset=dev-nucleo
 cmake --build --preset=dev-nucleo
 ```
 
-To flash the example binary `HelloWorld.bin` onto the Nucleo board, copy it from
-`build/nucleo` to the the storage device the board registers as when connected to a PC.
+To flash the example binary `HelloWorld.bin` onto the Nucleo board, copy it from `build/nucleo` to
+the the storage device the board registers as when connected to a PC.
 
 # Licensing
 
