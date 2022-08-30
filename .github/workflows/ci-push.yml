@@ -34,8 +34,7 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-    # TODO change this 
-    container: jeromehue/test:linux
+    container: tuwienspaceteam/sts1-cobc:latest-linux-x86
 
     if: github.repository_owner == 'SpaceTeam'
       # && github.ref == 'refs/head/master'
@@ -48,6 +47,9 @@ jobs:
 
     - name: Build
       run: cmake --build build/coverage -j 2
+
+    - name: Build rodos tests
+      run: cmake --build build/coverage -t RodosTests -j 2
 
     - name: Test
       working-directory: build/coverage
@@ -72,11 +74,10 @@ jobs:
     needs: [lint]
 
     runs-on: ubuntu-latest
-    # TODO change this 
-    container: jeromehue/test:linux
+    container: tuwienspaceteam/sts1-cobc:latest-linux-x86
 
     if: github.repository_owner == 'SpaceTeam'
-      && github.ref == 'refs/head/master'
+     # && github.ref == 'refs/head/master'
 
     steps:
     - uses: actions/checkout@v2
@@ -116,6 +117,9 @@ jobs:
     
     - name: Build linux-x86
       run: cmake --build build/linux-x86 --config Release -j 2
+
+    - name: Build rodos tests
+      run: cmake --build build/linux-x86 -t RodosTests -j 2
 
     - name: Build cobc
       run: cmake --build build/cobc --config Release -j 2

@@ -42,6 +42,9 @@ jobs:
     - name: Build
       run: cmake --build build/coverage -j 2
 
+    - name: Build rodos tests
+      run: cmake --build build/coverage -t RodosTests -j 2
+
     - name: Test
       working-directory: build/coverage
       run: ctest --output-on-failure -j 2
@@ -101,6 +104,9 @@ jobs:
     
     - name: Build linux-x86
       run: cmake --build build/linux-x86 --config Release -j 2
+
+    - name: Build rodos tests
+      run: cmake --build build/linux-x86 -t RodosTests -j 2
 
     - name: Build cobc
       run: cmake --build build/cobc --config Release -j 2
