@@ -74,7 +74,8 @@
       "inherits": "warnings-unix",
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "$env{WARNINGS}",
-        "CMAKE_CXX_FLAGS_DEBUG": "-Og"
+        "CMAKE_CXX_FLAGS_DEBUG": "-Og",
+        "CMAKE_CXX_FLAGS_RELEASE": "-Os"
       }
     },
     {
@@ -102,8 +103,8 @@
     {
       "name": "ci-coverage",
       "binaryDir": "${sourceDir}/build/coverage",
-      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "coverage-unix"],
+      "toolchainFile": "/linux-x86.cmake",
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
       }
@@ -111,31 +112,28 @@
     {
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
-      "toolchainFile": "/linux-x86.cmake",
       "inherits": ["dev-mode", "unix-common"],
+      "toolchainFile": "/linux-x86.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
-        "CMAKE_CXX_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+        "CMAKE_CXX_FLAGS_SANITIZE": "-Os -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
       }
     },
     {
       "name": "ci-linux-x86",
       "binaryDir": "${sourceDir}/build/linux-x86",
-      "toolchainFile": "/linux-x86.cmake",
-      "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"]
+      "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"],
+      "toolchainFile": "/linux-x86.cmake"
     },
     {
       "name": "ci-cobc",
       "binaryDir": "${sourceDir}/build/cobc",
-      "toolchainFile": "/stm32f411.cmake",
       "inherits": ["dev-mode", "cppcheck", "clang-tidy", "unix-common"],
+      "toolchainFile": "/stm32f411.cmake",
       "cacheVariables": {
-        "CMAKE_FIND_ROOT_PATH": "/usr/local/stm32f411",
         "HSE_VALUE": "12000000",
         "BOARD_FILE": "Cobc.hpp"
       }
-
     }
-
   ]
 }
