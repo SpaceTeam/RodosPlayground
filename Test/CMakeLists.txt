@@ -3,8 +3,6 @@ if(NOT (CMAKE_SYSTEM_NAME STREQUAL Linux))
     return()
 endif()
 
-project(RodosPlaygroundTests LANGUAGES CXX)
-
 find_package_and_notify(Catch2)
 find_package_and_notify(etl)
 find_package_and_notify(type_safe)
@@ -24,11 +22,11 @@ foreach(test_file ${test_files})
     string(REGEX REPLACE "[^A-Za-z0-9_]" "_" test_name ${test_file})
 
     # Compile rodos test application
-    add_executable("${test_name}-bin" EXCLUDE_FROM_ALL ${test_file} /home/jerome/Documents/ST/rodos_playground/Source/Lib.cpp)
+    add_executable("${test_name}-bin" EXCLUDE_FROM_ALL ${test_file} "${PROJECT_SOURCE_DIR}/Source/Lib.cpp")
     target_include_directories("${test_name}-bin"
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories("${test_name}-bin"
-        PRIVATE /home/jerome/Documents/ST/rodos_playground/Source/)
+        PRIVATE "${PROJECT_SOURCE_DIR}/Source")
 
     target_link_libraries("${test_name}-bin" PUBLIC rodos::rodos)
 
