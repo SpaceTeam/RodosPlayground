@@ -1,9 +1,9 @@
-name: Continuous Integration on release
-
+name: CI on release
 
 on:
   release:
-    types: [created]
+    types:
+      - created
 
 jobs:
   lint:
@@ -13,7 +13,8 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: actions/setup-python@v2
-      with: { python-version: "3.8" }
+      with:
+        python-version: "3.8"
 
     - name: Install codespell
       run: pip3 install codespell
@@ -26,10 +27,10 @@ jobs:
       run: cmake -P cmake/spell.cmake
 
   coverage:
-    needs: [lint]
+    needs: lint
 
     runs-on: ubuntu-latest
-    container: jeromehue/test:linux
+    container: tuwienspaceteam/sts1-cobc:latest-linux-x86
 
     if: github.repository_owner == 'SpaceTeam'
 
@@ -42,7 +43,7 @@ jobs:
     - name: Build
       run: cmake --build build/coverage -j 2
 
-    - name: Build rodos tests
+    - name: Build Rodos tests
       run: cmake --build build/coverage -t RodosTests -j 2
 
     - name: Test
@@ -52,23 +53,16 @@ jobs:
     - name: Process coverage info
       run: cmake --build build/coverage -t coverage
 
-
-    #- name: Submit to codecov.io
-    #uses: codecov/codecov-action@v1
-    #with:
-    #file: build/coverage/coverage.info
-
   sanitize:
-    needs: [lint]
+    needs: lint
 
     runs-on: ubuntu-latest
-    container: jeromehue/test:linux
+    container: tuwienspaceteam/sts1-cobc:latest-linux-x86
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Configure
-      #env: { CXX: clang++-11 }
       run: cmake --preset=ci-sanitize
 
     - name: Build
@@ -86,12 +80,10 @@ jobs:
       run: ctest --output-on-failure -j 2
 
   test:
-    needs: [lint]
+    needs: lint
 
     runs-on: ubuntu-latest
     container: tuwienspaceteam/sts1-cobc:latest
-
-    if: true
 
     steps:
     - uses: actions/checkout@v2
@@ -99,26 +91,26 @@ jobs:
     - name: Configure linux-x86
       run: cmake --preset=ci-linux-x86
 
-    - name: Configure Cobc
+    - name: Configure COBC
       run: cp ./stm32f411.cmake /. && cmake --preset=ci-cobc
     
     - name: Build linux-x86
       run: cmake --build build/linux-x86 --config Release -j 2
 
-    - name: Build rodos tests
+    - name: Build Rodos tests
       run: cmake --build build/linux-x86 -t RodosTests -j 2
 
-    - name: Build cobc
+    - name: Build COBC
       run: cmake --build build/cobc --config Release -j 2
     
     - name: Test
       working-directory: build/linux-x86/Test
       run: ctest --output-on-failure -C Release -j 2
 
-    - name: Upload artifact
+    - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: Cobc_Binaries
+        name: CobcBinaries
         path: ./build/cobc/*.bin
 
     - name: Add assets to release
@@ -128,8 +120,7 @@ jobs:
 
   docs:
     # Deploy docs only when builds succeed
-    # needs: [sanitize, test]
-    needs: [test]
+    needs: [sanitize, test]
 
     runs-on: ubuntu-latest
 
@@ -152,7 +143,8 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: actions/setup-python@v2
-      with: { python-version: "3.8" }
+      with:
+        python-version: "3.8"
 
     - name: Install m.css dependencies
       run: pip3 install jinja2 Pygments
