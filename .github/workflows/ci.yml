@@ -1,6 +1,18 @@
-name: CI on release
+name: Continuous Integration
+
+# Push on master = lint, coverage, sanitize, build-cobc, test
+# Release = Everything that Push does, + doc + 
+# upload binaries to release in test step instead of uploading them as artefacts
 
 on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+
   release:
     types:
       - created
@@ -32,8 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     container: tuwienspaceteam/sts1-cobc:latest-linux-x86
 
-    if: github.repository_owner == 'SpaceTeam'
-
     steps:
     - uses: actions/checkout@v2
 
@@ -53,6 +63,12 @@ jobs:
     - name: Process coverage info
       run: cmake --build build/coverage -t coverage
 
+    - name: Submit to codecov.io
+      uses: codecov/codecov-action@v3
+      with:
+        files: build/coverage/coverage.info
+
+
   sanitize:
     needs: lint
 
@@ -68,6 +84,9 @@ jobs:
     - name: Build
       run: cmake --build build/sanitize -j 2
 
+    - name: Build Rodos tests
+      run: cmake --build build/sanitize -t RodosTests -j 2
+
     - name: Test
       working-directory: build/sanitize
       env:
@@ -79,6 +98,37 @@ jobs:
         UBSAN_OPTIONS: print_stacktrace=1
       run: ctest --output-on-failure -j 2
 
+
+  build-cobc:
+    needs: lint
+
+    runs-on: ubuntu-latest
+    container: tuwienspaceteam/sts1-cobc:latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure COBC
+      run: cp ./stm32f411.cmake /. && cmake --preset=ci-cobc
+
+    - name: Build COBC
+      run: cmake --build build/cobc --config Release -j 2
+
+    - name: Upload artifacts
+      if: github.event_name == 'push'
+      uses: actions/upload-artifact@v3
+      with:
+        name: CobcBinaries
+        path: ./build/cobc/*.bin
+        retention-days: 7
+
+    - name: Add assets to release
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+          files: ./build/cobc/*.bin
+
+
   test:
     needs: lint
 
@@ -87,36 +137,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Configure linux-x86
       run: cmake --preset=ci-linux-x86
 
-    - name: Configure COBC
-      run: cp ./stm32f411.cmake /. && cmake --preset=ci-cobc
-    
     - name: Build linux-x86
       run: cmake --build build/linux-x86 --config Release -j 2
 
     - name: Build Rodos tests
       run: cmake --build build/linux-x86 -t RodosTests -j 2
 
-    - name: Build COBC
-      run: cmake --build build/cobc --config Release -j 2
-    
     - name: Test
       working-directory: build/linux-x86/Test
       run: ctest --output-on-failure -C Release -j 2
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: CobcBinaries
-        path: ./build/cobc/*.bin
-
-    - name: Add assets to release
-      uses: softprops/action-gh-release@v1
-      with:
-          files: ./build/cobc/*.bin
 
   docs:
     # Deploy docs only when builds succeed
@@ -124,20 +158,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # To enable, first you have to create an orphaned gh-pages branch:
-    #
-    #    git switch --orphan gh-pages
-    #    git commit --allow-empty -m "Initial commit"
-    #    git push -u origin gh-pages
-    #
-    # Edit the <name> placeholder below to your GitHub name, so this action
-    # runs only in your repository and no one else's fork. After these, delete
-    # this comment and the last line in the conditional below.
-    # If you do not wish to use GitHub Pages for deploying documentation, then
-    # simply delete this job similarly to the coverage one.
-    if: github.ref == 'refs/heads/master'
-      && github.event_name == 'push'
-      && github.repository_owner == 'SpaceTeam'
+    if: github.event_name == 'release'
 
     steps:
     - uses: actions/checkout@v2
