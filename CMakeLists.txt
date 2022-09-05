@@ -12,12 +12,19 @@ project(
 )
 
 docs_early_return()
-
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 include(cmake/custom-commands.cmake)
 
-# --- Declare targets ---
+message("System name: ${CMAKE_SYSTEM_NAME}")
+
+# ---- Find dependencies ----
+
+find_package_and_notify(etl)
+find_package_and_notify(type_safe)
+find_rodos()
+
+# ---- Declare targets ----
 
 add_library(RodosPlayground_Lib OBJECT)
 add_library(RodosWrappers_Lib INTERFACE)
@@ -39,7 +46,7 @@ endif()
 
 add_subdirectory(Source)
 
-# --- Developer mode ---
+# ---- Developer mode ----
 
 if(NOT RodosPlayground_DEVELOPER_MODE)
     return()

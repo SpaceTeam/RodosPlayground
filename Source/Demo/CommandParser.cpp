@@ -8,14 +8,13 @@
 #include <type_safe/index.hpp>
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <etl/map.h>
 #include <etl/string.h>
 #include <etl/string_view.h>
 
 #include <cstring>
-
 
 namespace RODOS
 {
@@ -24,15 +23,15 @@ namespace RODOS
 extern HAL_UART uart_stdout;
 }
 
-
-namespace rpg
-{
 namespace ts = type_safe;
 
 using ts::operator""_u8;
 using ts::operator""_i32;
 using ts::operator""_usize;
 
+
+namespace rpg
+{
 auto DispatchCommand(const etl::string<commandSize.get()> & command)
 {
     auto targetIsCobc = command[1] == '0';
@@ -59,11 +58,11 @@ auto DispatchCommand(const etl::string<commandSize.get()> & command)
         }
     }
 
-    PRINTF("*Error, invalid command*\n");
+    RODOS::PRINTF("*Error, invalid command*\n");
 }
 
 
-class CommandParserThread : public StaticThread<>
+class CommandParserThread : public RODOS::StaticThread<>
 {
     void init() override
     {
@@ -79,7 +78,7 @@ class CommandParserThread : public StaticThread<>
         while(true)
         {
             char readCharacter = 0;
-            auto nReadCharacters = ts::size_t(uart_stdout.read(&readCharacter, 1));
+            auto nReadCharacters = ts::size_t(RODOS::uart_stdout.read(&readCharacter, 1));
             if(nReadCharacters != 0U)
             {
                 if(readCharacter == startCharacter)
@@ -98,7 +97,7 @@ class CommandParserThread : public StaticThread<>
                     }
                 }
             }
-            uart_stdout.suspendUntilDataReady();
+            RODOS::uart_stdout.suspendUntilDataReady();
         }
     }
 } commandParserThread;
@@ -145,7 +144,7 @@ auto ParseEduDataFrame(const etl::string<dataFrameSize.get()> & dataFrame)
     }
 }
 
-class EduReaderThread : public StaticThread<>
+class EduReaderThread : public RODOS::StaticThread<>
 {
     void init() override
     {

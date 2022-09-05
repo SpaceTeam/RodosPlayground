@@ -1,11 +1,12 @@
 #include "Lib.hpp"
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
+using RODOS::MILLISECONDS;
 
 namespace rpg
 {
-class HelloWorld : public StaticThread<>
+class HelloWorld : public RODOS::StaticThread<>
 {
     void run() override
     {
@@ -16,11 +17,11 @@ class HelloWorld : public StaticThread<>
         {
             if(toggle)
             {
-                PRINTF("Hello World from %s!\n", library.name.data());
+                RODOS::PRINTF("Hello World from %s!\n", library.name.data());
             }
             else
             {
-                PRINTF("Hello World from %s!\n", library.shortName.c_str());
+                RODOS::PRINTF("Hello World from %s!\n", library.shortName.c_str());
             }
             toggle = not toggle;
         }

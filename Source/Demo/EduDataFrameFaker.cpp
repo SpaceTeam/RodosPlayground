@@ -4,14 +4,15 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <array>
 #include <cstring>
 
+
 namespace rpg
 {
-HAL_UART uart1(UART_IDX1, eduUartTxPin, eduUartRxPin);
+RODOS::HAL_UART uart1(RODOS::UART_IDX1, eduUartTxPin, eduUartRxPin);
 
 namespace ts = type_safe;
 using ts::operator""_usize;
@@ -37,7 +38,7 @@ auto CreateFakeEduDataFrame()
 }
 
 
-class EduDataFrameFaker : public StaticThread<>
+class EduDataFrameFaker : public RODOS::StaticThread<>
 {
     void init() override
     {
@@ -48,7 +49,7 @@ class EduDataFrameFaker : public StaticThread<>
 
     void run() override
     {
-        TIME_LOOP(0, 1000 * MILLISECONDS)
+        TIME_LOOP(0, 1000 * RODOS::MILLISECONDS)
         {
             auto eduDataFrame = CreateFakeEduDataFrame();
             WriteTo(&uart1, std::span(eduDataFrame));

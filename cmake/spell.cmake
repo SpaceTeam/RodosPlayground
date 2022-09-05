@@ -15,7 +15,7 @@ if(FIX)
 endif()
 
 set(filesToSkip .clang-format)
-set(allowedWords tust)
+set(allowedWords "tust,artefact,artefacts")
 
 execute_process(
     COMMAND "codespell" ${flag} "--skip=${filesToSkip}" "-L ${allowedWords}"

@@ -23,12 +23,14 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
 
 #include <etl/string.h>
 
 #include <string_view>
 
+using RODOS::HAL_SPI;
+using RODOS::PRINTF;
 
 namespace rpg
 {
@@ -38,7 +40,7 @@ auto spis = std::array{HAL_SPI(flashSpiIndex, flashSpiSckPin, flashSpiMisoPin, f
                        HAL_SPI(rfSpiIndex, rfSpiSckPin, rfSpiMisoPin, rfSpiMosiPin)};
 
 
-class HelloSpi : public StaticThread<>
+class HelloSpi : public RODOS::StaticThread<>
 {
     void init() override
     {
@@ -59,7 +61,7 @@ class HelloSpi : public StaticThread<>
         static_assert(std::size(spis) == std::size(messages));
 
         auto i = 0_usize;
-        TIME_LOOP(0, 500 * MILLISECONDS)
+        TIME_LOOP(0, 500 * RODOS::MILLISECONDS)
         {
             // PRINTF is super weird because without the static_cast %u causes "expected unsigned
             // int but got unsigned long" and %lu causes "expected unsigned long but got unsigned

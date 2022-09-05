@@ -2,8 +2,6 @@
 
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
-
 #include <etl/string.h>
 
 #include <array>
@@ -14,23 +12,17 @@
 #include <ranges>
 #include <span>
 
-#include <rodos-assert.h>
-
 
 namespace rpg
 {
 namespace ts = type_safe;
-using ts::operator""_isize;
 
-
-constexpr auto beaconPeriod = 50_isize * MILLISECONDS;
 
 namespace util
 {
 auto CopyTo(std::span<std::byte> buffer, ts::size_t * const position, auto value)
 {
     auto newPosition = *position + sizeof(value);
-    RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition <= std::size(buffer));
     std::memcpy(&buffer[(*position).get()], &value, sizeof(value));
     *position = newPosition;
 }
@@ -40,7 +32,6 @@ template<std::size_t size>
 auto CopyFrom(etl::string<size> const & buffer, ts::size_t * const position, auto * value)
 {
     auto newPosition = *position + sizeof(*value);
-    RODOS_ASSERT_IFNOT_RETURN_VOID(newPosition <= std::size(buffer));
     std::memcpy(value, &buffer[(*position).get()], sizeof(*value));
     *position = newPosition;
 }
@@ -71,9 +62,9 @@ template<std::integral T>
 constexpr auto byteswap(T value) noexcept  // NOLINT(readability-identifier-naming)
 {
     static_assert(std::has_unique_object_representations_v<T>, "T may not have padding bits");
-    auto valueRepresentation = bit_cast<std::array<std::byte, sizeof(T)>>(value);
+    auto valueRepresentation = util::bit_cast<std::array<std::byte, sizeof(T)>>(value);
     std::ranges::reverse(valueRepresentation);
-    return bit_cast<T>(valueRepresentation);
+    return util::bit_cast<T>(valueRepresentation);
 }
 }
 }

@@ -1,3 +1,5 @@
+#include "Beacon.hpp"
+
 #include "Communication.hpp"
 #include "Io.hpp"
 #include "Topics.hpp"
@@ -6,7 +8,8 @@
 #include <type_safe/narrow_cast.hpp>
 #include <type_safe/types.hpp>
 
-#include <rodos.h>
+#include <rodos_no_using_namespace.h>
+#include <timemodel.h>
 
 #include <etl/bitset.h>
 
@@ -45,6 +48,11 @@ using ts::operator""_usize;
 
 constexpr auto nBits = 32;
 using BitField = etl::bitset<nBits>;
+
+using RODOS::CommBuffer;
+using RODOS::HAL_GPIO;
+using RODOS::MILLISECONDS;
+using RODOS::Subscriber;
 
 
 auto eduUpdateGpio = HAL_GPIO(eduUpdatePin);
@@ -154,7 +162,7 @@ auto CreateBeacon(ts::int64_t timestamp,
 }
 
 
-class BeaconThread : public StaticThread<>
+class BeaconThread : public RODOS::StaticThread<>
 {
   public:
     BeaconThread() : StaticThread("BeaconThread")
@@ -184,7 +192,7 @@ class BeaconThread : public StaticThread<>
         // TODO use a constant here
         TIME_LOOP(0, beaconPeriod.get())
         {
-            ts::int64_t const timestamp = NOW() / MILLISECONDS;
+            ts::int64_t const timestamp = RODOS::NOW() / MILLISECONDS;
             ts::bool_t const epsIsCharging = epsChargingGpio.readPins() != 0;
             ts::bool_t const epsBatteryIsGood = epsBatteryGoodGpio.readPins() != 0;
             ts::bool_t const eduHasUpdate = eduUpdateGpio.readPins() != 0;
@@ -215,7 +223,7 @@ class BeaconThread : public StaticThread<>
                                        accelerationY,
                                        accelerationZ,
                                        brightness);
-            WriteTo(&uart_stdout, std::span(beacon));
+            WriteTo(&RODOS::uart_stdout, std::span(beacon));
         }
     }
 };
