@@ -13,10 +13,12 @@ and tools. If you don't want to cross-compile and are only interested in running
 tests on Linux than use the tags with a `-linux-x86` suffix. They are quite a bit smaller because
 they do not have the GNU ARM Toolchain installed.
 
-Even if you don't want to use Docker and instead build this project locally on your Linux machine (Windows with WSL also works), looking at the
-[Dockerfile](https://github.com/SpaceTeam/STS1_COBC_Docker/blob/master/full/Dockerfile) is still the
-best way to start. It shows exactly how to set up the compiler, toolchain, libraries and other
-things. We also have the following two wiki pages to help you with your setup:
+Even if you don't want to use Docker and instead build this project locally on your Linux machine
+(Windows with WSL also works), looking at the two Dockerfiles
+([here](https://github.com/SpaceTeam/STS1_COBC_Docker/blob/master/linux-x86/Dockerfile) and
+[here](https://github.com/SpaceTeam/STS1_COBC_Docker/blob/master/full/Dockerfile)) is still the best
+way to start. It shows exactly how to set up the compiler, toolchain, libraries and other things. We
+also have the following two wiki pages to help you with your setup:
 
 - [Setup: Compilers and Tools](https://wiki.tust.at/books/sts1/page/setup-compilers-and-tools)
 - [Setup: Libraries](https://wiki.tust.at/books/sts1/page/setup-libraries)
